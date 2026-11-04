@@ -1,0 +1,12 @@
+{
+  "name": "genially",
+  "owner": { "name": "Genially", "url": "https://genially.com" },
+  "description": "Genially plugins for AI agents.",
+  "plugins": [
+    {
+      "name": "genially-creator",
+      "source": "./plugins/genially-creator",
+      "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music."
+    }
+  ]
+}
