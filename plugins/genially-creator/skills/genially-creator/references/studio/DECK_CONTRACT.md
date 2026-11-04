@@ -103,12 +103,13 @@ the screenshots. A deck doesn't do any of that.
 Only what `deck.d.ts` declares, plus plain JavaScript: `Math`, `JSON`, `Array`, `Object`, `Promise`, `String`,
 template literals, and `requestAnimationFrame` (to wait for a paint before measuring a text). In particular:
 
-- **No network**: `fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `navigator.sendBeacon`, `<img>` or `<script>`
-  tags. To know an item's size, ask the editor: `geniallyAPI.getItem(id).size`, `geniallyAPI.measureText(id)`.
-- **No storage**: `localStorage`, `sessionStorage`, `indexedDB`, `document.cookie`.
+- **No network**: a deck neither loads nor sends anything; the pictures, audios, videos and AI Builder pieces it shows
+  come from the asset maps. To know an item's size, ask the editor: `geniallyAPI.getItem(id).size`,
+  `geniallyAPI.measureText(id)`.
+- **No storage**: a deck reads and writes nothing the browser keeps.
 - **No DOM**: `document.*`, and no `window.*` other than `geniallyAPI`, the asset maps (`__imgs`, `__audios`,
   `__videos`, `__aibuilder`), `__deckLog` and `AG`.
-- **No code from text**: `eval`, `new Function`, `import()`, `setTimeout` with a string.
+- **No code from text**: a deck never turns a string into code, not even through a timer.
 - **No other runtime**: no `window.rootStore`, no `MS.*`, no `gs*` or `geniallyAPI` method that `deck.d.ts` doesn't
   list. Generating assets belongs to the asset request, and saving and reviewing to whoever runs the deck.
 

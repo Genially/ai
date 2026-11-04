@@ -15,7 +15,7 @@ const MCP_PORTABLE_TYPE = new Map([['http', 'streamable-http'], ['sse', 'sse']])
 const ROOT_ENTRIES = ['plugin.json', '.claude-plugin', '.codex-plugin', MCP_FILE, MCP_PORTABLE_FILE, 'README.md', 'assets', 'skills'];
 const COMMON_MANIFEST_KEYS = ['name', 'version', 'description', 'author', 'homepage', 'repository', 'license', 'keywords'];
 const ALLOWED_MANIFEST_KEYS = {
-  '.claude-plugin/plugin.json': COMMON_MANIFEST_KEYS,
+  '.claude-plugin/plugin.json': [...COMMON_MANIFEST_KEYS, 'privacyPolicyUrl'],
   '.codex-plugin/plugin.json': [...COMMON_MANIFEST_KEYS, 'skills', 'interface', 'mcpServers'],
 };
 const ALLOWED_INTERFACE_KEYS = [

@@ -189,6 +189,11 @@ describe('checkPlugin', () => {
       notAllowed('skills');
     });
 
+    it('passes privacyPolicyUrl in the Claude manifest', () => {
+      editJson({ dir, rel: '.claude-plugin/plugin.json', edit: (j) => { j.privacyPolicyUrl = 'https://example.com/privacy'; } });
+      assert.deepEqual(check(), []);
+    });
+
     it('flags an unknown interface key', () => {
       editJson({ dir, rel: '.codex-plugin/plugin.json', edit: (j) => { j.interface.apps = './apps'; } });
       notAllowed('interface.apps');
