@@ -344,9 +344,14 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 
 - If the page is hidden (`document.visibilityState === 'hidden'`, screen asleep or the app in the background), the
   screenshots freeze and menus do not open: ask the person to bring the window to the front.
-- **Open the `openUrl` with `navigate`, never from a script**: opening it with the browser's JavaScript tool ended in
-  `Error: timeout <openUrl>` and the editor never opened; ask `open` for a new link, the old one may be spent
-  (3 Nov 2026).
+- **Open the `openUrl` with `navigate`, never from a script on another page**: opening it with the browser's JavaScript
+  tool ended in `Error: timeout <openUrl>` and the editor never opened: the auth refuses a link opened from another
+  page, and a script that waits for its page to change times out (3 Nov 2026).
+- **`navigate` can still get a bare Forbidden**: the Chrome extension's `navigate` reaches the `openUrl` as a visit from
+  another site (`Sec-Fetch-Site: cross-site`), the auth refused it, and the agent went on in the editor with the
+  session the browser already had, the user's whole account. The refusal doesn't spend the link: on that Forbidden
+  page, `setTimeout(() => location.assign(location.href), 0)` opens it as from the same site, and it lands on the
+  editor with the limited session (tried in Chrome 156 with and without a Genially session, 3 Nov 2026).
 - Coordinate clicks depend on the window size: find the buttons by text (`find`) and use their ref.
 - Next to "Create with AI" is the editor's preview button: a click beside it opens it.
 - **Close the preview before editing** (`gsPreview.close()`): editing an item inside a window while the preview is

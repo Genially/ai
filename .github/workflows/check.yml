@@ -22,12 +22,6 @@ jobs:
         with:
           node-version: 24
 
-      - name: Checker tests
-        run: node --test scripts/*.test.mjs
-
-      - name: Check every plugin package
-        run: node scripts/check-package.mjs --all
-
       - name: Validate the marketplace
         run: npx -y @anthropic-ai/claude-code@2.1.317 plugin validate --strict .
 

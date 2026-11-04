@@ -257,8 +257,11 @@ be built: say so before generating anything.
    `aibuilder`: id → the published piece), an `openUrl` and the `editorUrl`.
 2. **Enter the editor.** Navigate the browser to `openUrl`: typed into the tab, never as a link to click. It works
    once, for 5 minutes, and opens the editor of that genially, with `?ia-manage=true`, on a session that can only edit
-   and save it. If the browser already has a Genially session (HTTP 409), navigate to `editorUrl` with
-   `?ia-manage=true` instead. When it expires, call `open` again.
+   and save it (in a browser signed in with the user's account, on that session). If it answers a bare Forbidden, the
+   browser tool navigated as if from another site: open it again from that same page with
+   `setTimeout(() => location.assign(location.href), 0)`, which the auth accepts (never from any other page). If it
+   says another account is signed in, ask the user to sign out on that page. Unauthorized: it expired or was used,
+   call `open` again. Never build on `editorUrl`: it is the link for the user.
 3. **Wait for the runtime.** The editor loads it by itself: `window.gsRuntime` is set once it is there (or wait for
    the `gsRuntimeReady` event); `gsRuntimeError` says it couldn't load it (reload the tab once, then tell the user).
    Its `surfaceVersion` must be the one the deck was written for.
