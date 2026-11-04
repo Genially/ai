@@ -8,6 +8,7 @@
   },
   "homepage": "https://github.com/Genially/ai",
   "repository": "https://github.com/Genially/ai",
+  "privacyPolicyUrl": "https://genially.com/privacy/",
   "license": "Apache-2.0",
   "keywords": [
     "genially",
