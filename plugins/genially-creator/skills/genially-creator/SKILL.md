@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.15)
+# genially-creator (v0.16)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -138,11 +138,15 @@ them has cost runs errors that they explain.
    and `assets` in the working folder. In the browser:
    - **navigate** to `openUrl` (typed into the tab, never a click on a link: the editor refuses a link followed from
      another site). It lands on the editor of that genially, with `?ia-manage=true`, on a session that can only edit
-     and save it. Never open it from a script (the browser's JavaScript tool, `location.href`, `fetch`, an iframe or
-     `window.open`): the auth refuses a request made from another page, and a script that changes the page hangs
-     until it times out. The link works only once: if opening it fails, call `open` again for a new one;
-   - if it says the browser already has a Genially session (HTTP 409), that session is the user's own: navigate to
-     `editorUrl` with `?ia-manage=true` instead;
+     and save it; in a browser already signed in with the user's account, on that session. The link works only once:
+     if it answers Unauthorized, call `open` again for a new one;
+   - if it answers a bare Forbidden, the browser tool navigated as if from another site (some do) and the link is not
+     spent: open it again from that same page, which the auth accepts, with the JavaScript tool:
+     `setTimeout(() => location.assign(location.href), 0)`. The `setTimeout` lets the script return before the page
+     changes (without it, the tool waits for the new page until it times out). Never open it from any other page
+     (another tab, the editor, an iframe, `window.open`, `fetch`): the auth refuses it;
+   - if it says another account is signed in, ask the user to sign out with the button on that page, then go on as
+     above. Never build on `editorUrl`: it is the link for the user;
    - wait for the runtime: `window.gsRuntime` is set once it has loaded, and the editor fires `gsRuntimeError` when it
      can't load it (`await new Promise((ok, ko) => { if (window.gsRuntime) return ok(); addEventListener('gsRuntimeReady',
      ok, { once: true }); addEventListener('gsRuntimeError', () => ko(new Error('no runtime')), { once: true }); })`). On
