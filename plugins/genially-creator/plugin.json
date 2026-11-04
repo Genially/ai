@@ -20,7 +20,7 @@
   "extensions": {
     "com.openai": {
       "interface": {
-        "displayName": "Genially Creator",
+        "displayName": "Genially Studio",
         "shortDescription": "Create interactive geniallys",
         "longDescription": "Plan a genially with you, generate its pictures, videos, sounds and AI Builder pieces with the Genially connector, and build every slide in the Genially editor open in your browser. It uses your team's AI credits, and you approve the cost first.",
         "developerName": "Genially",
