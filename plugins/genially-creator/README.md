@@ -47,7 +47,7 @@ Codex:
 codex plugin marketplace add Genially/ai
 ```
 
-Then run `/plugins` in Codex, find Genially Creator and install it.
+Then run `/plugins` in Codex, find Genially Studio and install it.
 
 ## License
 
