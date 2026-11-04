@@ -1,0 +1,44 @@
+{
+  "name": "genially-creator",
+  "version": "0.34.4",
+  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
+  "author": {
+    "name": "Genially",
+    "url": "https://genially.com"
+  },
+  "homepage": "https://github.com/Genially/ai",
+  "repository": "https://github.com/Genially/ai",
+  "license": "Apache-2.0",
+  "keywords": [
+    "genially",
+    "presentation",
+    "escape-room",
+    "ai-builder",
+    "interactive"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Genially Creator",
+    "shortDescription": "Create interactive geniallys",
+    "longDescription": "Plan a genially with you, generate its pictures, videos, sounds and AI Builder pieces with the Genially connector, and build every slide in the Genially editor open in your browser. It uses your team's AI credits, and you approve the cost first.",
+    "developerName": "Genially",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://genially.com",
+    "supportURL": "https://help.genially.com/",
+    "privacyPolicyURL": "https://genially.com/privacy/",
+    "termsOfServiceURL": "https://genially.com/terms/",
+    "defaultPrompt": [
+      "Make me a genially about the water cycle for 10-year-olds",
+      "Build an escape room about the Roman Empire in this style",
+      "Turn this outline into an interactive presentation with sound"
+    ],
+    "logo": "./assets/icon.png",
+    "composerIcon": "./assets/icon.png"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "genially-creator",
+  "version": "0.34.4",
+  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
+  "author": {
+    "name": "Genially",
+    "url": "https://genially.com"
+  },
+  "homepage": "https://github.com/Genially/ai",
+  "repository": "https://github.com/Genially/ai",
+  "license": "Apache-2.0",
+  "keywords": [
+    "genially",
+    "presentation",
+    "escape-room",
+    "ai-builder",
+    "interactive"
+  ]
+}

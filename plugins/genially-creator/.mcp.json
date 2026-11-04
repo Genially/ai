@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "genially": {
+      "type": "http",
+      "url": "https://mcp.genially.com/mcp"
+    }
+  }
+}

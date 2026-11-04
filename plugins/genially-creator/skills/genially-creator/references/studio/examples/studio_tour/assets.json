@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "style": {
+    "description": "Soft clay 3D render, like playful claymation miniatures: rounded chunky shapes with smooth matte surfaces and subtle fingerprint texture, slightly toy-like proportions, soft studio light from the top left with gentle glowing rim light, soft contact shadows. Objects float on a deep night indigo background with soft violet and coral glow gradients and a few tiny sparkles. Clean, uncluttered compositions with plenty of empty space, centred subjects.",
+    "palette": [
+      "#14123A",
+      "#6B4EFF",
+      "#FF6B6B",
+      "#FFC93C",
+      "#2DD4BF",
+      "#D97757",
+      "#F7F5FF"
+    ],
+    "mood": "Playful, optimistic and a little magical: creativity made easy.",
+    "audience": "Teachers, trainers, HR and marketing professionals",
+    "avoid": "Text, letters, numbers, logos, screens with readable interfaces, realistic people, photographic realism, dark or scary mood, clutter."
+  },
+  "images": [
+    {
+      "id": "img_cvrnight",
+      "role": "background",
+      "size": "1280x800",
+      "prompt": "A wide dreamy backdrop for a title slide: the deep night indigo space with soft glowing violet and coral clouds of light, and a few small floating clay shapes (a rounded slide card, a star, a speech bubble, a game piece, a music note) scattered along the right and bottom edges, small and out of focus. The left two thirds and the centre stay calm and almost empty for a big title."
+    },
+    {
+      "id": "img_chatgen",
+      "role": "illustration",
+      "size": "1280x800",
+      "prompt": "A clay speech bubble on the left, glowing softly, with three little dots inside, connected by a curved trail of sparkles to the right, where it unfolds into a fan of four floating rounded clay cards: one with a little clay planet with a ring, one with a question mark, one with a music note, one with a star. A sense of transformation from one small idea into many pieces. Lots of empty space around."
+    },
+    {
+      "id": "img_steptalk",
+      "role": "illustration",
+      "size": "1024x1024",
+      "prompt": "Two rounded clay speech bubbles talking to each other, one violet and one coral, the coral one with a small question mark shape made of clay dots, centred, floating, with soft glow."
+    },
+    {
+      "id": "img_stepplan",
+      "role": "illustration",
+      "size": "1024x1024",
+      "prompt": "A clay notebook open with a few rounded colourful blocks lined up on its pages like a storyboard, a clay pencil next to it and a small magnifying glass, centred, floating."
+    },
+    {
+      "id": "img_stepmake",
+      "role": "illustration",
+      "size": "1024x1024",
+      "prompt": "A small clay magic machine with a funnel on top and rounded objects popping out of it: a picture frame with a tiny mountain, a music note, a film clapper and a game controller, centred, floating, joyful."
+    },
+    {
+      "id": "img_stepbuild",
+      "role": "illustration",
+      "size": "1024x1024",
+      "prompt": "Clay hands made of simple rounded shapes stacking colourful rounded slide cards into a neat tower, a small clay checkmark badge in mint floating next to it, centred."
+    },
+    {
+      "id": "img_endsky",
+      "role": "background",
+      "size": "1280x800",
+      "prompt": "A wide calm closing backdrop: the night indigo space with a soft violet and coral glow rising from the bottom like a sunrise, and a small clay paper plane leaving a trail of sparkles across the upper right. The centre stays empty for a big title."
+    }
+  ],
+  "videos": [],
+  "audios": [
+    {
+      "id": "aud_introvo",
+      "kind": "speech",
+      "voice": "narrator_female",
+      "text": "Imagine typing one sentence: make me a lesson about the solar system, for nine-year-olds, with narration and a final quiz. Your assistant asks you a couple of questions, writes the script, creates the pictures, the sound and the interactive pieces, and builds the whole genially in the editor. Then it plays it, checks it, and hands it over to you. Ready to edit. Ready to share."
+    },
+    {
+      "id": "aud_dingnt",
+      "kind": "sound_effect",
+      "seconds": 1.5,
+      "prompt": "A bright, friendly phone notification ding, two soft rising glassy notes."
+    },
+    {
+      "id": "aud_taptap",
+      "kind": "sound_effect",
+      "seconds": 0.5,
+      "prompt": "A short soft UI tap click on a phone touchscreen."
+    },
+    {
+      "id": "aud_chimes",
+      "kind": "sound_effect",
+      "seconds": 2,
+      "prompt": "A cheerful success chime for a correct answer in a quiz game, sparkly rising arpeggio of bells."
+    },
+    {
+      "id": "aud_buzzer",
+      "kind": "sound_effect",
+      "seconds": 1,
+      "prompt": "A soft, gentle low error buzz for a wrong answer in a game, short and not harsh."
+    },
+    {
+      "id": "aud_whoosh",
+      "kind": "sound_effect",
+      "seconds": 1.5,
+      "prompt": "A light airy whoosh of something being sent away quickly, like sharing a message."
+    }
+  ],
+  "aibuilder": [
+    {
+      "id": "aib_fdchain7k",
+      "width": 700,
+      "height": 500,
+      "prompt": "PIECE: \"Build the food chain\", a drag-and-drop game for children aged 8 to 11 (science, primary school). They learn that energy passes from the Sun to plants and from one living thing to the one that eats it.\n\nSTART SCREEN: a big title \"Build the food chain\", one line \"Who eats whom? Put them in order, from the Sun to the top predator.\", a round \"Play\" button, and the six emoji in a gentle floating row.\n\nGAME SCREEN:\n- At the top, a short instruction: \"Drag each card into the chain. The arrows mean 'gives energy to'.\"\n- In the middle, a row of 6 empty slots joined by 5 arrows (→), numbered 1 to 6. Slot 1 already shows a small sun outline as a hint of where to start.\n- At the bottom, a tray with the 6 cards in a shuffled order. Each card is about 96 × 112 px: a big emoji and its name below. Cards: 🌞 Sun, 🌱 Grass, 🦗 Grasshopper, 🐸 Frog, 🐍 Snake, 🦅 Hawk.\n- Cards drag with mouse and touch, snap into a slot, can be swapped between slots or sent back to the tray. Dropping a card on a filled slot swaps them. The row of slots never changes width or position when a card is dropped.\n- A \"Check\" button, enabled when the 6 slots are full.\nCHECK: the right order is Sun → Grass → Grasshopper → Frog → Snake → Hawk. Each card in the right slot gets a mint glow and a ✓; each wrong one shakes, gets a coral border and goes back to the tray. A hint line under the chain says, for the first wrong slot, one of: \"Plants make their food from sunlight: what comes right after the Sun?\", \"Which animal eats grass?\", \"Who would catch a grasshopper?\", \"Frogs are eaten by a long animal with no legs.\", \"The top predator flies and hunts snakes.\" Play the error sound action. Count the tries.\nEND SCREEN (when all 6 are right): play the success sound action, a burst of small stars, the title \"Energy unlocked! ⚡\", the line \"The Sun's energy travelled through 5 living things to reach the hawk.\", the number of tries (\"You did it in 1 try\" / \"in N tries\") and two buttons: \"Play again\" (shuffles and starts over) and \"Continue\" (fires the continue action).\n\nLOOK (the genially's style, \"night studio\"): the piece's own background is deep night indigo #14123A with one or two very soft glowing radial gradients (violet #6B4EFF and coral #FF6B6B at low opacity) drawn in CSS; content sits on rounded \"bento\" cards (radius 20 px) in a slightly lighter indigo #221E5C with a 1 px border rgba(255,255,255,0.08). Text in paper white #F7F5FF, secondary text #B9B4E6. Accents: Genially violet #6B4EFF for primary buttons, coral #FF6B6B for errors and warnings, sunshine #FFC93C for highlights and stars, mint #2DD4BF for correct and success, warm clay #D97757 as a warm detail. Buttons are rounded pills with a soft glow on hover. Smooth, playful micro-animations (a small bounce on success, a short shake on error), never long ones. No stock photos and no external images: icons and illustrations are simple inline SVG or emoji, in the palette.\nFONTS: the AI Builder code cannot load fonts by itself, so give the piece two font fields in its config: \"titleFont\" (default \"Poppins\", bold, for titles and big numbers) and \"bodyFont\" (default \"Inter\", for everything else), and use them everywhere.\nSIZE: the piece fills exactly 700 × 500 px and never grows, scrolls the page or changes size while it is played, on any screen of the game. If a list does not fit, only that list scrolls inside its own card.\nACTIONS: give the piece a \"continueAction\" action field and a sound action field for success (\"successSound\") and one for errors (\"errorSound\"); leave them empty, the genially fills them. The continue action fires ONLY when the player clicks the end screen's \"Continue\" button, never on its own when the game is completed. The end screen's buttons sit above everything else (no overlay, confetti layer or invisible element on top of them) and answer clicks and the Enter key.\nLANGUAGE: every text in English, short and friendly."
+    }
+  ]
+}
