@@ -1,7 +1,7 @@
 {
   "name": "genially-creator",
   "displayName": "Genially Studio",
-  "version": "0.35.2",
+  "version": "0.36.1",
   "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
   "author": {
     "name": "Genially",

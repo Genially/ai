@@ -1,4 +1,4 @@
-// The deck surface, version 2: everything a deck.js may call, for a model writing one and for the checker that
+// The deck surface, version 3: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
 //
@@ -54,8 +54,8 @@ interface GsTextOptions extends GsEntrance {
   /** A real list, one item per line of `text` (not lines starting with "•"). Takes no brand. */
   list?: 'ordered' | 'unordered';
   /**
-   * `text` is HTML: <strong>, <em>, <u>, <br>, <p>, for a word in bold inside a sentence. An <a href> is dropped (its
-   * words stay): a link goes on a whole item, with gsLink.
+   * `text` is HTML: <strong>, <em>, <u>, <br>, <p>, for a word in bold inside a sentence, and L.math(…) for a formula.
+   * An <a href> is dropped (its words stay): a link goes on a whole item, with gsLink.
    */
   html?: boolean;
   /**
@@ -102,6 +102,17 @@ interface GsLib {
    * `no icon for "<term>"`.
    */
   icon(slideId: string, term: string, rect: GsRect, color: string): Promise<string>;
+  /**
+   * A math formula for a text with `html: true` (or gsTextEdit's `html`): the editor's own formula block, the "Formula"
+   * text style, which keeps the LaTeX source (anyone can edit it in the text panel) and draws it. LaTeX as Temml reads
+   * it ('x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}': in a JS string every backslash is doubled); one formula per call,
+   * a block of its own, so it goes between paragraphs, never inside one:
+   * `L.T(s, rect, '<p>The roots are</p>' + L.math('x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}'), { html: true, size: 32 })`.
+   * A formula never wraps: the editor widens the box to fit one wider than the rect, so measure it before placing
+   * something beside it. It carries no marks of its own (bold, a colour in a <span>): check its size, colour and
+   * alignment in the preview. Never a formula drawn as an image or typed with Unicode (x², √): it can't be edited.
+   */
+  math(latex: string): string;
   /** SVG markup for L.S, one colour. */
   rrect(width: number, height: number, radius: number): string;
   circle(): string;

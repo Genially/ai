@@ -6,7 +6,7 @@ A component keeps the proportions of its default content, and what doesn't fit i
 
 - compositions: list (Interactive Section List), grid (Concept Cards), extendablePanels (Elastic Responsive Accordion Cards), retroBlock (Aesthetic Card Composer), minimalBlock (Aesthetic Card Composer), darkBlock (Aesthetic Card Composer), multipageBlock (Blog Slider), rotaryBanner (Infinite Marquee & Slider), dynamicTimeline (Horizontal Narrative Timeline), gradientBackground (Abstract Background Generator), holographicCard (Holographic Card), cardCarousel (Interactive Product Cards), accordion (Modern Accordion with Dividers), loupeGallery (Interactive Portfolio Grid), parallaxGrid (Interactive Destination Grid), folders (Filing Cabinet), progressBoard (Progress Tracker & Modules)
 - galleries: carousels, mosaics, comparisons, slidingCarousel (Interactive Asymmetric Carousel), roundCarousel (3D Round Carousel), mask (Image Mask Tool), unpixelator (Image Depixelator), mobileMockup (Automatic Image Viewer), computerMockup (Automatic Image Viewer), imageTrail (Hidden Image Explosion & Custom Cursor)
-- activities: findThePair, puzzle (Image Jigsaw Puzzle Widget), wordSearch (Word Search Puzzle), wordSorter (Word Classifier), mathOperations (Math Challenge Widget), hangmanGame (Hangman Game Widget), letterBoard (Hangman Game), wordle (Customizable wordle), wordWheel (Customizable Alphabet Game), revealAnswers (Flashcards), matchConcepts (Match concepts), arrangeInOrder (Arrange in order), spotTheDifference (Spot the Differences with Timer), simonSays (Simon Says Game Widget), secretCode (Access Code Input), swipeAndScore (Swipe and hit)
+- activities: findThePair, puzzle (Image Jigsaw Puzzle Widget), wordSearch (Word Search Puzzle), wordSorter (Word Classifier), mathOperations (Math Challenge Widget), hangmanGame (Hangman Game Widget), letterBoard (Hangman Game), wordle (Customizable wordle), wordWheel (Customizable Alphabet Game), revealAnswers (Flashcards), matchConcepts (Match concepts), arrangeInOrder (Arrange in order), spotTheDifference (Spot the Differences with Timer), simonSays (Simon Says Game Widget), secretCode (Access Code Input), swipeAndScore (Swipe and hit), locateInImage (Locate in image)
 - timeAndNavigation: timer, stopwatch, countdownToDate (no config), progressBar, navigationMenu
 - tools: calculator (Advanced Calculator), qrGenerator (QR Code Generator), scoreboard (Score Counter Widget), calendar (Interactive Monthly Calendar), rating (Rating), noteWall (Interactive Sticky Notes Board), postIt (Interactive Sticky Note)
 - textsWithEffect: typewriter (Text Reveal), roller (Pro Text Animations), circularShape (Custom Shaped Text), wavyShape (Custom Shaped Text), gradient (Animated Gradient Text), wordCloud (Interactive Word Cloud), dialog (Speech Bubble Generator), cloudDialog (Speech Bubble Generator)
@@ -995,7 +995,11 @@ Not usable from a deck: each difference's position is a coordinate a deck can't 
 
 ### Access Code Input (@saruman/secretCode)
 
+- onCorrectCodeAction: action (Action on Correct Code); optional
+- onIncorrectCodeAction: action (Action on Incorrect Code); optional
 - correctAccessCode: textInput (Correct Access Code); default "12345", up to 20 characters
+- otherCorrectAccessCodes: list (Other Correct Access Codes); min 0, max 10
+- otherCorrectAccessCodes[].code: textInput (Access Code); default "", up to 20 characters
 - promptMessage: textInput (Prompt Message); default "Enter the access code:"
 - inputPlaceholder: textInput (Input Field Placeholder); default "Enter code"
 - buttonLabel: textInput (Button Label); default "Unlock", up to 15 characters
@@ -1008,8 +1012,6 @@ Not usable from a deck: each difference's position is a coordinate a deck can't 
 - fontSize: textInput (Font Size); default "1.5rem"
 - inputBorderRadius: textInput (Input Field Border Radius); default "38px"
 - buttonBorderRadius: textInput (Button Border Radius); default "38px"
-- onCorrectCodeAction: action (Action on Correct Code); optional
-- onIncorrectCodeAction: action (Action on Incorrect Code); optional
 
 ## swipeAndScore
 
@@ -1048,6 +1050,32 @@ Its feedback icons are gallery fields a deck can't set.
 - resultLabelColor: colorInput (Label color); default "#121212"
 - resultCorrectColor: colorInput (Correct value color); default "#1a9e5c"
 - resultIncorrectColor: colorInput (Incorrect value color); default "#F73C69"
+
+## locateInImage
+
+### Locate in image (@saruman/locate-in-image)
+
+- gameMechanic: 'tocar' | 'arrastrar' | 'orden' | 'dibujar' (Answer type); default "tocar"
+- showZones: switch (Show zones); default true
+- tagsPosition: 'top' | 'bottom' (Label position); default "top"
+- questionText: textInput (Question); default "Identify the main components of the engine."
+- backgroundImageUrl: image (Image)
+- interactiveZones: list (Zone); min 1, max 20
+- interactiveZones[].zoneLabel: textInput (Label); default ""
+- interactiveZones[].coordinates: coordinateInput (Position)
+- interactiveZones[].detectionRadius: textInput (Size (px)); default "40"
+- successMessage: textInput (Correct answer message); default "Excellent! You correctly identified the component."
+- failureMessage: textInput (Incorrect answer message); default "Almost... Try checking the part again."
+- onCompletedAction: action (Action on success); optional
+- onFailAction: action (Action on failure); optional
+- titleFont: fontFamily (Title font); default "Unbounded-Bold"
+- bodyFont: fontFamily (Text font); default "DM Sans"
+- primaryColor: colorInput (Main color); default "#6C29FF"
+- successColor: colorInput (Correct answer color); default "#C8FE53"
+- errorColor: colorInput (Incorrect answer color); default "#EF713F"
+- zoneColor: colorInput (Zone color); default "#FFFFFF"
+- backgroundColor: colorInput (Background color); default "transparent"
+- textColor: colorInput (Text color); default "#121212"
 
 ## timer
 
