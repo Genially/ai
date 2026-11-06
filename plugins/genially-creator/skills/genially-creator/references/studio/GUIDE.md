@@ -191,6 +191,7 @@ can't edit them as what they are. For each need, its piece:
 | a sound on a click | `gsSound` | a player |
 | a timer, a roulette, a word search, a gallery, a carousel, a timeline, an accordion, flashcards, a scoreboard | `gsWidget` (WIDGETS.md lists them) | a drawn imitation |
 | a mechanic none of these has (drag and drop, a lock, a simulation) | an AI Builder piece (`gsAIBuilder`) | a drawn imitation |
+| write a formula (an equation, a fraction, a root, a sum) | `L.math` inside a text with `html: true`: the editor's formula block, in LaTeX | a picture of it, or x², √ and ½ typed as text |
 
 A widget and an AI Builder piece take the request's assets by their ids: pictures of the style in a widget's image
 fields (`gsWidget`) or in place of a piece's stock photos (`gsAIBuilder`'s `images`), and effects, music or voiceovers
@@ -289,6 +290,8 @@ played: say so in the report rather than guess.
 
 When every slide passes, `await gsSave()`; on a conflict, stop and tell the user. Then `genially_creation_manage`
 with `action: 'report'`, the `runId` and, from `gsDeck.result()`, its `state`, `log`, `slides` and `runtimeCommit`.
+A `done` report asks for the genially's thumbnail from what was saved, so it goes after the last save; its `thumbnail`
+says whether it was asked for.
 
 Then tell the user, with Genially's voice, what their genially has (slides, pieces, windows and questions), what you
 checked and how ("I played every challenge to the end and opened the 8 windows"), what you couldn't (a sound you

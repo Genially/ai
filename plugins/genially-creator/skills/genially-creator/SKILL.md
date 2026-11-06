@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.16)
+# genially-creator (v0.17)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -213,11 +213,15 @@ them has cost runs errors that they explain.
     do it once in another tab (`AIB.previewUrl`) to see what was really saved.
 13. **Save and report the run.** `await gsSave()`. Then `genially_creation_manage` with `action: 'report'`, the
     `runId`, `state` `done` (or `failed` with why), and from `gsDeck.result()` the `log`, the `slides` and the
-    `runtimeCommit`. Its `stale` lists slides with content the deck didn't build (a genially built before, with other
+    `runtimeCommit`. A `done` report also asks for the genially's thumbnail, the picture its card shows in their
+    panel, drawn from what was saved: save before reporting, or the thumbnail shows the genially as it was. Its
+    `thumbnail` says how it went (`requested`: it shows up in a few minutes; `failed`: the editor makes it the next
+    time someone opens it, changes the cover and leaves). Its `stale` lists slides with content the deck didn't build (a genially built before, with other
     slide names): ask the user before deleting them, and never in a genially of theirs (`keep`).
 14. **Report to the user**: what is on each slide, which pieces, what was reviewed and what was not (the audio
     cannot be heard from here: say so), the automatic check of animations, contrast and windows: how many issues it
-    found and that none is left, how many windows were opened and checked, and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
+    found and that none is left, how many windows were opened and checked, that the thumbnail of their genially will
+    show up in their panel in a few minutes (only if the report said `requested`), and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
     Then `gsState.clear()`: the working values of this genially are no longer needed in the browser.
 
 ## Changing an existing genially
