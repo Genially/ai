@@ -169,6 +169,10 @@ const { cards: [card] } = await gsFlipCards(sid, [80, 160, 240], [{
   frontColor: C.ink, frontTextColor: '#FFFFFF', backColor: C.paper, backTextColor: C.ink,
 }]);
 ```
+- **Their font and text size are the editor's own** (seen in nine of ten runs, 9-10 Nov 2026): `gsFlipCards` has no
+  option for them, the texts come small and low on the face, and attempts to restyle a card left its back empty.
+  Design for the card as it is: a front title of one to three short words (a long word breaks in the middle), a back
+  of at most about 90 characters at 240 wide, or the last line ends under the turn button. A longer text is a window.
 
 ## Components panel widgets
 
@@ -218,6 +222,9 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 - On hover: `gsReveal(source, targets, { mode: 'show', event: 'hover' })` for a hint that appears,
   `gsSound(ids, url, { event: 'hover' })`, `gsEffect(ids, 'confetti', { event: 'hover' })`. Go to slide and windows
   are click-only.
+- **A window has one size** (855 × 499 on 1200 × 675): two or three short lines float in an empty box, which came
+  back from the review in six of ten runs. A window is for 40 words or more, or a picture; a shorter detail is a
+  tooltip.
 
 ## AI Builder
 
@@ -279,6 +286,23 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   on a local editor): inside the iframe clicks work; on the editor canvas they do not.
 - Mazes have to be really solved: in the aquifer one, the drop could not go down from the exit and you
   had to go back to the surface. It was checked by reading the colours of the cells from a screenshot.
+- **Ten runs, 9-10 Nov 2026.** One piece came out with no start screen, three with their own title under the
+  slide's, three with 11-12 px text, two skipped the feedback or scored wrong. The prompt has to ask for each of
+  these by name (ASSETS.md, "The prompt of an AI Builder piece"), and the review has to make a mistake on purpose
+  before playing it right.
+- **"Try again" never shows on a scoring piece** (seven of those ten). The buttons are in the piece (tagged
+  `data-genially-retry`), its manifest says `tracking.isScoreable: true`, and the player hides them because an
+  ordinary genially never sends `geniallyShowRetryButton`. A remake asked to add the button (30 credits) came back
+  the same, as it had to, and nothing in the deck can turn it on (`gsAIBuilder`'s `config` refuses a key the piece
+  has not got). What decides it is the prompt: the AI Builder marks a piece as scoring when it has a right and a
+  wrong answer unless the prompt says it is free practice with no assessment. Ask for free practice by default
+  (ASSETS.md, "PRACTICE OR GRADED"); a piece that must be graded is played once each time its slide is opened, and
+  the report says so.
+- **A paid change may not arrive.** Before asking the user to pay for a change, try what is free: a text in its
+  config, or native questions instead. Promise what you will ask for, never the result, and don't ask to pay twice
+  for the same change.
+- **What a change to the piece cannot do**: anything Genially puts around a scoring piece (the hidden restart
+  buttons, the bar over an answered activity), or anything on the slide outside the piece.
 
 ## Local images
 
