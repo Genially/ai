@@ -71,15 +71,58 @@ The Genially MCP tools take it and answer it:
 - **`aibuilder`**: AI Builder pieces, up to 6, each one:
   - `id` (required): made up at random like an image's, `aib_` and 6 to 12 letters or digits, unique in the request
     (`open` names a missing id of the deck by these prefixes: `img_`, `vid_`, `aud_`, `snd_`, `sfx_`, `mus_`, `aib_`);
-  - `prompt` (required, up to 12000 characters): everything the piece needs, since nothing asks back: the exact
-    mechanic, the topic and audience, its texts and items (how many), the solution and scoring, what happens when it is
-    finished, the language, and the look (palette, fonts, the genially's style; no stock photos);
+  - `prompt` (required, up to 12000 characters): everything the piece needs, since nothing asks back. Write it in
+    the blocks of "The prompt of an AI Builder piece", below (the piece of `examples/studio_tour/assets.json` is the
+    model);
   - `width`, `height` (required): the size of the rect the deck gives it.
 
   Each one takes 8-12 minutes and 30 credits, and they are generated at the same time: tell the user, piece by
   piece, its mechanic, texts, ending and size, and the wait, before generating them. A changed prompt under the
   same id asks for a change to the piece made before. The deck inserts them from `window.__aibuilder` with
   `gsAIBuilder`.
+
+  **The prompt of an AI Builder piece.** The AI Builder does what the prompt spells out and leaves out what it only
+  implies: pieces asked for "a quiz" came back with no feedback, with their own title under the slide's and with
+  11 px text. Every piece's prompt has these blocks, in this order, each with its heading:
+
+  - **PIECE**: what it is, in one sentence, who plays it and what they learn.
+  - **PRACTICE OR GRADED**: by default, "This is free practice with no assessment: nothing is graded, recorded or
+    reported. After a mistake the player keeps trying, and can play it again from the end screen as many times as
+    they like." Only when the user wants each learner's result recorded: "This is a graded activity: its result is
+    reported once." See what each one means below.
+  - **START SCREEN**: its title, one line of instructions and a start button, with their exact texts. No title that
+    repeats the slide's: the slide already has it.
+  - **GAME SCREEN**: every element, with every text in full and how many there are; what can be dragged, clicked or
+    typed; "the layout never changes size or position while it is played".
+  - **FEEDBACK**: what the player sees after a right move and after a wrong one, with the exact texts, and that it
+    stays on screen until the player goes on.
+  - **WHILE PLAYING**: "After a wrong move the player goes on playing: [how: the card goes back, the check works
+    again]. Nothing stays locked, disabled or greyed out after a mistake. No message says the answer was recorded or
+    already given."
+  - **END SCREEN**: when it shows, its title, the message for each score band, and exactly two buttons: "[Play
+    again]", which starts the whole piece over, shuffled, and "[Continue]", which fires the continue action. Both
+    always visible, whatever the score. (A graded piece: only "[Continue]".)
+  - **SCORING**: what counts as a point, the right answers, and that the score on the end screen is the number of
+    right answers at the last check.
+  - **LOOK**: the palette in hex with what each colour is for, the shapes; no stock photos and no external images.
+  - **TEXT**: "All text at least 16 px at this size. No text selection while dragging (user-select: none on cards,
+    slots and labels). Words never break in the middle; a label that does not fit goes on two lines."
+  - **FONTS**: one font field per role with its default, as the fonts can only be loaded from a field.
+  - **SIZE**: "fills exactly W × H px and never grows, scrolls the page or changes size on any screen".
+  - **ACTIONS**: a "continueAction" field and the sound fields, left empty; continue fires only from the end screen's
+    button, which sits above everything else and answers clicks.
+  - **LANGUAGE**: every text in the genially's language, and that no other text is added.
+
+  **Practice or graded: what Genially does with each** (checked on real pieces and in the AI Builder's rules,
+  10 Nov 2026). The AI Builder marks a piece as scoring when it has a right and a wrong answer, unless the prompt
+  says in so many words that it is free practice with no assessment.
+  - **A scoring piece** is an activity for Genially: its result is recorded, and the player hides its "Try again"
+    and "Play again" buttons (the AI Builder makes them; an ordinary genially does not ask for them to show) and
+    puts a bar over it when someone comes back ("You have already answered this question"). It is played once each
+    time its slide is opened. Asking for a restart button, or paying for a change to add one, changes nothing.
+  - **A free-practice piece** reports nothing, stays playable after an answer and keeps its restart buttons. It is
+    what a lesson, a game or an escape room wants, so it is the default. It does not show in the results of the
+    genially.
 - **`videos`**, up to 6 clips without sound, each one with:
   - `id` (required): like an image's, `vid_` and 6 to 12 letters or digits, unique in the request;
   - `prompt` (required, 20 to 1000 characters): what happens, shot by shot if there is more than one: the subject,

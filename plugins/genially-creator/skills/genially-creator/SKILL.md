@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.17)
+# genially-creator (v0.18)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -44,8 +44,9 @@ them has cost runs errors that they explain.
 - **Two yeses, each asked once.** The plan (step 2), where nothing is spent yet; then what will be generated, with its
   exact price against their credits (step 4), before any credit is spent. Say what each thing costs: **each AI Builder
   piece takes 8-12 minutes and 30 credits, and they are made at the same time**; a video, 200 credits a second at
-  720p (twice at 1080p); a voiceover, 5 credits plus 20 per 100 characters; pictures and sounds, what the estimate
-  says. Generating something again costs it again: say what and how much before. Don't ask again for what they
+  720p (twice at 1080p); a voiceover, 5 credits plus 20 per 100 characters; a picture and a second of sound, the rates
+  `ai_credits_get` gives (`studioAssets`: pictures are most of the cost of almost every genially, so never leave them
+  out of what you say the plan will cost). Generating something again costs it again: say what and how much before. Don't ask again for what they
   approved.
 - **The MCP generates the assets; the deck places them.** Pictures, videos, sound effects, music, voiceovers and AI
   Builder pieces go in
