@@ -86,10 +86,10 @@ The Genially MCP tools take it and answer it:
   11 px text. Every piece's prompt has these blocks, in this order, each with its heading:
 
   - **PIECE**: what it is, in one sentence, who plays it and what they learn.
-  - **PRACTICE OR GRADED**: by default, "This is free practice with no assessment: nothing is graded, recorded or
-    reported. After a mistake the player keeps trying, and can play it again from the end screen as many times as
-    they like." Only when the user wants each learner's result recorded: "This is a graded activity: its result is
-    reported once." See what each one means below.
+  - **PRACTICE OR GRADED**: the mode the user chose for this piece in the plan, never one you assume. Free
+    practice: "This is free practice with no assessment: nothing is graded, recorded or reported. After a mistake
+    the player keeps trying, and can play it again from the end screen as many times as they like." Graded: "This is
+    a graded activity: its result is reported once." See what each one means below.
   - **START SCREEN**: its title, one line of instructions and a start button, with their exact texts. No title that
     repeats the slide's: the slide already has it.
   - **GAME SCREEN**: every element, with every text in full and how many there are; what can be dragged, clicked or
@@ -120,9 +120,16 @@ The Genially MCP tools take it and answer it:
     and "Play again" buttons (the AI Builder makes them; an ordinary genially does not ask for them to show) and
     puts a bar over it when someone comes back ("You have already answered this question"). It is played once each
     time its slide is opened. Asking for a restart button, or paying for a change to add one, changes nothing.
-  - **A free-practice piece** reports nothing, stays playable after an answer and keeps its restart buttons. It is
-    what a lesson, a game or an escape room wants, so it is the default. It does not show in the results of the
-    genially.
+  - **A free-practice piece** reports nothing, stays playable after an answer and keeps its restart buttons. It
+    does not show in the results of the genially.
+
+  **The user decides it, piece by piece, in the plan.** Each piece is shown there with the mode you propose and what
+  it means in their words: practice (it can be played again as often as they like, and no result is kept) or graded
+  (one try each time its slide is opened, and each person's result is kept). Propose graded when they asked for an
+  exam, a test or results to look at, and practice for a lesson, a review, a game or an escape room; then ask
+  whether to leave them so or change any, and build what they answer. Write each piece's mode in `plan.md`. There is
+  no graded piece that can be played again: if they ask for both, say so and let them pick one. Changing the mode
+  once the piece is made is making it again, at its price: say so before.
 - **`videos`**, up to 6 clips without sound, each one with:
   - `id` (required): like an image's, `vid_` and 6 to 12 letters or digits, unique in the request;
   - `prompt` (required, 20 to 1000 characters): what happens, shot by shot if there is more than one: the subject,

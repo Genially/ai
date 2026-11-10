@@ -102,7 +102,14 @@ Examples in Spanish of what each moment says; write them in the user's language,
 - **The plan, the first yes (nothing is spent):** the title and what it is in one line; how it is played or read; the
   slides as a path; what it carries (pictures, interactive pieces, videos, sounds, native questions and windows, which
   are free); the cost of the pieces by their rate and their wait, and that the rest is priced exactly before
-  anything is made. "¿Te gusta así o cambiamos algo?"
+  anything is made. Each interactive piece with the mode you propose for it, which is theirs to decide (ASSETS.md,
+  "Practice or graded"):
+
+  > **Piezas interactivas:** «Las nubes viajeras» y «El candado», como **práctica**: se pueden repetir las veces que
+  > se quiera y no guardan resultado. «El reto final», como **evaluable**: un solo intento cada vez que se abre su
+  > diapositiva, y guarda el resultado de cada persona. ¿Las dejo así o cambio alguna?
+
+  "¿Te gusta así o cambiamos algo?"
 - **Each interactive piece, before it is made:**
 
   > **Pieza 2 de 6: «Las nubes viajeras»**, en la diapositiva «Condensación»
@@ -110,6 +117,7 @@ Examples in Spanish of what each moment says; write them in the user's language,
   > - **Qué aparece:** tres nubes y tres zonas; si fallas, la nube vuelve a su sitio con una pista.
   > - **Cómo termina:** con las tres bien, sale el número secreto 8 y un botón «Continuar» que vuelve al mapa.
   > - **Dónde va:** ocupa casi toda la diapositiva, bajo el título.
+  > - **Práctica o evaluable:** práctica, como elegiste: se puede repetir y no guarda resultado.
   > - **Coste y tiempo:** 30 créditos, entre 8 y 12 minutos.
 
   Close the list with the wait ("las 6 piezas se crean a la vez: entre 8 y 12 minutos") and ask.

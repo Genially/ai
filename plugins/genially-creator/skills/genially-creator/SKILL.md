@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.18)
+# genially-creator (v0.19)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -100,6 +100,9 @@ them has cost runs errors that they explain.
      [LESSONS.md](references/LESSONS.md#flip-cards);
    - **native questions** (`gsQuestion`) for quizzes instead of AI Builder pieces: details in
      [LESSONS.md](references/LESSONS.md#native-questions);
+   - for each AI Builder piece, whether it is **practice or graded**, which the user decides (`ASSETS.md`,
+     "Practice or graded"): practice can be played again and keeps no result; graded is one try each time its slide
+     is opened and keeps each person's result;
    - navigation: the mode (standard, microsite, course or video, GUIDE §1), cover → … → end, and how each place is
      reached. Buttons follow the mode: none to go forward where the player's arrows or the course menu already do;
      in a microsite, a way in and a way back on every page. **Every part of the game must have a visible entry
@@ -109,7 +112,8 @@ them has cost runs errors that they explain.
    - the style: palette (hex), fonts Genially has, graphic resources (tape, torn paper, grid, frames…) and the style
      of the pictures.
    Show it in plain prose, with how many AI Builder pieces, videos and voiceovers it has and what they cost by the
-   rates above, say that you will give the exact price before generating, and wait for the user's yes. Nothing is
+   rates above, and each piece with the mode you propose and what it means, asking whether to leave them so or
+   change any. Say that you will give the exact price before generating, and wait for the user's yes. Nothing is
    spent yet.
 3. **The genially.** `create_genially` (blank: 1200 × 675 by default) and, if the team has a brand kit the user wants,
    `brand_kit_get`. Keep its id and its editor link in the working folder.
@@ -219,7 +223,7 @@ them has cost runs errors that they explain.
     `thumbnail` says how it went (`requested`: it shows up in a few minutes; `failed`: the editor makes it the next
     time someone opens it, changes the cover and leaves). Its `stale` lists slides with content the deck didn't build (a genially built before, with other
     slide names): ask the user before deleting them, and never in a genially of theirs (`keep`).
-14. **Report to the user**: what is on each slide, which pieces, what was reviewed and what was not (the audio
+14. **Report to the user**: what is on each slide, which pieces and whether each is practice or graded, what was reviewed and what was not (the audio
     cannot be heard from here: say so), the automatic check of animations, contrast and windows: how many issues it
     found and that none is left, how many windows were opened and checked, that the thumbnail of their genially will
     show up in their panel in a few minutes (only if the report said `requested`), and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
@@ -243,7 +247,8 @@ slides, the flow above changes in these steps; the rest is the same.
 3. **The plan** (step 2) says, slide by slide: what is new and after which slide it goes, which of their slides are
    redone (rebuilding one empties it: only with their explicit yes, named one by one; one with no name or a name
    another slide shares can't be redone: ask them to rename it in the editor first), and that every other slide
-   stays as it is. The new slides follow the genially's style: its backgrounds, fonts, colours, sizes and buttons
+   stays as it is. A new AI Builder piece is shown with its mode, practice or graded, for them to decide, as in
+   step 2. The new slides follow the genially's style: its backgrounds, fonts, colours, sizes and buttons
    from the outline, its layout from the screenshots. No `create_genially` and no `gsRename`, unless they ask.
 4. **Its assets.** The pictures, audios and pieces of an earlier asset request of the genially are reused by their
    ids, like new ones: `open` gives the deck the ready ones it names. Their ids are in that request's `assets.json`,

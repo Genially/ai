@@ -295,9 +295,10 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   ordinary genially never sends `geniallyShowRetryButton`. A remake asked to add the button (30 credits) came back
   the same, as it had to, and nothing in the deck can turn it on (`gsAIBuilder`'s `config` refuses a key the piece
   has not got). What decides it is the prompt: the AI Builder marks a piece as scoring when it has a right and a
-  wrong answer unless the prompt says it is free practice with no assessment. Ask for free practice by default
-  (ASSETS.md, "PRACTICE OR GRADED"); a piece that must be graded is played once each time its slide is opened, and
-  the report says so.
+  wrong answer unless the prompt says it is free practice with no assessment. So the user chooses,
+  piece by piece, in the plan (ASSETS.md, "PRACTICE OR GRADED"): practice, played as often as they like with nothing
+  recorded, or graded, played once each time its slide is opened with its result recorded. The report says which
+  each piece is.
 - **A paid change may not arrive.** Before asking the user to pay for a change, try what is free: a text in its
   config, or native questions instead. Promise what you will ask for, never the result, and don't ask to pay twice
   for the same change.
