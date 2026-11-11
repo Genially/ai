@@ -102,8 +102,11 @@ The Genially MCP tools take it and answer it:
     Graded: "This is a graded activity: its result is reported once." See what each one means below. **Without
     right and wrong**, this line in its place: "Nothing in this piece is right or wrong: nothing is asked, scored,
     graded, recorded or reported."
-  - **START SCREEN**, when it ends: its title, one line of instructions and a start button, with their exact texts.
-    No title that repeats the slide's: the slide already has it. **When it does not end**, this line in its place:
+  - **START SCREEN**, only when the piece ends and needs explaining before it starts (a timed game, rules that take
+    more than a line): its title, the instructions and a start button, with their exact texts, over the piece's
+    content already in view, never alone on an empty screen. No title that repeats the slide's: the slide already
+    has it. A piece that ends but needs no explaining opens on its game screen, with one line of instructions at
+    the top. **When it does not end**, this line in its place:
     "It has no start screen, no end screen and no continue button: it works from the first moment and for as long
     as it is on screen."
   - **GAME SCREEN**, always: every element, with every text in full and how many there are; what moves by itself;

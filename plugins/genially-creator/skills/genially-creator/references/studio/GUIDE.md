@@ -186,9 +186,17 @@ And vary them:
 
 **Something to discover on every content slide.** A genially is touched, not only read: every slide between the
 cover and the end has at least one thing the person clicks, hovers or plays (a label on hover, a window, something a
-click shows, a card that turns, a question, a piece, a sound). The main idea is in view; the detail is discovered.
-Keep what is in view short, about 80 words besides the title, and move explanations, examples and "did you know…?"
-to a window or a tooltip. Only video mode, where nothing must be clicked, goes without.
+click shows, a card that turns, a question, a piece, a sound). Only video mode, where nothing must be clicked, goes
+without.
+
+**How much is in view depends on how it is used.** Shown on a screen or played (a live presentation, a game, an
+escape room): the main idea is in view and the detail is discovered; keep what is in view short, about 80 words
+besides the title, and move explanations, examples and "did you know…?" to a window or a tooltip. Read alone (a
+lesson, a dossier, a course, a report): there is no word limit, and a slide that teaches is full. Lay its content
+out in blocks the eye can take in at a glance, each with a heading of one to four words and one to three short
+sentences or a figure with its caption (four to six blocks fill a slide): cards with a fact, labelled columns,
+notes, a diagram with its labels. Never one long paragraph, and never a slide left half empty; windows and tooltips
+are for the extra, not for the content.
 
 **The editor's own piece before a drawn one.** A shape and a text that imitate a piece of the editor look like one
 in the screenshot and are worse in everything else: they don't turn, don't open, don't keep score, and the person
@@ -209,8 +217,8 @@ can't edit them as what they are. For each need, its piece:
 
 A widget and an AI Builder piece take the request's assets by their ids: pictures of the style in a widget's image
 fields (`gsWidget`) or in place of a piece's stock photos (`gsAIBuilder`'s `images`), and effects, music or voiceovers
-in their sound actions. `gsReview` flags a content slide with nothing to discover, more words in view than a slide
-holds and an audio player (§7).
+in their sound actions. `gsReview` flags a content slide with nothing to discover and an audio player, and notes
+(as minor) more than 80 words in view, which is right on a genially read alone (§7).
 
 When it is for phones the genially is mobile (360 × 640, made as one), and it reads as a scroll, not as slides:
 
