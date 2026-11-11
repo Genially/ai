@@ -102,12 +102,14 @@ Examples in Spanish of what each moment says; write them in the user's language,
 - **The plan, the first yes (nothing is spent):** the title and what it is in one line; how it is played or read; the
   slides as a path; what it carries (pictures, interactive pieces, videos, sounds, native questions and windows, which
   are free); the cost of the pieces by their rate and their wait, and that the rest is priced exactly before
-  anything is made. Each interactive piece with the mode you propose for it, which is theirs to decide (ASSETS.md,
-  "Practice or graded"):
+  anything is made. Each piece with what it is; and each one with right and wrong with the mode you propose for it,
+  which is theirs to decide (ASSETS.md, "Practice or graded"). A piece without right and wrong (an animation, a
+  tool) has no mode: say only what it shows or does.
 
   > **Piezas interactivas:** «Las nubes viajeras» y «El candado», como **práctica**: se pueden repetir las veces que
   > se quiera y no guardan resultado. «El reto final», como **evaluable**: un solo intento cada vez que se abre su
-  > diapositiva, y guarda el resultado de cada persona. ¿Las dejo así o cambio alguna?
+  > diapositiva, y guarda el resultado de cada persona. En la portada, «El ciclo en marcha»: una animación del
+  > ciclo del agua que se mueve sola, sin nada que acertar. ¿Las dejo así o cambio alguna?
 
   "¿Te gusta así o cambiamos algo?"
 - **Each interactive piece, before it is made:**
@@ -119,6 +121,10 @@ Examples in Spanish of what each moment says; write them in the user's language,
   > - **Dónde va:** ocupa casi toda la diapositiva, bajo el título.
   > - **Práctica o evaluable:** práctica, como elegiste: se puede repetir y no guarda resultado.
   > - **Coste y tiempo:** 30 créditos, entre 8 y 12 minutos.
+
+  Only the lines the piece has: "Cómo termina" for one that ends, "Práctica o evaluable" for one with right and
+  wrong. An animation or a tool gets "Qué es", "Qué aparece" (what it shows and what moves or can be moved),
+  "Dónde va" and "Coste y tiempo".
 
   Close the list with the wait ("las 6 piezas se crean a la vez: entre 8 y 12 minutos") and ask.
   The prompt you send must match what you announced.
@@ -302,7 +308,8 @@ A `done` report asks for the genially's thumbnail from what was saved, so it goe
 says whether it was asked for.
 
 Then tell the user, with Genially's voice, what their genially has (slides, pieces, windows and questions), what you
-checked and how ("I played every challenge to the end and opened the 8 windows"), what you couldn't (a sound you
+checked and how ("I opened the 8 windows and checked that each piece loads"), that the pieces are handed over as the
+AI Builder made them and are theirs to try before sharing, what you couldn't (a sound you
 can't hear: "press play on the cover to hear it"), and the link to open it (the `editorUrl`, never the `openUrl`).
 Offer the next step ("Shall I publish it, or would you like to give it the final touch first?"); don't publish unless they ask
 for it.

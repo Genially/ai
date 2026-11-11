@@ -20,7 +20,9 @@
 - A button's icon is a name of the editor's icon font: `star` worked, `arrow_forward` came out as a cut "A" (seen on
   31 Oct 2026). Check every icon in the screenshot.
 - **Texts** (same bench): the editor fits a text box to its text, so `verticalAlign` alone moved nothing; `L.T`'s
-  `valign: 'center' | 'bottom'` now moves the box itself within its rect. An `<a href>` in `html: true` text is
+  `valign: 'center' | 'bottom'` now moves the box itself within its rect, from where the text is: a text grouped
+  after `L.T` (the back of a `gsFlip` card) has its position inside its group, and until 11 Nov 2026 it was thrown
+  out of its card, which gave the empty backs of three runs. An `<a href>` in `html: true` text is
   dropped (its words stay): link a whole item with `gsLink`. Measured off-screen, a text came out about 1.5 times
   taller than painted, and an unpainted slide kept the rect's height, where the view also applied `verticalAlign`:
   `L.T` stores it top-aligned and `gsDeck` moves the boxes after the deck, on each slide painted.
@@ -276,20 +278,26 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   describing the exact failure, and generate it again with the same id: the connector asks the AI Builder for a change
   to that piece (30 credits and 8-12 minutes again: tell the user what failed and what the fix costs before). Failures seen: broken checkerboard pattern, start screen without texts, sound as an
   empty action, the area that grew and covered the piece on a correct answer. An edit asked to add one button did not
-  add it, and made the piece fire `onCompletedAction` by itself on finishing, skipping its end screen: after every
-  change play it again to the end and re-check its actions.
+  add it, and made the piece fire `onCompletedAction` by itself on finishing, skipping its end screen: a change can
+  break what worked, so tell the user to try the piece again after one.
 - In a mode without arrows (`microsite`), a piece slide also gets a native button to go on: in the local view, a
   piece's own "Continuar" (`genially.runAction(cfg.continueAction)` from a click) did not navigate, while the same call
   fired by the piece on finishing did. Cause not found, not checked in production. In `standard` and `course` the
   player's arrows or menu already go on.
 - It is tested at `view.genially.com/Preview/Index/<id>?idSlide=<slide>` (`AIB.previewUrl`, which uses the local view
   on a local editor): inside the iframe clicks work; on the editor canvas they do not.
-- Mazes have to be really solved: in the aquifer one, the drop could not go down from the exit and you
-  had to go back to the surface. It was checked by reading the colours of the cells from a screenshot.
+- A maze can come out with no way through: in the aquifer one, the drop could not go down from the exit and you
+  had to go back to the surface. It is the user who plays it: say so when a piece is a maze or a puzzle.
 - **Ten runs, 9-10 Nov 2026.** One piece came out with no start screen, three with their own title under the
   slide's, three with 11-12 px text, two skipped the feedback or scored wrong. The prompt has to ask for each of
-  these by name (ASSETS.md, "The prompt of an AI Builder piece"), and the review has to make a mistake on purpose
-  before playing it right.
+  these by name (ASSETS.md, "The prompt of an AI Builder piece").
+- **A piece is handed over as made, since 11 Nov 2026.** Playing every piece to the end, with a mistake on
+  purpose, took as long as reviewing all the other slides, and what it found inside a piece could only be fixed by
+  paying for it again, which often changed nothing. The review now checks that a piece loads and stops there; the
+  report says it was not played and asks the user to try it. A piece is also no longer always a game: an
+  animation or a small tool went through the same prompt and came out with a start screen, a score and a
+  "Continue" it had no use for, so the prompt's blocks follow from whether the piece ends and whether it has right
+  and wrong.
 - **"Try again" never shows on a scoring piece** (seven of those ten). The buttons are in the piece (tagged
   `data-genially-retry`), its manifest says `tracking.isScoreable: true`, and the player hides them because an
   ordinary genially never sends `geniallyShowRetryButton`. A remake asked to add the button (30 credits) came back
