@@ -305,6 +305,8 @@ At 720 wide its texts covered the posters and it ran off the right edge (display
 - productList[].bgColorStart: colorInput (Gradient Start Color); default "#ffffff", optional, only when displayMode != "compact"
 - productList[].bgColorEnd: colorInput (Gradient End Color); default "#eeeeee", optional, only when displayMode != "compact"
 - productList[].clickAction: action (Click Action); optional
+- prevButtonText: textInput (Previous button text); default "Previous"
+- nextButtonText: textInput (Next button text); default "Next"
 - displayMode: 'expanded' | 'compact' (Display mode); default "expanded"
 - showNavButtons: switch (Show navigation buttons); default true
 - titleFontFamily: fontFamily (Title font); default "Unbounded"
@@ -457,6 +459,9 @@ Its "REINICIAR" is fixed in Spanish. With three cards the third was cut at the r
 - gridCards[].cardTitle: textInput (Title); default "TÍTULO DEL MÓDULO"
 - gridCards[].cardDescription: textArea (Description); default "Escribe aquí la descripción de este módulo."
 - gridCards[].cardAction: action (Card Action); optional
+- resetButtonText: textInput (Reset button text); default "Reset"
+- completedLabel: textInput (Completed message); default "COMPLETED!"
+- incompleteLabel: textInput (Incomplete message); default "INCOMPLETE!"
 - onCompletedAction: action (Action when all modules are marked); optional
 - moduleStructure: 'above' | 'below' | 'center' (Text Location); default "below"
 - textAlignment: 'left' | 'center' | 'right' (Text Alignment); default "left"
@@ -545,6 +550,7 @@ Its "REINICIAR" is fixed in Spanish. With three cards the third was cut at the r
 - items[].description: textArea (Text (optional)); default ""
 - items[].action: action (Add action); optional
 - items[].buttonText: textInput (Button text); default ""
+- actionButtonText: textInput (Default button text); default "Learn more"
 - autoRotate: switch (Auto-rotate); default true
 - rotationSpeed: 'slow' | 'medium' | 'fast' (Rotation speed); default "medium", only when autoRotate
 - rotationDirection: switch (Rotate to the right); default false, only when autoRotate
@@ -807,6 +813,7 @@ Its keyboard has Ñ: a Spanish layout, whatever the language of the genially.
 - targetWord: textInput (Secret word); default "GENIALLY", up to 10 characters
 - maxAttempts: textInput (Number of attempts); default "6"
 - useNativeKeyboard: switch (Use device keyboard); default false
+- enterKeyText: textInput (Enter key text); default "ENTER", up to 10 characters
 - correctColor: colorInput (Correct letter); default "#22c55e"
 - presentColor: colorInput (Present letter); default "#eab308"
 - absentColor: colorInput (Absent letter); default "#64748b"
@@ -850,6 +857,21 @@ Its "Aciertos" is fixed in Spanish.
 - questions[].type: 'starts' | 'contains' (Condition); default "starts"
 - questions[].word: textInput (Correct Word); default ""
 - questions[].definition: textArea (Definition); default ""
+- editGameTexts: switch (Edit game texts); default false
+- startsWithLabel: textInput ("Starts with" clue); default "STARTS WITH", only when editGameTexts
+- containsLabel: textInput ("Contains" clue); default "CONTAINS", only when editGameTexts
+- answerPlaceholder: textInput (Answer placeholder); default "Answer...", only when editGameTexts
+- submitButtonText: textInput (Submit button text); default "SUBMIT", only when editGameTexts
+- skipButtonText: textInput (Skip button text); default "SKIP", only when editGameTexts
+- hintActivatedLabel: textInput (Hint used label); default "HINT ON", only when editGameTexts
+- successMessage: textInput (Correct answer message); default "Correct!", only when editGameTexts
+- failureMessage: textInput (Wrong answer message); default "Wrong!", only when editGameTexts
+- scoreLabel: textInput (Score counter); default "Correct: {count}", only when editGameTexts
+- streakLabel: textInput (Streak label); default "Streak:", only when editGameTexts
+- frozenTimeText: textInput (Frozen time message); default "TIME FROZEN", only when editGameTexts
+- gameOverTitle: textInput (Game over title); default "GAME OVER!", only when editGameTexts
+- correctAnswersLabel: textInput (Final score label); default "correct", only when editGameTexts
+- retryButtonText: textInput (Retry button text); default "TRY AGAIN", only when editGameTexts
 - onSuccessAction: action (Action on correct answer); optional
 - onFailureAction: action (Action on wrong answer); optional
 - onFinish: action (Action when game ends); optional
@@ -888,6 +910,26 @@ Not a flip card: each card runs a 4-second countdown and asks "Knew it / Didn't 
 - skipLabel: textInput (Button text); default "Skip", up to 20 characters
 - containerBgColor: colorInput (Background color); default "#F9FAFB"
 - cardBorderRadius: numberInput (Corner radius (px)); default 16, min 0, max 100
+- continueButtonText: textInput (Continue button text); default "Continue"
+- restartButtonText: textInput (Restart button text); default "Restart"
+- reviewErrorsButtonText: textInput (Review errors button text); default "Review Errors"
+- feedbackCorrect: textInput (Title when the answer was known); default "Correct!"
+- feedbackKeepLearning: textInput (Title when the answer was not known); default "Keep Learning"
+- feedbackTimesUp: textInput (Title when time runs out); default "Time's up!"
+- wellDoneMessage: textInput (Message when the answer was known); default "Well done!"
+- keepStudyingMessage: textInput (Message when the answer was not known); default "Keep studying to master this concept."
+- timeLabel: textInput (Timer label); default "Time"
+- hintLabel: textInput (Hint label); default "Hint"
+- noHintMessage: textInput (Message for a card without hint); default "No hint available."
+- streakLabel: textInput (Streak label); default "Streak"
+- errorsLabel: textInput (Errors label); default "Errors"
+- noErrorsMessage: textInput (Message for an empty error list); default "No errors yet."
+- sessionCompleteTitle: textInput (Summary title); default "Session Complete!"
+- correctLabel: textInput (Correct answers label); default "Correct"
+- bestStreakLabel: textInput (Best streak label); default "Best Streak"
+- totalTimeLabel: textInput (Total time label); default "Total Time"
+- gameOverTitle: textInput (Game over title); default "Game Over"
+- gameOverMessage: textArea (Game over message)
 
 ## matchConcepts
 
@@ -1025,6 +1067,10 @@ Its feedback icons are gallery fields a deck can't set.
 - cards[].correctOption: 'left' | 'right' (Correct Option); default "right"
 - labelLeft: textInput (Left label (False)); default "Falso", up to 20 characters
 - labelRight: textInput (Right label (True)); default "Verdadero", up to 20 characters
+- resultPercentLabel: textInput (Score label); default "Score", up to 30 characters
+- resultAnsweredLabel: textInput (Answered cards label); default "Answered", up to 30 characters
+- resultCorrectLabel: textInput (Correct answers label); default "Correct", up to 30 characters
+- resultIncorrectLabel: textInput (Incorrect answers label); default "Incorrect", up to 30 characters
 - enableTimer: switch (Add timer); default false
 - timeLimit: timeInput (milliseconds); min 1000, max 300000, only when enableTimer
 - widgetBgColor: colorInput (Background color); default "#f0f2f5"
@@ -1064,6 +1110,8 @@ Its feedback icons are gallery fields a deck can't set.
 - interactiveZones[].zoneLabel: textInput (Label); default ""
 - interactiveZones[].coordinates: coordinateInput (Position)
 - interactiveZones[].detectionRadius: textInput (Size (px)); default "40"
+- successTitle: textInput (Success title); default "Well done!", up to 60 characters
+- failureTitle: textInput (Failure title); default "Game over!", up to 60 characters
 - successMessage: textInput (Correct answer message); default "Excellent! You correctly identified the component."
 - failureMessage: textInput (Incorrect answer message); default "Almost... Try checking the part again."
 - onCompletedAction: action (Action on success); optional
@@ -1148,6 +1196,8 @@ It shows on every slide of the genially, not only the one it is put on: the slid
 ### Advanced Calculator (@saruman/calculator)
 
 - widgetTitle: textInput (Widget title); default "Calculadora"
+- errorMessage: textInput (Error message); default "Error", up to 20 characters
+- memoryClearedMessage: textInput (Memory cleared message); default "Memory Cleared"
 - scientificMode: switch (Scientific Calculator Mode); default false
 - enableInteractivity: switch (Enable interactivity by result); default false
 - conditionalTriggers: list (Configure Triggers); only when enableInteractivity

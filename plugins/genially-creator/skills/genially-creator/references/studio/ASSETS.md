@@ -83,35 +83,50 @@ The Genially MCP tools take it and answer it:
 
   **The prompt of an AI Builder piece.** The AI Builder does what the prompt spells out and leaves out what it only
   implies: pieces asked for "a quiz" came back with no feedback, with their own title under the slide's and with
-  11 px text. Every piece's prompt has these blocks, in this order, each with its heading:
+  11 px text. A piece is a component made for this genially, and not always a game: an animation, a diagram that
+  moves, a simulation or a small tool are pieces too, and a game's blocks would turn them into one. Two things,
+  each on its own, decide which blocks a prompt has, and the plan says both for every piece:
 
-  - **PIECE**: what it is, in one sentence, who plays it and what they learn.
-  - **PRACTICE OR GRADED**: the mode the user chose for this piece in the plan, never one you assume. Free
-    practice: "This is free practice with no assessment: nothing is graded, recorded or reported. After a mistake
-    the player keeps trying, and can play it again from the end screen as many times as they like." Graded: "This is
-    a graded activity: its result is reported once." See what each one means below.
-  - **START SCREEN**: its title, one line of instructions and a start button, with their exact texts. No title that
-    repeats the slide's: the slide already has it.
-  - **GAME SCREEN**: every element, with every text in full and how many there are; what can be dragged, clicked or
-    typed; "the layout never changes size or position while it is played".
-  - **FEEDBACK**: what the player sees after a right move and after a wrong one, with the exact texts, and that it
-    stays on screen until the player goes on.
-  - **WHILE PLAYING**: "After a wrong move the player goes on playing: [how: the card goes back, the check works
-    again]. Nothing stays locked, disabled or greyed out after a mistake. No message says the answer was recorded or
-    already given."
-  - **END SCREEN**: when it shows, its title, the message for each score band, and exactly two buttons: "[Play
-    again]", which starts the whole piece over, shuffled, and "[Continue]", which fires the continue action. Both
-    always visible, whatever the score. (A graded piece: only "[Continue]".)
-  - **SCORING**: what counts as a point, the right answers, and that the score on the end screen is the number of
-    right answers at the last check.
-  - **LOOK**: the palette in hex with what each colour is for, the shapes; no stock photos and no external images.
-  - **TEXT**: "All text at least 16 px at this size. No text selection while dragging (user-select: none on cards,
-    slots and labels). Words never break in the middle; a label that does not fit goes on two lines."
-  - **FONTS**: one font field per role with its default, as the fonts can only be loaded from a field.
-  - **SIZE**: "fills exactly W × H px and never grows, scrolls the page or changes size on any screen".
-  - **ACTIONS**: a "continueAction" field and the sound fields, left empty; continue fires only from the end screen's
-    button, which sits above everything else and answers clicks.
-  - **LANGUAGE**: every text in the genially's language, and that no other text is added.
+  - **Does it end?** A game or an activity ends. An animation or a tool does not: it works from the first moment
+    and for as long as its slide is open.
+  - **Does it have right and wrong?** A piece that has gives feedback and a score, and is practice or graded. One
+    that has not (an animation, a tool, something to explore) has neither, and no mode.
+
+  A game is yes and yes; an animation or a tool, no and no; a guided demonstration that finishes, yes and no; an
+  exercise checked as you go that never ends, no and yes. The blocks, in this order, each with its heading:
+
+  - **PIECE**, always: what it is, in one sentence, who uses it and what for.
+  - **PRACTICE OR GRADED**, with right and wrong: the mode the user chose for this piece in the plan, never one you
+    assume. Free practice: "This is free practice with no assessment: nothing is graded, recorded or reported.
+    After a mistake the player keeps trying, and can play it again from the end screen as many times as they like."
+    Graded: "This is a graded activity: its result is reported once." See what each one means below. **Without
+    right and wrong**, this line in its place: "Nothing in this piece is right or wrong: nothing is asked, scored,
+    graded, recorded or reported."
+  - **START SCREEN**, when it ends: its title, one line of instructions and a start button, with their exact texts.
+    No title that repeats the slide's: the slide already has it. **When it does not end**, this line in its place:
+    "It has no start screen, no end screen and no continue button: it works from the first moment and for as long
+    as it is on screen."
+  - **GAME SCREEN**, always: every element, with every text in full and how many there are; what moves by itself;
+    what can be dragged, clicked or typed; "the layout never changes size or position while it is used".
+  - **FEEDBACK**, with right and wrong: what the player sees after a right move and after a wrong one, with the
+    exact texts, and that it stays on screen until the player goes on.
+  - **WHILE PLAYING**, with right and wrong: "After a wrong move the player goes on playing: [how: the card goes
+    back, the check works again]. Nothing stays locked, disabled or greyed out after a mistake. No message says the
+    answer was recorded or already given."
+  - **END SCREEN**, when it ends: when it shows, its title, the message for each score band when it has a score,
+    and exactly two buttons: "[Play again]", which starts the whole piece over, shuffled, and "[Continue]", which
+    fires the continue action. Both always visible, whatever the score. (A graded piece: only "[Continue]".)
+  - **SCORING**, with right and wrong: what counts as a point, the right answers, and that the score shown is the
+    number of right answers at the last check.
+  - **LOOK**, always: the palette in hex with what each colour is for, the shapes; no stock photos and no external
+    images.
+  - **TEXT**, always: "All text at least 16 px at this size. No text selection while dragging (user-select: none on
+    cards, slots and labels). Words never break in the middle; a label that does not fit goes on two lines."
+  - **FONTS**, always: one font field per role with its default, as the fonts can only be loaded from a field.
+  - **SIZE**, always: "fills exactly W × H px and never grows, scrolls the page or changes size on any screen".
+  - **ACTIONS**: the sound fields, left empty, always; when it ends, also a "continueAction" field, left empty:
+    continue fires only from the end screen's button, which sits above everything else and answers clicks.
+  - **LANGUAGE**, always: every text in the genially's language, and that no other text is added.
 
   **Practice or graded: what Genially does with each** (checked on real pieces and in the AI Builder's rules,
   10 Nov 2026). The AI Builder marks a piece as scoring when it has a right and a wrong answer, unless the prompt
@@ -123,8 +138,8 @@ The Genially MCP tools take it and answer it:
   - **A free-practice piece** reports nothing, stays playable after an answer and keeps its restart buttons. It
     does not show in the results of the genially.
 
-  **The user decides it, piece by piece, in the plan.** Each piece is shown there with the mode you propose and what
-  it means in their words: practice (it can be played again as often as they like, and no result is kept) or graded
+  **The user decides it, piece by piece, in the plan**, for every piece with right and wrong. Each one is shown
+  there with the mode you propose and what it means in their words: practice (it can be played again as often as they like, and no result is kept) or graded
   (one try each time its slide is opened, and each person's result is kept). Propose graded when they asked for an
   exam, a test or results to look at, and practice for a lesson, a review, a game or an escape room; then ask
   whether to leave them so or change any, and build what they answer. Write each piece's mode in `plan.md`. There is

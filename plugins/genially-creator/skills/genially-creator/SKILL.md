@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.19)
+# genially-creator (v0.21)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -55,8 +55,9 @@ them has cost runs errors that they explain.
   library pieces and widgets, animations, links and the genially's name. Saving and reviewing are yours, in the browser, after the deck runs.
 - **Rebuilding a slide empties it.** `gsDeck.run({ only: ['Name'] })` draws that slide again from the deck: whatever
   you changed on it by hand (a piece's config) is gone. Make the fix in the deck.
-- **The AI Builder only for the interactive pieces**, never for the whole presentation. Everything else is drawn by
-  the deck so that anyone can edit the genially.
+- **The AI Builder only for the pieces made for this genially**: a component the editor's own elements cannot
+  make, be it a game, an animation, a diagram that moves, a simulation or a small tool. Never for the whole
+  presentation. Everything else is drawn by the deck so that anyone can edit the genially.
 - **Secondary information in windows and tooltips** (definitions, help, "did you know…?", fact cards): they are
   lighter than a piece and anyone can edit them.
 - **Something to discover on every content slide.** Every slide between the cover and the end has something to
@@ -100,9 +101,12 @@ them has cost runs errors that they explain.
      [LESSONS.md](references/LESSONS.md#flip-cards);
    - **native questions** (`gsQuestion`) for quizzes instead of AI Builder pieces: details in
      [LESSONS.md](references/LESSONS.md#native-questions);
-   - for each AI Builder piece, whether it is **practice or graded**, which the user decides (`ASSETS.md`,
-     "Practice or graded"): practice can be played again and keeps no result; graded is one try each time its slide
-     is opened and keeps each person's result;
+   - for each AI Builder piece, what it is and two things that shape it (`ASSETS.md`, "The prompt of an AI Builder
+     piece"): **whether it ends** (a game or an activity has a start screen, an end screen and a "Continue"; an
+     animation or a tool has none and works from the first moment) and **whether it has right and wrong**. One
+     that has is **practice or graded**, which the user decides: practice can be done again and keeps no result;
+     graded is one try each time its slide is opened and keeps each person's result. One that has not (an
+     animation, a tool) has no feedback, no score and no mode;
    - navigation: the mode (standard, microsite, course or video, GUIDE §1), cover → … → end, and how each place is
      reached. Buttons follow the mode: none to go forward where the player's arrows or the course menu already do;
      in a microsite, a way in and a way back on every page. **Every part of the game must have a visible entry
@@ -112,8 +116,8 @@ them has cost runs errors that they explain.
    - the style: palette (hex), fonts Genially has, graphic resources (tape, torn paper, grid, frames…) and the style
      of the pictures.
    Show it in plain prose, with how many AI Builder pieces, videos and voiceovers it has and what they cost by the
-   rates above, and each piece with the mode you propose and what it means, asking whether to leave them so or
-   change any. Say that you will give the exact price before generating, and wait for the user's yes. Nothing is
+   rates above, each piece with what it is, and each one with right and wrong with the mode you propose and what
+   it means, asking whether to leave them so or change any. Say that you will give the exact price before generating, and wait for the user's yes. Nothing is
    spent yet.
 3. **The genially.** `create_genially` (blank: 1200 × 675 by default) and, if the team has a brand kit the user wants,
    `brand_kit_get`. Keep its id and its editor link in the working folder.
@@ -176,7 +180,7 @@ them has cost runs errors that they explain.
    published by the connector in several minutes; the deck puts it on its slide with
    `await gsAIBuilder(sid, PIECE.quiz, [x, y, w, h], { goTo: nextSlideId, sounds: { success: SND.win } })`, at the
    rect the request gave it, and fills its "continue" action and its sounds (an effect, music or a voiceover of the
-   request). Its stock photos go with `images: { 'path.of.field': IMG.chest }`: the request's pictures in the style
+   request). A piece that does not end (an animation, a tool) has no "continue": no `goTo` for it. Its stock photos go with `images: { 'path.of.field': IMG.chest }`: the request's pictures in the style
    (the paths come from `AIB.images(sid)` once the piece is on a slide; put them in the deck so a rebuild keeps them). Its prompt carries everything, since
    nothing asks back: the style of the genially, the exact mechanic, the texts and items, the solution and scoring,
    what it does when finished, the language, and no stock photos, plus the guide's
@@ -192,22 +196,29 @@ them has cost runs errors that they explain.
    any page. Windows open by clicking their trigger. On the
    editor canvas the pieces do not run; in the preview they do. `AIB.previewUrl(slideId)` in another tab is the
    saved, published-like version: use it once at the end (step 12), never by reloading the editor's tab.
-   Play each piece to the end, as a student would, and check its "Continue" button. What usually fails:
+   **A piece is handed over as the AI Builder made it.** Check one thing: that it loads (its first screen shows in
+   its frame, not blank, not an error, not a spinner that stays). Do not play it and do not click in it: it may be
+   a game, a tool or only something that moves, and what it does is the user's to try, which the report tells them.
+   In a genially not moved with the player's arrows, give the slide of a piece that ends a button of its own to go
+   on, outside the piece: nobody saw its "Continue" work. When a piece does not load, or the user tries it and says
+   what is wrong:
    - stock photos that do not fit → `AIB.images(sid)` lists its image fields; add images of the request in the style
      and pass them as `gsAIBuilder`'s `images`;
    - a text, an option or an answer that is wrong: fix it in the piece's config (`setWidgetConfig`), free and at once;
    - layout that breaks on a correct answer, empty start screen, sound that does not play: change the piece's prompt
      in the request with the exact description of the failure, generate it again (tell the user what failed, and
-     that the fix costs 30 credits and 8-12 minutes, before) and rebuild its slide;
-   - impossible mazes and puzzles: really check them (in the escape room it was solved by reading the colours
-     of the cells from a screenshot).
+     that the fix costs 30 credits and 8-12 minutes, before) and rebuild its slide. Say what you asked for, never
+     that it worked: the changed piece is not played either.
 11. **Self-review of animations and windows**, always, before showing anything to the person:
    - `gsReview()` lists slides with no entrances, texts that pop in while the rest animates, slow or long
      sequences, animated backgrounds, more than one looping animation, overlapping texts, texts off the canvas or
      under the badge, texts with low contrast against the shape or the slide behind them (WCAG: 4.5:1, 3:1 from
      24 px), texts and clickable items covered by an image, a shape or a widget, window content outside its
      box, against its edge or under the close button, content slides with nothing to click, hover or play, more
-     than 80 words in view besides the title, and audio players. A text over a photo is left to the screenshots. Fix and
+     than 80 words in view besides the title, audio players, a text that does not fit on its flip card's face,
+     and a button or a widget cut by the canvas edge. Lines that end in "(minor)" are worth a look and no more
+     (small text, a window that is mostly empty, figures split by a plain space); `errors` counts the rest.
+     `gsReview({ slides: [ids] })` reads only those slides. A text over a photo is left to the screenshots. Fix and
      run it again until `ok` is true. If something is left on purpose (a text that overlaps a title by design),
      say which and why in the report.
    - In the editor's preview (`gsPreview`), open **every window** by clicking its trigger and take a screenshot: text cut off, a
@@ -223,7 +234,7 @@ them has cost runs errors that they explain.
     `thumbnail` says how it went (`requested`: it shows up in a few minutes; `failed`: the editor makes it the next
     time someone opens it, changes the cover and leaves). Its `stale` lists slides with content the deck didn't build (a genially built before, with other
     slide names): ask the user before deleting them, and never in a genially of theirs (`keep`).
-14. **Report to the user**: what is on each slide, which pieces and whether each is practice or graded, what was reviewed and what was not (the audio
+14. **Report to the user**: what is on each slide, which pieces, that each is handed over as made and was not played (ask them to try it before sharing), and for one with right and wrong whether it is practice or graded, what was reviewed and what was not (the audio
     cannot be heard from here: say so), the automatic check of animations, contrast and windows: how many issues it
     found and that none is left, how many windows were opened and checked, that the thumbnail of their genially will
     show up in their panel in a few minutes (only if the report said `requested`), and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
@@ -242,7 +253,10 @@ slides, the flow above changes in these steps; the rest is the same.
    alone (a tab on another genially gets 403 until it is opened again). Then `gsOutline()` gives its name, size,
    navigation mode and each slide's name, title, background, texts, widgets and clickable items;
    `gsOutline({ items: true })` adds every item with its rect, each text's font, size and colour, and each native
-   button's text and style. Write what it returns to `outline.json` in the working folder (the one with `plan.md`)
+   button's text and style. `gsInspect(slideIdOrName)` reads one slide in full, without changing it: every item,
+   each widget or AI Builder piece with the fields of its config and its action fields, and each flip card's
+   texts with their card and face. Use it, never a made-up key in the deck, to see a piece's fields. Write what
+   `gsOutline` returns to `outline.json` in the working folder (the one with `plan.md`)
    with your file tool, and look at a few slides in the preview to see the rest of its style.
 3. **The plan** (step 2) says, slide by slide: what is new and after which slide it goes, which of their slides are
    redone (rebuilding one empties it: only with their explicit yes, named one by one; one with no name or a name
