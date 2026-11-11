@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.21)
+# genially-creator (v0.22)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -61,8 +61,14 @@ them has cost runs errors that they explain.
 - **Secondary information in windows and tooltips** (definitions, help, "did you know…?", fact cards): they are
   lighter than a piece and anyone can edit them.
 - **Something to discover on every content slide.** Every slide between the cover and the end has something to
-  click, hover or play: a tooltip, a window, a reveal, a flip card, a question, a piece, a sound. The main idea in
-  view, short (about 80 words besides the title); the detail discovered. Only video mode goes without.
+  click, hover or play: a tooltip, a window, a reveal, a flip card, a question, a piece, a sound. Only video mode
+  goes without.
+- **How much is in view depends on how it is used.** Shown on a screen or played (a live presentation, a game, an
+  escape room): the main idea in view, short (about 80 words besides the title), the detail discovered. Read alone
+  (a lesson, a dossier, a course, a report): a full slide, with no word limit, organised so it reads at a glance:
+  several blocks, each with its own short heading (cards with a fact, labelled columns, notes, a figure with its
+  caption), never one long paragraph and never a slide left half empty. What is discovered there is the extra, not
+  the content.
 - **The editor's own piece before a drawn one**, by the table in `GUIDE.md` §4: a tooltip, a window, a reveal, a
   flip card, a native question, a widget, a button with a sound; the AI Builder for what none of them does. Never
   shapes and texts that imitate one of them, and never `gsAudio`'s player where a button with the sound will do.
@@ -217,7 +223,8 @@ them has cost runs errors that they explain.
      box, against its edge or under the close button, content slides with nothing to click, hover or play, more
      than 80 words in view besides the title, audio players, a text that does not fit on its flip card's face,
      and a button or a widget cut by the canvas edge. Lines that end in "(minor)" are worth a look and no more
-     (small text, a window that is mostly empty, figures split by a plain space); `errors` counts the rest.
+     (small text, a window that is mostly empty, figures split by a plain space, more than 80 words in view: right
+     on a genially read alone, too much on one that is shown or played); `errors` counts the rest.
      `gsReview({ slides: [ids] })` reads only those slides. A text over a photo is left to the screenshots. Fix and
      run it again until `ok` is true. If something is left on purpose (a text that overlaps a title by design),
      say which and why in the report.
