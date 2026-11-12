@@ -1,4 +1,4 @@
-// The deck surface, version 3: everything a deck.js may call, for a model writing one and for the checker that
+// The deck surface, version 4: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
 //
@@ -175,7 +175,10 @@ interface GsButtonStyle {
   visitedColor?: string;
 }
 
-/** Draws the content of a window. `rect` is the window's real box: lay everything out from it, never from fixed numbers. */
+/**
+ * Draws the content of a window. `rect` is the window's real box: lay everything out from it, never from fixed numbers.
+ * With size 'fit' it may run twice (once in the template's box, once in the fitted one): it only draws on popupId.
+ */
 type GsPopupFill = (popupId: string, parts: { box: string; close: string; rect: GsRect }) => void | Promise<void>;
 interface GsPopupOptions {
   /** Box colour, hex. Default white. */
@@ -188,6 +191,12 @@ interface GsPopupOptions {
   replace?: boolean;
   /** Default: the slide's name and the trigger's label. */
   name?: string | null;
+  /**
+   * The box. 'fit' (default): the template's width, and as tall as what fill drew, so a short window is not mostly
+   * empty. 'template': 855 × 499 on 1200 × 675. [w, h]: that box, cut to the canvas and centred; `rect` says the real
+   * one. A mobile genially keeps its sheet.
+   */
+  size?: 'fit' | 'template' | [w: number, h: number];
 }
 
 /**
@@ -220,8 +229,11 @@ declare function gsPopup(itemIds: string | string[], fill: GsPopupFill, options?
 declare function gsPopupBox(): GsRect;
 /** Your own close button inside a window. It can't share its click with another action. */
 declare function gsCloseButton(itemIds: string | string[], options?: { replace?: boolean }): number;
-/** Hover tooltip with a title and a line of text; it adds to the item's click. Colours in hex. */
-declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; replace?: boolean }): number;
+/**
+ * Hover tooltip with a title and a line of text; it adds to the item's click. Colours in hex. titleSize and textSize
+ * in px (18 and 15 by default): a tooltip is read, so never under the deck's body size.
+ */
+declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; titleSize?: number; textSize?: number; replace?: boolean }): number;
 /** Shows, hides or toggles targets when sourceId is clicked (or hovered). An item can't show or hide itself. */
 declare function gsReveal(sourceId: string, targetIds: string | string[], options?: { mode?: 'show' | 'hide' | 'toggle'; event?: 'click' | 'hover'; replace?: boolean }): number;
 /**
@@ -353,9 +365,20 @@ declare function gsPlace(slideId: string, spec: GsLibrarySpec | string, rect: Gs
 declare function gsLibrarySound(query: string, options?: { pick?: number; maxSeconds?: number }): Promise<{ url: string; name: string; duration: number }>;
 
 /** A card of gsFlipCards. image: a picture of the asset request by its id, or a URL. Colours: hex, 'var(--genially-primary)' or { documentColor }. */
+/**
+ * How a face's texts look; left out, the library's (its font, sizes scaled with the card, the texts in the face's
+ * bottom third). valign moves the face's texts as one block within the card, after the deck. A face without a picture
+ * wants valign 'center' and sizes of its own, or gsReview says it is mostly empty.
+ */
+interface GsCardFaceLook {
+  textFont?: string;
+  textSize?: number;
+  align?: 'left' | 'center' | 'right' | 'justify';
+  valign?: 'top' | 'center' | 'bottom';
+}
 interface GsFlipCard {
-  front: { title: string; text: string; image?: string | null };
-  back?: { text: string };
+  front: { title: string; text: string; image?: string | null; titleFont?: string; titleSize?: number } & GsCardFaceLook;
+  back?: { text: string } & GsCardFaceLook;
   frontColor?: string | { documentColor: 'primary' | 'secondary' | 'tertiary' };
   backColor?: string | { documentColor: 'primary' | 'secondary' | 'tertiary' };
   /** The texts are near black: white on a dark face. */

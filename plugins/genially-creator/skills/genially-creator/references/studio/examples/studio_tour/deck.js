@@ -63,10 +63,11 @@ window.AG = (() => {
     return id;
   }
 
-  // Every window the same way, from its real box: k = h / 499, title and text centred as one block.
+  // Every window the same way, from its real box at the canvas's scale (a 'fit' box is shorter than the template's):
+  // title and text centred as one block.
   /** @param {string} title @param {string} text @param {{ size?: number }} [opts] @returns {GsPopupFill} */
   const win = (title, text, { size = 19 } = {}) => async (p, { rect: [x, y, w, h] }) => {
-    const k = h / 499, pad = 48 * k, gap = 16 * k, tw = w - 2 * pad;
+    const k = gsPopupBox()[3] / 499, pad = 48 * k, gap = 16 * k, tw = w - 2 * pad;
     const t = H(p, [x + pad, y + pad, tw - 64 * k, 50 * k], title, { size: Math.round(30 * k), color: C.sun, fx: 'fade-in' });
     const b = T(p, [x + pad, y + pad, tw, 60 * k], text, { size: Math.round(size * k), lineHeight: 1.5, fx: 'fade-in', delay: 0.15 });
     await nextPaint();
@@ -288,7 +289,7 @@ window.AG = (() => {
       const { id } = await gsButton(s, [x + 30, 466, 180, 52], `Question ${k + 1}`, BTN(col, k ? C.night : C.white), {
         // A question shows only the answers that fit its height: 440 of the window's 499 fit three and keep its margin.
         popup: (p, { rect: [px, py, pw, ph] }) => {
-          const k2 = ph / 499, pad = 48 * k2, qh = Math.round(440 * k2);
+          const k2 = gsPopupBox()[3] / 499, pad = 48 * k2, qh = Math.min(ph, Math.round(440 * k2));
           const qid = gsQuestion(p, q, [px + pad, py + (ph - qh) / 2, pw - 2 * pad, qh]);
           api.updateActivityAppearance(qid, {
             general: { BackgroundColor: C.paper, ShowBackground: true },

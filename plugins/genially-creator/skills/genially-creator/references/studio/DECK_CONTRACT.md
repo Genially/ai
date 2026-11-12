@@ -143,11 +143,14 @@ it.
 **Windows**
 
 - One helper draws every window the same way from the `rect` it receives, never from fixed numbers: with
-  `k = rect.h / 499`, padding 48·k, the title's width cut by 64·k (clear of the close button), the text under the
+  `k = gsPopupBox()[3] / 499` (the canvas's scale, never the box's height: a 'fit' window is shorter), padding 48·k, the title's width cut by 64·k (clear of the close button), the text under the
   title's painted height, title and text centred as one block in the box's height, an optional picture centred in
   the right 40 %. Body text 18-20·k px.
 - At most a title, one or two paragraphs and one picture per window: more is a slide or two windows. The close
   button never in the box's colour (`closeColor`).
+- A window is as tall as its content by default (`size: 'fit'`): `fill` may run twice, so it only draws on the
+  window it is given. `size: [w, h]` for a window of its own size (a picture, a question); `'template'` for the
+  old 855 × 499.
 
 **Animations**
 
