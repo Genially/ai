@@ -223,7 +223,8 @@ them has cost runs errors that they explain.
      box, against its edge or under the close button, content slides with nothing to click, hover or play, more
      than 80 words in view besides the title, audio players, a text that does not fit on its flip card's face,
      and a button or a widget cut by the canvas edge. Lines that end in "(minor)" are worth a look and no more
-     (small text, a window that is mostly empty, figures split by a plain space, more than 80 words in view: right
+     (small text, on flip cards too; a window whose content takes under 40 % of its box's height; a card face whose
+     text takes under a third of it, off its middle; figures split by a plain space; more than 80 words in view: right
      on a genially read alone, too much on one that is shown or played); `errors` counts the rest.
      `gsReview({ slides: [ids] })` reads only those slides. A text over a photo is left to the screenshots. Fix and
      run it again until `ok` is true. If something is left on purpose (a text that overlaps a title by design),

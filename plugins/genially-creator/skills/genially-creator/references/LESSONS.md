@@ -171,10 +171,20 @@ const { cards: [card] } = await gsFlipCards(sid, [80, 160, 240], [{
   frontColor: C.ink, frontTextColor: '#FFFFFF', backColor: C.paper, backTextColor: C.ink,
 }]);
 ```
-- **Their font and text size are the editor's own** (seen in nine of ten runs, 9-10 Nov 2026): `gsFlipCards` has no
-  option for them, the texts come small and low on the face, and attempts to restyle a card left its back empty.
-  Design for the card as it is: a front title of one to three short words (a long word breaks in the middle), a back
-  of at most about 90 characters at 240 wide, or the last line ends under the turn button. A longer text is a window.
+- **Each face takes its own look** (surface 4): `titleFont`, `titleSize`, `textFont`, `textSize`, `align` and
+  `valign` on `front` and `back`. Left out, the texts keep the library's font and sizes and sit in the face's bottom
+  third, above the picture's room: a front without a picture is then mostly empty, and gsReview says so. **A card
+  carries a picture or an icon on the front**; without one, give the face `valign: 'center'` and sizes of the deck
+  (title 24-28, text 18). `valign` moves the face's texts as one block after the deck, by their painted height.
+  Keep a front title to one to three short words (a long word breaks in the middle), and a back to about 90
+  characters at 240 wide, or the last line ends under the turn button. A longer text is a window.
+
+```js
+await gsFlipCards(sid, [80, 160, 240], [{
+  front: { image: null, title: 'Mercury', text: 'The closest to the Sun', titleFont: F.head, titleSize: 26, textSize: 18, align: 'center', valign: 'center' },
+  back: { text: 'A year lasts 88 days.', textSize: 18, align: 'center', valign: 'center' },
+}]);
+```
 
 ## Components panel widgets
 
@@ -188,14 +198,16 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 
 ## Windows and tooltips
 
-- Tooltip: `gsTooltip(ids, title, text, colours)`. It is added to whatever click the element already has.
+- Tooltip: `gsTooltip(ids, title, text, { bg, ink, accent, titleFont, bodyFont, titleSize, textSize })`. It is added
+  to whatever click the element already has. Its sizes default to 18 and 15 px: give the deck's body size (from
+  `style.md`) to `textSize`, never less.
 - Window: `gsPopup(ids, fill, { box, frame })` creates a popup from the `blank` template, you fill it in `fill` and it
   keeps the close button in front. The template scales with the canvas and stays centred: a white box of 855 × 499
   at 172,88 on 1200 × 675, about 969 × 565 at 115,100 on 1200 × 765, and 256.5 × 149.7 at 51.75,245.15 on a 360 × 640
   mobile canvas. `fill` receives the real box as `rect` ([x, y, w, h]); `gsPopupBox()` computes it from
   `getGeniallySize()` when there is no popup yet. Place the content from them, never from fixed numbers.
 - **Layout of a window**, the same for all of them (one `win(title, text)` helper in `deck.js`, as in
-  `studio/examples/studio_tour/deck.js`): with `k = rect.h / 499`, padding of about 48·k on every side; the title at the
+  `studio/examples/studio_tour/deck.js`): with `k = gsPopupBox()[3] / 499` (the canvas's scale, not the box's height), padding of about 48·k on every side; the title at the
   top left, its width cut by 64·k so it never reaches the close button's corner (the button is centred on the window's
   top-right corner, half outside, so about 30·k of it falls inside the box); the
   text under the title's painted height (`measureText`, after a frame), never at a guessed y; title and text then
@@ -224,9 +236,12 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 - On hover: `gsReveal(source, targets, { mode: 'show', event: 'hover' })` for a hint that appears,
   `gsSound(ids, url, { event: 'hover' })`, `gsEffect(ids, 'confetti', { event: 'hover' })`. Go to slide and windows
   are click-only.
-- **A window has one size** (855 × 499 on 1200 × 675): two or three short lines float in an empty box, which came
-  back from the review in six of ten runs. A window is for 40 words or more, or a picture; a shorter detail is a
-  tooltip.
+- **A window is as tall as its content** (surface 4, `size: 'fit'` by default): it is first made at the template's
+  size, and when what `fill` drew takes well under it, made again at the content's height, so `fill` may run twice
+  and only draws on the window it is given. Before, every window was 855 × 499 and two or three short lines floated in
+  an empty box (six of ten runs). `size: [w, h]` gives a box of its own (cut to the canvas; `rect` is the real one),
+  `'template'` the old one. gsReview says a window is mostly empty when its content takes under 40 % of the box's
+  height. A detail of one line is still a tooltip.
 
 ## AI Builder
 
