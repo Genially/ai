@@ -212,7 +212,8 @@ them has cost runs errors that they explain.
      read the message and look whether it is cut by the question's box or covers an answer; load the slide again
      (`gsPreview.go` to another slide and back), open its window again if it is in one, and answer it right. A
      message cut off at the bottom means the question needs more height, or a shorter message.
-   - **Questions inside windows** are played the same way, from the window's trigger.
+   - **Questions inside windows** are played the same way, from the window's trigger. A window's content comes in with
+     its own entrance once it opens: wait for it (a second or two) before you answer or call a question missing.
    **A piece is handed over as the AI Builder made it.** Check one thing: that it loads (its first screen shows in
    its frame, not blank, not an error, not a spinner that stays). Do not play it and do not click in it: it may be
    a game, a tool or only something that moves, and what it does is the user's to try, which the report tells them.
