@@ -112,6 +112,9 @@ them: a button that repeats it is clutter.
   behind a fade, so they look missing (five items in 900 × 456 showed four). Measured heights: four items fitted in
   about 404 (3 Nov 2026), so 184 + 69 × items is an upper bound, not the size. Five items don't fit a standard window
   (a box 499 high, 451 inside its margins): put a sort of five or more on a slide of its own.
+- **Height for the message.** After an answer the question shows its message under the answers, inside the same
+  box, which hides what runs past it: a 240-high question with three answers cut its last line (12 Nov 2026). Count
+  about 80 px for the question, 70 per answer and 50 for two lines of message; gsReview warns below that.
 - **Several questions on one slide** (a final quiz of five): one question per window, each opened by a native button.
   A question fits inside a window: lay it out from the box the window gives you, like any other content.
   ```js

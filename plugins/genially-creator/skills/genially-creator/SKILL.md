@@ -202,6 +202,17 @@ them has cost runs errors that they explain.
    any page. Windows open by clicking their trigger. On the
    editor canvas the pieces do not run; in the preview they do. `AIB.previewUrl(slideId)` in another tab is the
    saved, published-like version: use it once at the end (step 12), never by reloading the editor's tab.
+   **What the preview hides until you wait or load again** (Studio's automatic review of the same slides, 12 Nov 2026):
+   - **Entrances first.** An item still coming in with its entrance animation has no size yet: a click on it misses
+     and a screenshot shows it missing. Wait until the slide's last entrance ends (its delays and durations, 3 s at
+     most when the deck follows the rules) before you click a trigger or call something absent.
+   - **One tooltip at a time.** The tooltip you left still fades on the page for a moment: move away, wait about a
+     second, then hover the next one, or you read the previous text.
+   - **Every native question twice.** A question takes one answer per load and then stays answered. Answer it wrong,
+     read the message and look whether it is cut by the question's box or covers an answer; load the slide again
+     (`gsPreview.go` to another slide and back), open its window again if it is in one, and answer it right. A
+     message cut off at the bottom means the question needs more height, or a shorter message.
+   - **Questions inside windows** are played the same way, from the window's trigger.
    **A piece is handed over as the AI Builder made it.** Check one thing: that it loads (its first screen shows in
    its frame, not blank, not an error, not a spinner that stays). Do not play it and do not click in it: it may be
    a game, a tool or only something that moves, and what it does is the user's to try, which the report tells them.
@@ -224,7 +235,8 @@ them has cost runs errors that they explain.
      than 80 words in view besides the title, audio players, a text that does not fit on its flip card's face,
      and a button or a widget cut by the canvas edge. Lines that end in "(minor)" are worth a look and no more
      (small text, on flip cards too; a window whose content takes under 40 % of its box's height; a card face whose
-     text takes under a third of it, off its middle; figures split by a plain space; more than 80 words in view: right
+     text takes under a third of it, off its middle; a native question too short for its answers and its message; a
+     true / false left with "True" and "False"; figures split by a plain space; more than 80 words in view: right
      on a genially read alone, too much on one that is shown or played); `errors` counts the rest.
      `gsReview({ slides: [ids] })` reads only those slides. A text over a photo is left to the screenshots. Fix and
      run it again until `ok` is true. If something is left on purpose (a text that overlaps a title by design),
