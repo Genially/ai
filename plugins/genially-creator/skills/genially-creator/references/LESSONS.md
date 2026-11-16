@@ -331,11 +331,17 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 - **What a change to the piece cannot do**: anything Genially puts around a scoring piece (the hidden restart
   buttons, the bar over an answered activity), or anything on the slide outside the piece.
 
-## Local images
+## The user's own files
 
-- A deck can't use a local file: every picture comes from the asset request, by its id. The helpers that upload one
-  from disk (`gsPut`, `gsVerify`, `gsImageFile`: base64 through the JS calls, only for small files) are for work done
-  by hand in the editor, never for `deck.js`.
+- A deck can't use a local file, nor a picture or an audio linked from another site: every one is an asset of the
+  genially, by its id. A file of the user's is uploaded with `genially_assets_upload` (`studio/ASSETS.md`, "The user's
+  own files"), free: from their computer with the `curl` it gives, from a public link with `from_url`, an attachment
+  in ChatGPT as `file`. The old way, base64 copied through the JS calls (`gsPut`, `gsImageFile`), broke files: one
+  wrong character in a piece and a 3.6 KB MP3 no longer played. It is gone.
+- A link the user gives is uploaded, never placed: a picture hotlinked from another site breaks when that site moves
+  it or blocks it, and `open` refuses a deck with one.
+- Ask what each attachment is for before using it: a photo to show, a reference for the style (never shown), or
+  notes to read the content from (never shown).
 
 ## AI images
 

@@ -12,8 +12,14 @@ The Genially MCP tools take it and answer it:
 | `genially_assets_ai_credits_estimate_get` | `{ geniallyId, request }` | [the estimate](#the-estimate) |
 | `genially_assets_generate` | `{ geniallyId, request }` | [the job's result](#the-job-and-its-result), at once |
 | `genially_assets_get` | `{ jobId }` | the job's result, checked again |
+| `genially_assets_upload` | `{ action, geniallyId, id, kind, … }` | [an uploaded file](#the-users-own-files), free |
+| `genially_assets_list` | `{ geniallyId }` | [every asset the genially has](#the-assets-a-genially-already-has) |
 
 `geniallyId` is a genially the user can edit; the credits are its team's.
+
+Every picture and audio of a genially is an asset of it, generated or uploaded, and the deck names it by its id. The
+deck never links a file from another site: `open` refuses a deck with a picture or an audio from a URL outside Genially,
+and the runtime throws on one. A file the user gives as a link is uploaded with `from_url` first.
 
 ## The request
 
@@ -274,7 +280,44 @@ The backend answers the request at once with a `jobId`. Asked for that `jobId`, 
 - One entry per AI Builder piece, by the same `id`: when `ready`, `path`, the published widget that
   `window.__aibuilder` gets and `gsAIBuilder` inserts; when `failed`, `reason`.
 
+## The user's own files
+
+`genially_assets_upload` makes a picture or an audio file an asset of the genially, free of AI credits: the files the
+user attached, and the ones you made for it (an SVG, a PNG drawn with code). Only what the user wants in the genially,
+never a stand-in for a file you don't have.
+
+- `kind`: `image` (PNG, JPEG, GIF or SVG, up to 10 MB) or `audio` (MP3 or WAV, up to 15 MB). The format is read from
+  the file's bytes: one that is not what it says, or of another format, is refused with `INVALID_FORMAT`; convert it
+  and upload it again.
+- `id`: made up at random like a generated asset's, with the prefix of its kind (`img_`, `aud_`). Uploading again
+  under the same id replaces the file, and the deck keeps finding it. An id already used by an asset of another kind,
+  or by a generated asset, is refused with `ASSET_KIND_CHANGED`: give the file an id of its own.
+
+Three ways in:
+
+1. **From the user's computer, with a shell** (Claude Code): `action: "request"` with `geniallyId`, `id`, `kind`,
+   `mimeType` (`image/png`, `image/jpeg`, `image/gif`, `image/svg+xml`, `audio/mpeg`, `audio/wav`) and optionally
+   `filename`. It answers an `uploadId` and an `uploadCommand`, a `curl`: replace `<LOCAL_PATH>` with the file's
+   absolute path and run it within 5 minutes (after that, `UPLOAD_EXPIRED`: request again). The bytes never go
+   through the conversation. Then `action: "complete"` with the `uploadId`.
+2. **From a public https link** the user gave or a tool returned, never one made up: `action: "from_url"` with
+   `geniallyId`, `id`, `kind` and `url`. Genially downloads it (only public addresses: `URL_NOT_ALLOWED` otherwise).
+3. **A file attached in ChatGPT**: `action: "from_url"` with the attachment as `file` instead of `url`.
+
+`complete` and `from_url` answer the asset, ready: its `id`, `url`, `generationId` (a new one on every upload under
+the id), and, for a picture, its real `width`, `height` and `transparent` (an SVG always), for an audio its
+`durationSeconds` when it can be read. Lay the picture out by its real size, as a generated one. The deck gets it in
+`window.__imgs` or `window.__audios` like a generated asset and places it with the same helpers.
+
+## The assets a genially already has
+
+`genially_assets_list` answers every asset of the genially, generated or uploaded, oldest first: its `id`, `kind`,
+`origin` (`generated` or `uploaded`), `state` and, once ready, its `url` and real size or length (an AI Builder piece,
+its `path`); pending ones are checked again on each call. Call it when coming back to a genially without the job ids,
+and before writing or changing its deck: reuse the ready ids instead of generating or uploading them again.
+
 ## The deck against the result
 
 `genially_creation_manage` (`open`) checks that every asset id the deck uses, of any kind, is a ready asset of the
-job, and warns about each ready asset the deck never uses: it was generated and paid for anyway.
+genially, generated or uploaded, and that no picture or audio comes from a URL outside Genially; it warns about each
+ready asset the deck never uses: it was generated and paid for anyway.
