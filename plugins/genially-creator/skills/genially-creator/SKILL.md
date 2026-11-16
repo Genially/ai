@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.22)
+# genially-creator (v0.23)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -48,9 +48,13 @@ them has cost runs errors that they explain.
   `ai_credits_get` gives (`studioAssets`: pictures are most of the cost of almost every genially, so never leave them
   out of what you say the plan will cost). Generating something again costs it again: say what and how much before. Don't ask again for what they
   approved.
-- **The MCP generates the assets; the deck places them.** Pictures, videos, sound effects, music, voiceovers and AI
+- **The MCP keeps the assets; the deck places them.** Pictures, videos, sound effects, music, voiceovers and AI
   Builder pieces go in
-  the asset request (`genially_assets_generate`), each with its own id. `deck.js` builds the whole genially from
+  the asset request (`genially_assets_generate`), each with its own id; the user's own pictures and audio files, and
+  the ones you make for the genially (an SVG, a PNG drawn with code), are uploaded with `genially_assets_upload`, free,
+  each with its own id too. Never a file or a URL you don't have: no made-up links, no stand-in for a file the user
+  didn't give. **No links to other sites**: a picture or an audio from another site is uploaded first (`from_url`),
+  or `open` refuses the deck and the runtime throws. `deck.js` builds the whole genially from
   them, one function per slide: texts, shapes, pictures, audio, AI Builder pieces, buttons, windows, questions,
   library pieces and widgets, animations, links and the genially's name. Saving and reviewing are yours, in the browser, after the deck runs.
 - **Rebuilding a slide empties it.** `gsDeck.run({ only: ['Name'] })` draws that slide again from the deck: whatever
@@ -94,6 +98,10 @@ them has cost runs errors that they explain.
    game, dossier), who it is for, what it is for (what the audience should know or do at the end), the tone, the
    language, the duration and the graphic style: offer two or three styles that suit it, or ask for a reference (an
    image, a brand, a genially). A couple of questions at a time, not a form; what they leave open, propose and say.
+   Ask where the pictures and sounds come from: generated with their AI credits, their own files (free), made by you
+   (an SVG, a diagram drawn with code, free), or a mix. For every file they attach, ask what it is for when it isn't
+   clear: a picture to show in the genially, a reference for the style, or a source of information to read (a PDF, a
+   photo of notes), which is never shown; an audio, as music, a voiceover or an effect.
 2. **Script** (`plan.md` in a working folder outside the plugin), as the guide's "The plan and its resources" says:
    - outline and text of each slide, with checked facts (verify what is claimed: dates, figures);
    - which slides get a window, a tooltip, a video, a sound effect, music or a voiceover, an AI Builder piece, and
@@ -127,8 +135,12 @@ them has cost runs errors that they explain.
    spent yet.
 3. **The genially.** `create_genially` (blank: 1200 × 675 by default) and, if the team has a brand kit the user wants,
    `brand_kit_get`. Keep its id and its editor link in the working folder.
-4. **Assets.** The asset request (`assets.json` in the working folder, as `references/studio/ASSETS.md`
-   says): one style for every picture, each picture with its id, each video with its id, what happens in it, its
+4. **Assets.** First the files that cost nothing: upload the user's pictures and audio files meant for the
+   genially, and the ones you made, with `genially_assets_upload` (`references/studio/ASSETS.md`, "The user's own
+   files": from their computer with the `curl` it gives when you have a shell, from a public link with `from_url`, an
+   attachment in ChatGPT as `file`), each with its id, and keep the answers (real size, length) in the working folder.
+   Then what is generated: the asset request (`assets.json` in the working folder, as `references/studio/ASSETS.md`
+   says), only for what they don't have: one style for every picture, each picture with its id, each video with its id, what happens in it, its
    length and aspect ratio (a few minutes, 200 credits a second at 720p), each sound effect or music track with its id,
    prompt and length, each voiceover with its id, its exact text and its voice, and each AI Builder piece with its id,
    its full prompt and the size of its rect (30 credits and 8-12 minutes each). Price it with
@@ -143,7 +155,7 @@ them has cost runs errors that they explain.
    it has the real size of each picture. Look at the pictures before writing the deck; regenerating one that doesn't
    fit the style costs it again: say which and how much first.
 5. **The deck.** `deck.js` in the working folder, from the plan, `deck.d.ts`, the contract and the asset result: the
-   deck names every asset by its id, never by URL, and sets the genially's name with `gsRename` in the cover's
+   deck names every asset by its id, generated or uploaded, never by URL, and sets the genially's name with `gsRename` in the cover's
    function (until then the name follows the cover's text and loses its line breaks).
 6. **Open the editor.** `genially_creation_manage` with `action: 'open'`, the `geniallyId`, the whole `deck` and the
    `surfaceVersion` (the first line of `deck.d.ts`). It checks the deck: if it comes back with problems, fix those
@@ -285,10 +297,10 @@ slides, the flow above changes in these steps; the rest is the same.
    stays as it is. A new AI Builder piece is shown with its mode, practice or graded, for them to decide, as in
    step 2. The new slides follow the genially's style: its backgrounds, fonts, colours, sizes and buttons
    from the outline, its layout from the screenshots. No `create_genially` and no `gsRename`, unless they ask.
-4. **Its assets.** The pictures, audios and pieces of an earlier asset request of the genially are reused by their
-   ids, like new ones: `open` gives the deck the ready ones it names. Their ids are in that request's `assets.json`,
-   or in `genially_assets_get` with its `jobId`, if the working folder kept them. Nothing lists them without
-   these. New ones go in a new asset request, as in step 4.
+4. **Its assets.** The pictures, audios and pieces the genially already has, generated or uploaded, are reused by
+   their ids, like new ones: `open` gives the deck the ready ones it names. `genially_assets_list` lists them all with
+   their ids, real sizes and lengths: call it before planning new ones. New ones are uploaded or go in a new asset
+   request, as in step 4.
 5. **The deck** builds only the new and the redone slides: `AG.run` draws only the deck's own slides, and `keep`
    (step 7) is what protects theirs. A new slide has a name the genially doesn't use and goes in its place with
    `L.slide(name, bg, { after: 'Their slide' })`; links to their slides go by their names, from `getSlides()`.

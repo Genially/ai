@@ -4,8 +4,10 @@
 //
 // A deck runs inside the Genially editor with the genially-creator runtime loaded. It may use only what is declared
 // here plus plain JavaScript (Math, JSON, Promise, requestAnimationFrame…): no network, no storage, no DOM. The assets
-// (pictures, videos, audios, AI Builder pieces) are generated before by the Genially MCP's asset request; the deck
-// places them by the id they have there.
+// (pictures, videos, audios, AI Builder pieces) are generated before by the Genially MCP's asset request, or uploaded
+// to it (the user's own pictures and audios); the deck places them by the id they have there. A picture or an audio is
+// an id, a URL kept in Genially (a host under genially.com or genial.ly) or a gsLibrarySound URL: a file from another
+// site throws, and is uploaded first (genially_assets_upload with from_url).
 //
 // Units are canvas pixels. The canvas is the genially's size, which geniallyAPI.getGeniallySize() gives: lay everything
 // out on it, never on a fixed height (a blank genially made by the Genially MCP is 1200 × 675 by default).
@@ -271,7 +273,7 @@ interface GsAnswer {
   text?: string;
   /** singleChoice, multipleChoice, imageSelection. */
   correct?: boolean;
-  /** imageSelection, imageSurvey: a picture of the request, window.__imgs[imageId]. */
+  /** imageSelection, imageSurvey: a picture of the request by its id, or a URL kept in Genially. */
   imageUrl?: string;
   altText?: string;
 }
@@ -316,7 +318,7 @@ declare function gsQuestionEdit(itemId: string, content: GsQuestionContent): boo
 // ---------- Components panel ----------
 
 /** In a widget's config, where its field is an action. */
-/** sound: an audio of the asset request by its id (an effect, music or a voiceover: window.__audios), or a URL. */
+/** sound: an audio of the asset request by its id (an effect, music or a voiceover: window.__audios), or a URL kept in Genially. */
 type GsWidgetAction = { goTo: string | 'nextPage' | 'previousPage' | 'firstPage' | 'lastPage' | 'back' } | { sound: string; name?: string; loop?: boolean };
 
 /**
@@ -326,7 +328,7 @@ type GsWidgetAction = { goTo: string | 'nextPage' | 'previousPage' | 'firstPage'
  * came out 193 wide), then check that its height doesn't run off the canvas. WIDGETS.md lists the keys by category,
  * and its section of each key (## wheel) gives that component's fields: config takes those paths, a list as an array of items
  * ({ articles: [{ title, description }] }), an image as the id of a picture of the asset request (window.__imgs) or a
- * URL, a font as its name, an action as a GsWidgetAction (its sound: an audio of the request, a voiceover too),
+ * URL kept in Genially, a font as its name, an action as a GsWidgetAction (its sound: an audio of the request, a voiceover too),
  * values in the type the default has ("32", not 32). Fields left out keep the component's own, actions included
  * (the roulette's segments play a sound) and pictures too (the holographic card keeps a banana emoji as its icon and a
  * violet overlay over its background): fill every image field the slide shows. The ones listed as "no config" (the
@@ -364,7 +366,6 @@ declare function gsPlace(slideId: string, spec: GsLibrarySpec | string, rect: Gs
  */
 declare function gsLibrarySound(query: string, options?: { pick?: number; maxSeconds?: number }): Promise<{ url: string; name: string; duration: number }>;
 
-/** A card of gsFlipCards. image: a picture of the asset request by its id, or a URL. Colours: hex, 'var(--genially-primary)' or { documentColor }. */
 /**
  * How a face's texts look; left out, the library's (its font, sizes scaled with the card, the texts in the face's
  * bottom third). valign moves the face's texts as one block within the card, after the deck. A face without a picture
@@ -376,6 +377,7 @@ interface GsCardFaceLook {
   align?: 'left' | 'center' | 'right' | 'justify';
   valign?: 'top' | 'center' | 'bottom';
 }
+/** A card of gsFlipCards. image: a picture of the asset request by its id, or a URL kept in Genially. Colours: hex, 'var(--genially-primary)' or { documentColor }. */
 interface GsFlipCard {
   front: { title: string; text: string; image?: string | null; titleFont?: string; titleSize?: number } & GsCardFaceLook;
   back?: { text: string } & GsCardFaceLook;
@@ -401,13 +403,13 @@ declare function gsFlipCards(slideId: string, rect: GsLooseRect, cards: GsFlipCa
 
 /**
  * The editor's player on a slide, a white card with the audio's title and time that nothing restyles: an audio of
- * the asset request by its id (window.__audios), or a URL (gsLibrarySound). rect [x, y, size?] (50 by default).
+ * the asset request by its id (window.__audios), or a gsLibrarySound URL. rect [x, y, size?] (50 by default).
  * Only where the person wants to see the time and scrub it: music or a voiceover goes on a gsButton with
  * `{ sound, playMode: 'playPause' }`, in the genially's style, and gsReview flags a player. Background music under a
  * narration goes at volume 20-30. Returns the player's id. Throws `no audio "<id>"` for an id that isn't a ready audio.
  */
 declare function gsAudio(slideId: string, audio: string, rect: [x: number, y: number, size?: number], name?: string, options?: { volume?: number; loop?: boolean }): Promise<string>;
-/** Plays an audio (its id in window.__audios, or a URL) on click, or on hover. Returns how many items got it. */
+/** Plays an audio (its id in window.__audios, or a gsLibrarySound URL) on click, or on hover. Returns how many items got it. */
 declare function gsSound(itemIds: string | string[], audio: string, options?: GsSoundOptions): number;
 /** How gsSound (and a gsButton with `{ sound }`) plays an audio. */
 interface GsSoundOptions { name?: string; loop?: boolean; playMode?: 'playPause' | 'play' | 'playStop' | 'playRestart' | 'stop'; volume?: number; event?: 'click' | 'hover'; replace?: boolean }
@@ -428,14 +430,14 @@ declare function gsVideo(slideId: string, videoId: string, rect: [x: number, y: 
  * An AI Builder piece of the asset request (window.__aibuilder), already generated and published, put on the slide at
  * rect, which should be the size the request gave it. config is laid over the piece's own field by field, as gsWidget's
  * (its texts, options and answers: the free way to fix one): what it leaves out stays, a list item keeps the fields it
- * doesn't give (its image), an image field takes an image id or URL, and a key the piece hasn't got throws with the
+ * doesn't give (its image), an image field takes an image id or a URL kept in Genially, and a key the piece hasn't got throws with the
  * ones it has (the piece is removed). goTo: the slide its "continue" or "finish" action goes to (only its continue button when it has one: a piece's
  * completion fires as soon as it is solved, before its end screen), or 'nextPage' (also
  * 'previousPage', 'firstPage', 'lastPage', 'back'), which needs no id: a slide the deck builds later has none yet; sounds: by action name
  * ('success', 'win', 'chest|open'; the first pattern that matches a field wins; a failure's field only takes a key
  * that names a failure, 'fail|wrong'), an audio of the request by its id (an
- * effect, music or a voiceover) or a URL, played when it fires. images: by the path of an image field of the piece
- * ('zones.0.image', 'chestImage'), a picture of the request by its id or a URL, in place of the stock photo the AI
+ * effect, music or a voiceover) or a URL kept in Genially, played when it fires. images: by the path of an image field of the piece
+ * ('zones.0.image', 'chestImage'), a picture of the request by its id or a URL kept in Genially, in place of the stock photo the AI
  * Builder put there; a path the piece hasn't got throws with the ones it has, and the piece is removed. Returns the
  * item's id. Throws `no AI Builder piece "<id>"` for one that isn't ready.
  */
@@ -508,9 +510,9 @@ interface GsDeck {
 
 interface Window {
   geniallyAPI: GsGeniallyAPI;
-  /** Image id → URL of the ready images of the asset request, filled before the deck runs. The deck names ids (L.P). */
+  /** Image id → URL of the ready images of the asset request, generated or uploaded, filled before the deck runs. The deck names ids (L.P). */
   __imgs: Record<string, string>;
-  /** Audio id → URL of the ready audios (sound effects, music, voiceovers) of the asset request (gsAudio, gsSound). */
+  /** Audio id → URL of the ready audios (sound effects, music, voiceovers, generated or uploaded) of the asset request (gsAudio, gsSound). */
   __audios: Record<string, string>;
   /** Video id → the team AI video of the ready videos of the asset request, which gsVideo inserts. */
   __videos: Record<string, string>;

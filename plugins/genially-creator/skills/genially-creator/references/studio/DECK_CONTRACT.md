@@ -89,10 +89,12 @@ When `run` is called:
   size is what `geniallyAPI.getGeniallySize()` says: 1200 × 675 for a blank genially made by the Genially MCP with
   its default dimensions, 360 × 640 for a mobile one. Lay everything out on it, never on a fixed height;
 - the genially-creator runtime is loaded: `L`, the `gs*` functions in `deck.d.ts` and `window.geniallyAPI`;
-- every ready asset of the asset request is in the map of its kind, by its id: `window.__imgs` (pictures, for `L.P`
+- every ready asset of the genially, generated with the asset request or uploaded, is in the map of its kind, by its
+  id: `window.__imgs` (pictures, for `L.P`
   and `L.background`), `window.__audios` (sound effects, music and voiceovers, for `gsAudio` and `gsSound`), `window.__aibuilder`
   (AI Builder pieces, for `gsAIBuilder`) and `window.__videos` (videos, for `gsVideo`). The deck names ids, never URLs, so the same deck works
-  with whatever assets it is given, and a regenerated one keeps its id. Name each id once, at the top, under a name
+  with whatever assets it is given, and a regenerated or uploaded-again one keeps its id. A picture or an audio from
+  another site is never in a deck: `open` refuses it and the runtime throws; it is uploaded first and named by its id. Name each id once, at the top, under a name
   that says what it is (`IMG.cover`, `SND.door`, `PIECE.quiz`), and use that name below. Before the deck runs, every id it uses is checked against the job's result.
 
 After `run`, whoever runs the deck (the assistant, in the browser, as the guide says) reviews it, saves it and takes
