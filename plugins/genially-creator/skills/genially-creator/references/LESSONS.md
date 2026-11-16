@@ -249,7 +249,7 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 ## AI Builder
 
 - Only for pieces with logic (games, simulations, quizzes). They are assets of the request: the connector generates
-  and publishes each one (8-12 minutes, 30 credits), all at the same time, and nothing asks back, so the prompt
+  and publishes each one (8-12 minutes, `studioAssets.aiBuilderPiece` credits), all at the same time, and nothing asks back, so the prompt
   carries everything. The deck inserts it with `gsAIBuilder` at the size the request gave it.
 - **Size** (seen on 30 Oct 2026, local tests): a drag-and-drop asked for at 740 × 540 without saying so came out
   taller than its box, the bottom cards cut off, and the row of gaps widened past both sides when the first card was
@@ -294,7 +294,7 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   31 Oct 2026: the piece lost its texts and action fields, and a list in it lost its images); now it is laid over the
   piece's own field by field, as `gsWidget`'s, and a key the piece hasn't got throws. For anything else, change the piece's prompt in the asset request,
   describing the exact failure, and generate it again with the same id: the connector asks the AI Builder for a change
-  to that piece (30 credits and 8-12 minutes again: tell the user what failed and what the fix costs before). Failures seen: broken checkerboard pattern, start screen without texts, sound as an
+  to that piece (a piece's credits and 8-12 minutes again: tell the user what failed and what the fix costs before). Failures seen: broken checkerboard pattern, start screen without texts, sound as an
   empty action, the area that grew and covered the piece on a correct answer. An edit asked to add one button did not
   add it, and made the piece fire `onCompletedAction` by itself on finishing, skipping its end screen: a change can
   break what worked, so tell the user to try the piece again after one.
@@ -318,7 +318,7 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   and wrong.
 - **"Try again" never shows on a scoring piece** (seven of those ten). The buttons are in the piece (tagged
   `data-genially-retry`), its manifest says `tracking.isScoreable: true`, and the player hides them because an
-  ordinary genially never sends `geniallyShowRetryButton`. A remake asked to add the button (30 credits) came back
+  ordinary genially never sends `geniallyShowRetryButton`. A remake asked to add the button (a piece's credits again) came back
   the same, as it had to, and nothing in the deck can turn it on (`gsAIBuilder`'s `config` refuses a key the piece
   has not got). What decides it is the prompt: the AI Builder marks a piece as scoring when it has a right and a
   wrong answer unless the prompt says it is free practice with no assessment. So the user chooses,

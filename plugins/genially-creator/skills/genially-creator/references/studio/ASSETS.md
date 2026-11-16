@@ -82,7 +82,7 @@ and the runtime throws on one. A file the user gives as a link is uploaded with 
     model);
   - `width`, `height` (required): the size of the rect the deck gives it.
 
-  Each one takes 8-12 minutes and 30 credits, and they are generated at the same time: tell the user, piece by
+  Each one takes 8-12 minutes and `studioAssets.aiBuilderPiece` credits (`ai_credits_get`), and they are generated at the same time: tell the user, piece by
   piece, its mechanic, texts, ending and size, and the wait, before generating them. A changed prompt under the
   same id asks for a change to the piece made before. The deck inserts them from `window.__aibuilder` with
   `gsAIBuilder`.
