@@ -43,7 +43,8 @@ them has cost runs errors that they explain.
   or tool names.
 - **Two yeses, each asked once.** The plan (step 2), where nothing is spent yet; then what will be generated, with its
   exact price against their credits (step 4), before any credit is spent. Say what each thing costs: **each AI Builder
-  piece takes 8-12 minutes and 30 credits, and they are made at the same time**; a video, 200 credits a second at
+  piece takes 8-12 minutes and the credits of `studioAssets.aiBuilderPiece` in `ai_credits_get`, and they are made at
+  the same time**; a video, 200 credits a second at
   720p (twice at 1080p); a voiceover, 5 credits plus 20 per 100 characters; a picture and a second of sound, the rates
   `ai_credits_get` gives (`studioAssets`: pictures are most of the cost of almost every genially, so never leave them
   out of what you say the plan will cost). Generating something again costs it again: say what and how much before. Don't ask again for what they
@@ -143,7 +144,7 @@ them has cost runs errors that they explain.
    says), only for what they don't have: one style for every picture, each picture with its id, each video with its id, what happens in it, its
    length and aspect ratio (a few minutes, 200 credits a second at 720p), each sound effect or music track with its id,
    prompt and length, each voiceover with its id, its exact text and its voice, and each AI Builder piece with its id,
-   its full prompt and the size of its rect (30 credits and 8-12 minutes each). Price it with
+   its full prompt and the size of its rect (`studioAssets.aiBuilderPiece` credits and 8-12 minutes each). Price it with
    `genially_assets_ai_credits_estimate_get`. Then tell the user what will be made, in their words: each AI Builder
    piece (its mechanic, its texts and items, how it ends, how much of the slide it takes, its credits and minutes,
    and the wait, 8-12 minutes for all of them since they are made at the same time), each video (what moves in it, its seconds and its
@@ -237,7 +238,7 @@ them has cost runs errors that they explain.
    - a text, an option or an answer that is wrong: fix it in the piece's config (`setWidgetConfig`), free and at once;
    - layout that breaks on a correct answer, empty start screen, sound that does not play: change the piece's prompt
      in the request with the exact description of the failure, generate it again (tell the user what failed, and
-     that the fix costs 30 credits and 8-12 minutes, before) and rebuild its slide. Say what you asked for, never
+     that the fix costs a piece's credits again and 8-12 minutes, before) and rebuild its slide. Say what you asked for, never
      that it worked: the changed piece is not played either.
 11. **Self-review of animations and windows**, always, before showing anything to the person:
    - `gsReview()` lists slides with no entrances, texts that pop in while the rest animates, slow or long
