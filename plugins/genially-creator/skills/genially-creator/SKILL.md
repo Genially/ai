@@ -3,7 +3,7 @@ name: genially-creator
 description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.23)
+# genially-creator (v0.24)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
@@ -138,8 +138,9 @@ them has cost runs errors that they explain.
    `brand_kit_get`. Keep its id and its editor link in the working folder.
 4. **Assets.** First the files that cost nothing: upload the user's pictures and audio files meant for the
    genially, and the ones you made, with `genially_assets_upload` (`references/studio/ASSETS.md`, "The user's own
-   files": from their computer with the `curl` it gives when you have a shell, from a public link with `from_url`, an
-   attachment in ChatGPT as `file`), each with its id, and keep the answers (real size, length) in the working folder.
+   files": from their computer with the `curl` it gives when you have a shell that reaches Genially, from a public
+   link with `from_url`, an attachment in ChatGPT as `file`, and otherwise an upload link the user drops them on),
+   each with its id, and keep the answers (real size, length) in the working folder.
    Then what is generated: the asset request (`assets.json` in the working folder, as `references/studio/ASSETS.md`
    says), only for what they don't have: one style for every picture, each picture with its id, each video with its id, what happens in it, its
    length and aspect ratio (a few minutes, 200 credits a second at 720p), each sound effect or music track with its id,
