@@ -338,6 +338,15 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   own files"), free: from their computer with the `curl` it gives, from a public link with `from_url`, an attachment
   in ChatGPT as `file`. The old way, base64 copied through the JS calls (`gsPut`, `gsImageFile`), broke files: one
   wrong character in a piece and a 3.6 KB MP3 no longer played. It is gone.
+- **Where the code runs decides how a file goes up** (the WEC Imola programme, Nov 2026, a claude.ai chat with the
+  user's Mac linked): its code execution reached only package registries and GitHub, so the presigned POST of
+  `uploadCommand` to S3 was blocked, and so was the Mac's device shell; the pictures were taken out of a PDF in the
+  workspace, with no public URL for `from_url`. The way out found then, a `<input type=file>` injected in a Genially tab
+  so the user picked the files by hand, worked but can't be asked of anyone. Now: the upload link (`studio/ASSETS.md`,
+  way 4), with the pictures handed to the user as one ZIP named by their ids. The same chat's network refused the
+  source PDF itself (403 from its proxy): a document the user wants used is attached, not fetched.
+- Asset ids are the prefix and 6 to 12 letters or digits: `sfx_error` and `aib_crew` were refused as too short, and
+  the old message didn't say why. Make them up at random (`sfx_k3m9xp`), never from a word.
 - A link the user gives is uploaded, never placed: a picture hotlinked from another site breaks when that site moves
   it or blocks it, and `open` refuses a deck with one.
 - Ask what each attachment is for before using it: a photo to show, a reference for the style (never shown), or

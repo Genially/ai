@@ -289,11 +289,23 @@ never a stand-in for a file you don't have.
 - `kind`: `image` (PNG, JPEG, GIF or SVG, up to 10 MB) or `audio` (MP3 or WAV, up to 15 MB). The format is read from
   the file's bytes: one that is not what it says, or of another format, is refused with `INVALID_FORMAT`; convert it
   and upload it again.
-- `id`: made up at random like a generated asset's, with the prefix of its kind (`img_`, `aud_`). Uploading again
-  under the same id replaces the file, and the deck keeps finding it. An id already used by an asset of another kind,
-  or by a generated asset, is refused with `ASSET_KIND_CHANGED`: give the file an id of its own.
+- `id`: made up at random like a generated asset's, with the prefix of its kind (`img_`, `aud_`) and then 6 to 12
+  lowercase letters or digits: `sfx_error` and `aib_crew` are refused (too short), `img_k3m9xp` is right. Uploading
+  again under the same id replaces the file, and the deck keeps finding it. An id already used by an asset of another
+  kind, or by a generated asset, is refused with `ASSET_KIND_CHANGED`: give the file an id of its own.
 
-Three ways in:
+Four ways in. Which one depends on where the file is and what can reach Genially:
+
+| The file is… | Way |
+| --- | --- |
+| on a public https link (one the user gave or a tool returned) | 2, `from_url`: nothing for the user to do |
+| attached in ChatGPT | 3, `file` |
+| on this machine, and the shell reaches Genially's storage (Claude Code on the user's computer) | 1, `curl` |
+| on the user's computer, or in your workspace, and no shell reaches Genially (a claude.ai chat or Cowork whose code runs with package registries only, a device shell that is blocked) | 4, the upload link |
+
+When `uploadCommand` fails without an answer from Amazon S3 (blocked, a proxy's 403, no connection), the network of
+your code doesn't reach Genially: don't retry it, don't look for another way out (other hosts, the browser's file
+dialog, a script in a Genially tab): go to the upload link.
 
 1. **From the user's computer, with a shell** (Claude Code): `action: "request"` with `geniallyId`, `id`, `kind`,
    `mimeType` (`image/png`, `image/jpeg`, `image/gif`, `image/svg+xml`, `audio/mpeg`, `audio/wav`) and optionally
@@ -303,8 +315,20 @@ Three ways in:
 2. **From a public https link** the user gave or a tool returned, never one made up: `action: "from_url"` with
    `geniallyId`, `id`, `kind` and `url`. Genially downloads it (only public addresses: `URL_NOT_ALLOWED` otherwise).
 3. **A file attached in ChatGPT**: `action: "from_url"` with the attachment as `file` instead of `url`.
+4. **An upload link, when nothing else reaches Genially**: `action: "link"` with `geniallyId` and `files`, each with
+   its `id`, `kind` and a `label` in the user's language that says what it is ("Podium photo", never the id), up to
+   20. It answers a `linkUrl`, a page of Genially that takes those files for 30 minutes, and a `linkId`. Give the user
+   the link as it is and tell them, by their labels, which files to drop on it: each one on its row, or all together.
+   - A file only in your workspace (one you drew, the pictures you took out of a PDF the user attached) is not on the
+     user's computer: hand it to them first, and for more than one, as **one ZIP whose files are named by their ids**
+     (`img_k3m9xp.png`). They drop the ZIP on the page as it is; it opens it and puts each file in its row by its name.
+   - Then call `action: "link_status"` with the `linkId` every little while, without asking the user, until every
+     file is `ready`: each one comes with its asset, like `complete`. The link closes by itself when all are in, or
+     when the user presses Done; one that expired or closed with files missing gets a new link for those.
+   - Anyone with the link can upload those files to the genially until it closes: give it only to the user, and never
+     put it in the genially or a file.
 
-`complete` and `from_url` answer the asset, ready: its `id`, `url`, `generationId` (a new one on every upload under
+`complete`, `from_url` and, per file, `link_status` answer the asset, ready: its `id`, `url`, `generationId` (a new one on every upload under
 the id), and, for a picture, its real `width`, `height` and `transparent` (an SVG always), for an audio its
 `durationSeconds` when it can be read. Lay the picture out by its real size, as a generated one. The deck gets it in
 `window.__imgs` or `window.__audios` like a generated asset and places it with the same helpers.
