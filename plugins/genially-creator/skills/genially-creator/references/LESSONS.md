@@ -5,7 +5,7 @@
 - Read the canvas with `geniallyAPI.getGeniallySize()`: the Genially connector's `create_genially` makes 1200 × 675
   by default; `geniallyAPI.setCanvasSize({ width, height })` changes it. On 1200 × 675, backgrounds
   of 1280 × 800 go at `[0, -37, 1200, 750]` so they are not distorted; on 1200 × 765, at `[-12, 0, 1224, 765]`.
-- A `deck.js` with one function per slide and the style helpers at the top (`studio/examples/studio_tour/deck.js`). The JS
+- A `deck.js` with one function per slide and the style helpers at the top (the `deck.js` of `studio/examples/studio_tour/DECK.md`). The JS
   tool cuts off at 45 s: `gsDeck.run({ assets })` answers within that while the deck goes on, `gsDeck.wait()` until
   it says `done`, and the log (`window.__deckLog`) comes in `gsDeck.result()`.
 - Links (go to slide) are added **at the end**, when all slides exist: the target's id is needed. Buttons are native
@@ -210,7 +210,7 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   mobile canvas. `fill` receives the real box as `rect` ([x, y, w, h]); `gsPopupBox()` computes it from
   `getGeniallySize()` when there is no popup yet. Place the content from them, never from fixed numbers.
 - **Layout of a window**, the same for all of them (one `win(title, text)` helper in `deck.js`, as in
-  `studio/examples/studio_tour/deck.js`): with `k = gsPopupBox()[3] / 499` (the canvas's scale, not the box's height), padding of about 48·k on every side; the title at the
+  `studio/examples/studio_tour/DECK.md`): with `k = gsPopupBox()[3] / 499` (the canvas's scale, not the box's height), padding of about 48·k on every side; the title at the
   top left, its width cut by 64·k so it never reaches the close button's corner (the button is centred on the window's
   top-right corner, half outside, so about 30·k of it falls inside the box); the
   text under the title's painted height (`measureText`, after a frame), never at a guessed y; title and text then

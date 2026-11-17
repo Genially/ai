@@ -6,7 +6,7 @@ description: Creates a complete, interactive genially (presentation, lesson, esc
 # genially-creator (v0.24)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
-room. The reference deck is [references/studio/examples/studio_tour/deck.js](references/studio/examples/studio_tour/deck.js),
+room. The reference deck is the `deck.js` in [references/studio/examples/studio_tour/DECK.md](references/studio/examples/studio_tour/DECK.md),
 a 10-slide product tour, with the asset request it uses ([assets.json](references/studio/examples/studio_tour/assets.json)):
 native buttons, windows laid out from their box, native questions and flip cards, a library widget and music, an AI
 Builder piece with its full prompt, a phone of layers shown on click with sounds, entrance animations, links wired at
@@ -28,7 +28,7 @@ to the terminal, make it absolute from the folder you read this file from.
   (`window.gsRuntime`, `gsDeck`, `L`, the `gs*` functions, `AIB`). Never paste a runtime into it.
 
 The deck's documentation is in [references/studio/](references/studio/). Before writing `deck.js`, read
-`deck.d.ts` (everything a deck may call, and on its first line the deck surface version), `DECK_CONTRACT.md` (the
+`DECK_API.md` (everything a deck may call, and on the first line of its code block the deck surface version), `DECK_CONTRACT.md` (the
 shape of a deck and the rules that make it look finished) and `GUIDE.md` (design direction, composition, review and
 report); `WIDGETS.md` lists the Components panel widgets, and its section of each one (`## wheel`) gives that
 widget's fields: read only the sections of the widgets you use. Then
@@ -156,11 +156,11 @@ them has cost runs errors that they explain.
    `sleep` for the pieces' whole 8-12 minutes): write the deck between checks. Save the result:
    it has the real size of each picture. Look at the pictures before writing the deck; regenerating one that doesn't
    fit the style costs it again: say which and how much first.
-5. **The deck.** `deck.js` in the working folder, from the plan, `deck.d.ts`, the contract and the asset result: the
+5. **The deck.** `deck.js` in the working folder, from the plan, `DECK_API.md`, the contract and the asset result: the
    deck names every asset by its id, generated or uploaded, never by URL, and sets the genially's name with `gsRename` in the cover's
    function (until then the name follows the cover's text and loses its line breaks).
 6. **Open the editor.** `genially_creation_manage` with `action: 'open'`, the `geniallyId`, the whole `deck` and the
-   `surfaceVersion` (the first line of `deck.d.ts`). It checks the deck: if it comes back with problems, fix those
+   `surfaceVersion` (the first line of the code block of `DECK_API.md`). It checks the deck: if it comes back with problems, fix those
    lines and open again. Otherwise it returns the `runId`, the `assets` the deck uses by kind (`images` and `audios`:
    id → URL; `videos`: id → the team's video; `aibuilder`: id → the published piece), an `openUrl` that works once for
    5 minutes, and the `editorUrl`. Keep `runId`
@@ -180,7 +180,7 @@ them has cost runs errors that they explain.
      can't load it (`await new Promise((ok, ko) => { if (window.gsRuntime) return ok(); addEventListener('gsRuntimeReady',
      ok, { once: true }); addEventListener('gsRuntimeError', () => ko(new Error('no runtime')), { once: true }); })`). On
      an error, reload the tab once; if it fails again, tell the user the editor couldn't load what builds the genially
-     and stop. Check that `gsRuntime.surfaceVersion` is the one on the first line of `deck.d.ts`; if not, tell the
+     and stop. Check that `gsRuntime.surfaceVersion` is the one on the first line of the code block of `DECK_API.md`; if not, tell the
      user the editor and this plugin are out of step and stop.
    If the link expired or was used, call `open` again: it replaces the run before.
 7. **Build.** Paste `deck.js` as is into the browser's JS tool (it defines `window.AG`), then

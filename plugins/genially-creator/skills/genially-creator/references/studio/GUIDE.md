@@ -2,7 +2,7 @@
 
 For the assistant that makes a genially with the user: what to decide before any code, how to keep every genially
 its own, how to review what was built and what to tell the user. The deck's code follows the contract and
-`deck.d.ts`; this guide is about what the deck should be.
+`DECK_API.md`; this guide is about what the deck should be.
 
 ## 1. The brief
 
@@ -267,7 +267,7 @@ done.
 ## 6. The deck
 
 Once every asset is ready, write the deck from the plan, with the ids of the request and the real size of each
-picture, which the job's result gives. The contract gives its shape and its rules; `deck.d.ts`, what it may call;
+picture, which the job's result gives. The contract gives its shape and its rules; `DECK_API.md`, what it may call;
 WIDGETS.md, the fields of each Components panel widget.
 
 It runs in the user's browser, in the Genially editor, which you drive with the browser's JavaScript tool (the
@@ -275,7 +275,7 @@ built-in browser of the desktop app you run in, or Chrome through that app's ext
 be built: say so before generating anything.
 
 1. **Open it.** `genially_creation_manage` with `action: 'open'`, the genially, the whole deck and the
-   `surfaceVersion` of `deck.d.ts`. It checks the deck; fix what it reports and open again. Otherwise it returns a
+   `surfaceVersion` on the first line of the code block of `DECK_API.md`. It checks the deck; fix what it reports and open again. Otherwise it returns a
    `runId`, the `assets` the deck uses by kind (`images` and `audios`: id → URL; `videos`: id → the team's video;
    `aibuilder`: id → the published piece), an `openUrl` and the `editorUrl`.
 2. **Enter the editor.** Navigate the browser to `openUrl`: typed into the tab, never as a link to click. It works

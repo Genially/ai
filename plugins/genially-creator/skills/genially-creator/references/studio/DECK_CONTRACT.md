@@ -2,7 +2,7 @@
 
 How to write a `deck.js` that Genially runs to build a genially. It is written for the model that writes the deck
 (Claude, or any assistant with the Genially connector) and for the code that validates and runs it. It
-comes with **`deck.d.ts`**, every function a deck may call, with its parameters, limits and typical mistakes.
+comes with **`DECK_API.md`**, every function a deck may call, with its parameters, limits and typical mistakes.
 
 A deck describes the slides. It does not open the editor, generate images, save or publish: whatever runs it does
 that. There is no example deck to copy: the skeleton below shows the shape of the code, and the look comes from the
@@ -88,7 +88,7 @@ When `run` is called:
   and links to the genially's slides by their names. Its
   size is what `geniallyAPI.getGeniallySize()` says: 1200 × 675 for a blank genially made by the Genially MCP with
   its default dimensions, 360 × 640 for a mobile one. Lay everything out on it, never on a fixed height;
-- the genially-creator runtime is loaded: `L`, the `gs*` functions in `deck.d.ts` and `window.geniallyAPI`;
+- the genially-creator runtime is loaded: `L`, the `gs*` functions in `DECK_API.md` and `window.geniallyAPI`;
 - every ready asset of the genially, generated with the asset request or uploaded, is in the map of its kind, by its
   id: `window.__imgs` (pictures, for `L.P`
   and `L.background`), `window.__audios` (sound effects, music and voiceovers, for `gsAudio` and `gsSound`), `window.__aibuilder`
@@ -102,7 +102,7 @@ the screenshots. A deck doesn't do any of that.
 
 ## 3. What a deck may use
 
-Only what `deck.d.ts` declares, plus plain JavaScript: `Math`, `JSON`, `Array`, `Object`, `Promise`, `String`,
+Only what `DECK_API.md` declares, plus plain JavaScript: `Math`, `JSON`, `Array`, `Object`, `Promise`, `String`,
 template literals, and `requestAnimationFrame` (to wait for a paint before measuring a text). In particular:
 
 - **No network**: `fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `navigator.sendBeacon`, `<img>` or `<script>`
@@ -111,7 +111,7 @@ template literals, and `requestAnimationFrame` (to wait for a paint before measu
 - **No DOM**: `document.*`, and no `window.*` other than `geniallyAPI`, the asset maps (`__imgs`, `__audios`,
   `__videos`, `__aibuilder`), `__deckLog` and `AG`.
 - **No code from text**: `eval`, `new Function`, `import()`, `setTimeout` with a string.
-- **No other runtime**: no `window.rootStore`, no `MS.*`, no `gs*` or `geniallyAPI` method that `deck.d.ts` doesn't
+- **No other runtime**: no `window.rootStore`, no `MS.*`, no `gs*` or `geniallyAPI` method that `DECK_API.md` doesn't
   list. Generating assets belongs to the asset request, and saving and reviewing to whoever runs the deck.
 
 ## 4. Sending a deck
@@ -122,7 +122,7 @@ line; fix that and open it again.
 
 ## 5. Rules that make it look finished
 
-A deck that follows `deck.d.ts` builds; what each function does, and its limits, is there. These rules are what
+A deck that follows `DECK_API.md` builds; what each function does, and its limits, is there. These rules are what
 make it look finished, without anyone asking for a review. Each one comes from a real genially that failed without
 it.
 
@@ -172,7 +172,7 @@ What `run` logs as `error <slide>: <message>`, or what the upload check reports:
 |---|---|---|
 | `gsButton: defaultColor in hex, not var(--genially-…)` | A palette variable on a button: it can render transparent. | Hex colours. |
 | `gsButton: action is { goTo } \| { sound } \| { popup } \| { link }` | An unknown action. | `{ goTo }`, `{ popup }` or `{ link }`; links to slides go through `wire()`. |
-| An unknown field in a question (`anwsers`, `feedback.correcto`) | Questions refuse fields they don't know. | The field names in `deck.d.ts`. |
+| An unknown field in a question (`anwsers`, `feedback.correcto`) | Questions refuse fields they don't know. | The field names in `DECK_API.md`. |
 | A section that the question type doesn't have, in `updateActivityAppearance` | Sections depend on the type (`text` only on fill in the blanks…). | Only `general`, `question`, `answer`, `button`, `feedback` unless the type has more. |
 | A premium question type (`openAnswer`, `survey`, `imageSurvey`) | The team's plan can't use it. | A free type. |
 | `no icon for "<term>"` | No icon matches. | Another term, or an inline SVG. |

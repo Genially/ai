@@ -1,3 +1,9 @@
+# The deck API
+
+The deck surface: every function a deck may call, as TypeScript declarations. The first line of the code block gives
+the surface version.
+
+```ts
 // The deck surface, version 4: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
@@ -521,3 +527,4 @@ interface Window {
   __deckLog: string[];
   AG: GsDeck;
 }
+```

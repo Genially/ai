@@ -1,6 +1,12 @@
+# The reference deck: studio_tour
+
+genially-creator's reference deck, a 10-slide product tour. The code block is the whole `deck.js`; the pictures,
+audios and pieces it uses are those [assets.json](assets.json) requests.
+
+```js
 // «Genially Studio: from one sentence to endless experiences» — a product tour, the reference deck. Canvas 1200x675.
 // The reference deck of studio/: genially-creator's reference deck with the JSDoc hints tsc needs. It uses only the
-// deck surface (studio/deck.d.ts, studio/DECK_CONTRACT.md) and the assets assets.json next to it requests, by id.
+// deck surface (studio/DECK_API.md, studio/DECK_CONTRACT.md) and the assets assets.json next to it requests, by id.
 // Run it with gsDeck.run({ assets }) and gsDeck.wait(): AG.run() writes `ok <slide>`, `error <slide>: …`, `links …`
 // and `done` to window.__deckLog. gsDeck.run({ only: ['Cover'] }) (AG.run(['Cover'])) builds only the slides named.
 //
@@ -400,3 +406,4 @@ window.AG = (() => {
   }
   return { run };
 })();
+```
