@@ -41,6 +41,59 @@
         ],
         "logo": "./assets/icon.png",
         "composerIcon": "./assets/icon.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Build a complete lesson genially from a topic. Run it in a client that can drive a browser (the ChatGPT or Codex app with its browser, or Codex with the Chrome extension), signed in to Genially with a team that has AI credits.",
+              "prompt": "Make me a 6-slide genially about the water cycle for 10-year-olds, with one interactive drag-and-drop game and a short narration on the cover.",
+              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get",
+              "expected_behavior": "The assistant proposes a slide-by-slide plan and waits for approval. It then lists what will be generated (pictures, the narration and one AI Builder game) with the exact AI credit cost against the team's balance, and waits for a second approval before spending anything. After that it creates a blank genially, generates the assets, opens the Genially editor in the browser, builds the 6 slides there, reviews them and gives the user the editor link. Nothing is published."
+            },
+            {
+              "description": "Build an escape room in a style the user describes. Same setup as the first case: a browser the assistant can drive and a Genially team with AI credits.",
+              "prompt": "Build a 5-slide escape room about the Roman Empire in the style of an old parchment map with gold accents. Players need a 4-digit code to escape.",
+              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get",
+              "expected_behavior": "The assistant plans the rooms, puzzles and the final code, asks for approval, then prices the pictures and pieces and asks again before generating. It builds the escape room in the Genially editor in that visual style, with clickable clues, windows and a code check on the last slide, and returns the editor link."
+            },
+            {
+              "description": "Create a genially with the team's brand kit. Needs a Genially team with a brand kit (colors, fonts, logo), AI credits and a browser the assistant can drive.",
+              "prompt": "Create a 5-slide onboarding genially for new employees using my team's brand kit: welcome, our values, the first week, who to ask, and a short quiz.",
+              "tools_triggered": "user_teams_get, team_spaces_get, brand_kit_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage",
+              "expected_behavior": "The assistant reads the team's brand kit and plans the 5 slides with its colors, fonts and logo. After the user approves the plan and the cost, it builds the genially in the editor, including a native quiz question on the last slide, and returns the editor link."
+            },
+            {
+              "description": "Check the AI credit balance and what a genially would cost, without creating or generating anything. Only needs a signed-in Genially account.",
+              "prompt": "How many Genially AI credits does my team have left, and roughly how much would a 10-slide presentation with pictures and 2 AI Builder games cost?",
+              "tools_triggered": "user_teams_get, ai_credits_get",
+              "expected_behavior": "The assistant answers with the team's current AI credit balance and an estimate based on the per-asset rates (pictures, and the cost and 8-12 minute wait of each AI Builder piece). It does not create a genially, generate assets or spend credits."
+            },
+            {
+              "description": "Save the default team and space where new geniallys are created. Needs a Genially account that belongs to at least one team with a space.",
+              "prompt": "From now on, create my geniallys in my team's Marketing space by default.",
+              "tools_triggered": "client.settings.read, user_teams_get, team_spaces_get, client.settings.update",
+              "expected_behavior": "The assistant finds the user's team and its Marketing space (asking which one if there are several matches), saves them as the defaults and confirms. Later requests use that team and space without asking again."
+            }
+          ],
+          "negative": [
+            {
+              "description": "The user asks for a PowerPoint file. Genially Studio makes geniallys in the Genially editor, not .pptx files, so the plugin should not be used: the assistant should use another way to make the file or say Genially can't produce it.",
+              "prompt": "Make me a PowerPoint file about climate change that I can download and open in Office."
+            },
+            {
+              "description": "The user asks to publish and share a genially. The plugin never publishes: the user publishes from the Genially editor. The assistant should not call the plugin's tools and should explain how to publish from the editor.",
+              "prompt": "Publish my genially about the water cycle and send the link to my students."
+            },
+            {
+              "description": "The user wants a single standalone image, not a genially. The plugin should not create a genially or spend the team's AI credits on it; the assistant should use its own image generation.",
+              "prompt": "Draw me a picture of a cat astronaut floating in space."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "release_notes": "Builds complete, interactive geniallys (presentations, lessons, escape rooms, games) in the Genially editor from a topic and a style, with AI pictures, videos, sound effects, music, voiceovers and AI Builder pieces. The user approves the cost in AI credits before anything is generated."
       }
     }
   }
