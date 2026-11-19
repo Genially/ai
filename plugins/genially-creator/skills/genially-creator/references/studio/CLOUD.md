@@ -127,4 +127,5 @@ So: save after each good build, and don't leave a build unsaved while you wait f
 | `SAVE_NOT_CONFIRMED` | The editor didn't confirm the save | `save` again; on a conflict, `open` again |
 | `DECK_CHANGED` | The deck changed before a build reached the browser | `build` again |
 | `STALE_OP`, `REOPENED` | The genially was opened again meanwhile | Call it again: it works on the new open |
+| `CLOUD_BROWSER_LIMIT` | The person used up their day of the cloud browser | `save`, then `close` (both still work); tell them it can go on tomorrow, or in a browser of their own |
 | `CLOUD_BROWSER_UNAVAILABLE` | There is no cloud browser here | A browser of your own is needed |

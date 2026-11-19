@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "genially-creator",
-  "version": "0.46.0",
+  "version": "0.46.1",
   "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
   "author": {
     "name": "Genially",
@@ -22,7 +22,7 @@
       "interface": {
         "displayName": "Genially Studio",
         "shortDescription": "Create interactive geniallys",
-        "longDescription": "Plan a genially with you, generate its pictures, videos, sounds and AI Builder pieces with the Genially connector, and build every slide in the Genially editor open in your browser. It uses your team's AI credits, and you approve the cost first.",
+        "longDescription": "Plan a genially with you, generate its pictures, videos, sounds and AI Builder pieces with the Genially connector, and build every slide in the Genially editor: in your browser or, when your chat has none, in Genially's cloud browser. It uses your team's AI credits, and you approve the cost first.",
         "developerName": "Genially",
         "category": "Productivity",
         "capabilities": [
@@ -46,21 +46,21 @@
         "test_cases": {
           "positive": [
             {
-              "description": "Build a complete lesson genially from a topic. Run it in a client that can drive a browser (the ChatGPT or Codex app with its browser, or Codex with the Chrome extension), signed in to Genially with a team that has AI credits.",
+              "description": "Build a complete lesson genially from a topic. Run it signed in to Genially with a team that has AI credits, in a client that can drive a browser (the ChatGPT or Codex app with its browser, or Codex with the Chrome extension) or in one that can't: there it builds in Genially's cloud browser.",
               "prompt": "Make me a 6-slide genially about the water cycle for 10-year-olds, with one interactive drag-and-drop game and a short narration on the cover.",
-              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get",
-              "expected_behavior": "The assistant proposes a slide-by-slide plan and waits for approval. It then lists what will be generated (pictures, the narration and one AI Builder game) with the exact AI credit cost against the team's balance, and waits for a second approval before spending anything. After that it creates a blank genially, generates the assets, opens the Genially editor in the browser, builds the 6 slides there, reviews them and gives the user the editor link. Nothing is published."
+              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get, genially_studio_deck, genially_studio_browser",
+              "expected_behavior": "The assistant proposes a slide-by-slide plan and waits for approval. It then lists what will be generated (pictures, the narration and one AI Builder game) with the exact AI credit cost against the team's balance, and waits for a second approval before spending anything. After that it creates a blank genially, generates the assets and builds the 6 slides in the Genially editor: in the browser it drives, or in Genially's cloud browser when it has none. It reviews them and gives the user the editor link. Nothing is published."
             },
             {
-              "description": "Build an escape room in a style the user describes. Same setup as the first case: a browser the assistant can drive and a Genially team with AI credits.",
+              "description": "Build an escape room in a style the user describes. Same setup as the first case: a Genially team with AI credits, with or without a browser the assistant can drive.",
               "prompt": "Build a 5-slide escape room about the Roman Empire in the style of an old parchment map with gold accents. Players need a 4-digit code to escape.",
-              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get",
+              "tools_triggered": "user_teams_get, team_spaces_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_creation_get, genially_studio_deck, genially_studio_browser",
               "expected_behavior": "The assistant plans the rooms, puzzles and the final code, asks for approval, then prices the pictures and pieces and asks again before generating. It builds the escape room in the Genially editor in that visual style, with clickable clues, windows and a code check on the last slide, and returns the editor link."
             },
             {
-              "description": "Create a genially with the team's brand kit. Needs a Genially team with a brand kit (colors, fonts, logo), AI credits and a browser the assistant can drive.",
+              "description": "Create a genially with the team's brand kit. Needs a Genially team with a brand kit (colors, fonts, logo) and AI credits, with or without a browser the assistant can drive.",
               "prompt": "Create a 5-slide onboarding genially for new employees using my team's brand kit: welcome, our values, the first week, who to ask, and a short quiz.",
-              "tools_triggered": "user_teams_get, team_spaces_get, brand_kit_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage",
+              "tools_triggered": "user_teams_get, team_spaces_get, brand_kit_get, ai_credits_get, create_genially, genially_assets_ai_credits_estimate_get, genially_assets_generate, genially_assets_get, genially_creation_manage, genially_studio_deck, genially_studio_browser",
               "expected_behavior": "The assistant reads the team's brand kit and plans the 5 slides with its colors, fonts and logo. After the user approves the plan and the cost, it builds the genially in the editor, including a native quiz question on the last slide, and returns the editor link."
             },
             {
@@ -93,7 +93,7 @@
         }
       },
       "publication": {
-        "release_notes": "Builds complete, interactive geniallys (presentations, lessons, escape rooms, games) in the Genially editor from a topic and a style, with AI pictures, videos, sound effects, music, voiceovers and AI Builder pieces. The user approves the cost in AI credits before anything is generated."
+        "release_notes": "Builds complete, interactive geniallys (presentations, lessons, escape rooms, games) in the Genially editor from a topic and a style, with AI pictures, videos, sound effects, music, voiceovers and AI Builder pieces. The user approves the cost in AI credits before anything is generated. New: a chat with no browser builds in Genially's cloud browser."
       }
     }
   }
