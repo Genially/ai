@@ -1107,7 +1107,7 @@ Its feedback icons are gallery fields a deck can't set.
 - interactiveZones: list (Zone); min 1, max 20
 - interactiveZones[].zoneLabel: textInput (Label); default ""
 - interactiveZones[].coordinates: coordinateInput (Position)
-- interactiveZones[].detectionRadius: textInput (Size (px)); default "40"
+- interactiveZones[].detectionRadius: textInput (Size (px)); default "40", only when $item.coordinates.corners == undefined
 - showZones: switch (Show zones); default true
 - tagsPosition: 'top' | 'bottom' (Label position); default "top"
 - successTitle: textInput (Success title); default "Well done!", up to 60 characters
