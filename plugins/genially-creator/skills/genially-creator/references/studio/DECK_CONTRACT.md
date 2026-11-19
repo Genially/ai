@@ -131,6 +131,10 @@ it.
 - Lay everything out on the canvas size, 40 px from the edges. Leave the bottom-left corner (about 200 × 75) free:
   the "Powered by genially" badge sits there on free plans.
 - Body text 17-22 px, titles 34-50 px. Cut the text before shrinking it. Contrast at least 4.5:1 (3:1 from 24 px).
+- A text with a Brand Kit role (`brand`) takes the style of the team the genially is made in: where the kit sets
+  titles in capitals or in another font, a title written for one line takes two and reaches the text below it. Give
+  a title room for two lines, or place what follows from its real height (`geniallyAPI.measureText(id).height`),
+  never from the height its rect was given.
 - A text over a photo goes on a card (a rounded rectangle at 90-95 % opacity).
 
 **Buttons and navigation**

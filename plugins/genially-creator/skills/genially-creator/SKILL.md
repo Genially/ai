@@ -1,9 +1,9 @@
 ---
 name: genially-creator
-description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor open in the browser. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
+description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor, in a browser or the cloud. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
 ---
 
-# genially-creator (v0.24)
+# genially-creator (v0.25)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is the `deck.js` in [references/studio/examples/studio_tour/DECK.md](references/studio/examples/studio_tour/DECK.md),
@@ -22,8 +22,10 @@ to the terminal, make it absolute from the folder you read this file from.
   `genially_creation_manage`). If they are missing, tell the user to connect Genially in the app they are using
   and stop.
 - **A browser you control**: the built-in browser of the desktop app you run in, or Chrome through that app's
-  extension. If there is none, say so at the start, before spending anything: this skill can't build a genially
-  without one.
+  extension. **Without one, the cloud browser**: when the connector has `genially_studio_deck` and
+  `genially_studio_browser`, a browser of Genially's builds the genially and you follow
+  [Without a browser](#without-a-browser-the-cloud-browser). With neither, say so at the start, before spending
+  anything: this skill can't build a genially.
 - **Nothing to load.** The editor opened with `?ia-manage=true` loads the Studio runtime itself
   (`window.gsRuntime`, `gsDeck`, `L`, the `gs*` functions, `AIB`). Never paste a runtime into it.
 
@@ -274,6 +276,28 @@ them has cost runs errors that they explain.
     found and that none is left, how many windows were opened and checked, that the thumbnail of their genially will
     show up in their panel in a few minutes (only if the report said `requested`), and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
     Then `gsState.clear()`: the working values of this genially are no longer needed in the browser.
+
+## Without a browser: the cloud browser
+
+When you have no browser to drive (a chat on the web or on a phone, a terminal without a browser tool) and the
+connector has `genially_studio_deck` and `genially_studio_browser`, build there. Read
+[references/studio/CLOUD.md](references/studio/CLOUD.md) first: it has the whole flow, what each answer means and what
+to do when the browser goes. With a browser of your own, use it: this way is for when there is none. What changes
+from the flow above:
+
+- **Steps 1 to 5 are the same**, and so are the rules, the deck's contract and the asset request. The deck is not a
+  file: it is sent to the server in parts with `genially_studio_deck` (a head with everything shared, one part per
+  slide, a tail), and fixed with `patch`.
+- **Steps 6 and 7**: `genially_studio_browser` with `open`, then `build`. No link to open, nothing to paste, no
+  runtime to wait for. A call that answers `running` or `starting` is waited for with `wait`.
+- **Steps 10 to 12**: `shot` shows a slide as the editor's preview has it; `tour` and `interact` play the saved
+  genially, so `save` comes before them. The review (`gsReview`) comes with every build.
+- **Step 13**: `save`, then `close`, which reports the run. No `genially_creation_manage`, no `gsState`.
+- **Save after every build that came out right**: the cloud browser stops after ten idle minutes, and what was not
+  saved is lost.
+- **Only for a new genially.** Changing one the user already has needs a browser of your own: say so.
+- Without a working folder, the plan and the asset result stay in the conversation; the deck is always on the
+  server, and `get` reads it back.
 
 ## Changing an existing genially
 
