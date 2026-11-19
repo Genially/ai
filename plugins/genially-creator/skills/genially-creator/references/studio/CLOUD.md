@@ -41,9 +41,11 @@ The deck is the same `deck.js` the contract describes, cut into files that are j
   A fix made slide by slide is how a deck written in parts ends up with slides that don't look alike.
 - Limits: 64 KB a part, 40 parts in one `put`, 120 parts and 2 MB in all.
 
-`put` writes whole parts (new ones, or over the ones with the same name). Every answer lists the parts, the slides
-each one builds and the `problems` that would stop the deck: a syntax error, something the contract forbids, a link to
-a slide that doesn't exist, two slides with one name, each with its part and line. Fix them before opening.
+`put` writes whole parts (new ones, or over the ones with the same name). Every answer of this tool says the deck's
+slides in order and the `problems` that would stop it: a syntax error, something the contract forbids, a link to
+a slide that doesn't exist, two slides with one name, each with its part and line. Fix them before opening. A write
+lists only the parts it wrote, with the slides each one builds (`totalParts` says how many the deck has); `get`
+lists them all.
 
 `patch` fixes one part with exact replacements: `{ old, new }`, where `old` appears exactly once in the part. It is
 all or nothing: if one replacement doesn't fit, none is made and the part stays as it was. Use it for every fix after
@@ -65,6 +67,10 @@ to a file.
    (`only: ['Name']` to choose them, `all: true` for every one). It answers with the log (`ok` or `error` per
    slide), the review of the slides it drew, the page's errors and, when it drew only some slides, a picture of up to
    three of them. `unchanged` means no part changed since the last build.
+   **After a change in the head, build without `only`.** A build with `only` draws the slides you name and leaves
+   the rest as they were, drawn with the old head: the server remembers that, and the next build without `only`
+   draws every slide again, however small the change that started it. That is not a failure. To change what every
+   slide shares, change the head and let the build draw them all.
 3. **Look.** `action: 'shot'` with a slide's name gives its picture as the editor's preview shows it, unsaved changes
    included. After a build of every slide, take a shot of each one: that build sends no pictures. After a build of
    some, also take a shot of two or three slides it didn't touch, to see that the new ones still match them.
@@ -76,9 +82,21 @@ to a file.
    tooltips, turns its cards, answers its questions) and says what it found, with pictures. `interact` clicks, hovers
    or presses keys where you say. Both play what was saved: they refuse (`SAVE_FIRST`) while something is not. Tour
    every slide that has something to open, and the cover and the end.
+   - A step of the tour with `settled: false` was pictured while its window or tooltip was still coming in: look at
+     it again with `interact` and a `waitMs`.
+   - **A tooltip on a native button shows at the slide's top-left corner in these pictures**, not by its button.
+     That is how the cloud browser's view places it, not how the genially is: in the user's own browser it sits by
+     the button. Check that it shows and reads well, and leave it on the button: don't move it to a text or a shape
+     for this (a chat did, on 19 Nov 2026, and redrew every "+" button for nothing).
+   - The tour doesn't play a question whose answers are put in order: it lists it under `byHand`. Say in the report
+     that it was not played.
+   - A video shows its first frame, black with its play button, in every picture: that is not a failure. Like sound,
+     it can't be checked from here: say so.
 7. **Close.** `action: 'close'` stops the browser and reports the run: done when everything was saved, stopped when
    something was not. There is no `report` to send in this mode. Always close; a run left open is ended by itself
-   after about half an hour, as stopped if anything was unsaved.
+   after about half an hour, as stopped if anything was unsaved. When it reports the run done, its `thumbnail` says
+   whether the picture of the genially's card was asked for: `requested`, it shows up in their panel in a few
+   minutes; `failed`, the editor makes it the next time someone opens the genially, changes the cover and leaves.
 
 Then report to the user as the skill's last step says, with the `editorUrl` the answers give.
 
