@@ -11,8 +11,10 @@ slides, pieces or sound to a genially you already have.
 - The Genially connector, included with the plugin: you sign in to your Genially account when you install it in Codex,
   or the first time Claude uses it. If you already have the Genially connector, the plugin uses the same one.
 - A browser the agent can control, with the Genially editor open. In Claude Code, use its built-in browser or
-  Claude in Chrome. In Codex, use the browser in the Codex app or its Chrome extension; the Codex CLI alone
-  cannot drive a browser.
+  Claude in Chrome. In Codex, use the browser in the Codex app or its Chrome extension.
+- Without a browser (a chat on the web or on a phone, the Codex CLI alone), Genially's cloud browser builds a new
+  genially instead, through the connector, where your account has it. Changing a genially you already have still
+  needs a browser.
 
 ## What it does in your account
 

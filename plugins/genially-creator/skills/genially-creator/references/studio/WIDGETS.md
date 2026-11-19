@@ -1101,19 +1101,19 @@ Its feedback icons are gallery fields a deck can't set.
 
 ### Locate in image (@saruman/locate-in-image)
 
-- gameMechanic: 'tocar' | 'arrastrar' | 'orden' | 'dibujar' (Answer type); default "tocar"
-- showZones: switch (Show zones); default true
-- tagsPosition: 'top' | 'bottom' (Label position); default "top"
-- questionText: textInput (Question); default "Identify the main components of the engine."
+- questionText: textInput (Question); default "Find the 4 stages of the water cycle."
 - backgroundImageUrl: image (Image)
+- gameMechanic: 'tocar' | 'arrastrar' | 'orden' | 'dibujar' (How to answer); default "tocar"
 - interactiveZones: list (Zone); min 1, max 20
 - interactiveZones[].zoneLabel: textInput (Label); default ""
 - interactiveZones[].coordinates: coordinateInput (Position)
 - interactiveZones[].detectionRadius: textInput (Size (px)); default "40"
+- showZones: switch (Show zones); default true
+- tagsPosition: 'top' | 'bottom' (Label position); default "top"
 - successTitle: textInput (Success title); default "Well done!", up to 60 characters
 - failureTitle: textInput (Failure title); default "Game over!", up to 60 characters
-- successMessage: textInput (Correct answer message); default "Excellent! You correctly identified the component."
-- failureMessage: textInput (Incorrect answer message); default "Almost... Try checking the part again."
+- successMessage: textInput (Correct answer message); default "You’ve found all the zones."
+- failureMessage: textInput (Incorrect answer message); default "Look closely at the image and try again."
 - onCompletedAction: action (Action on success); optional
 - onFailAction: action (Action on failure); optional
 - titleFont: fontFamily (Title font); default "Unbounded-Bold"
