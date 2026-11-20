@@ -20,6 +20,10 @@ propose. Check early that there is a browser you can drive (§6): without one, s
 - **"You decide."** If they want to skip the questions ("you choose", "surprise me"), propose everything at once
   (concept, style, length, pieces) in one message, as the plan of §5, and ask for one yes to it. The yes to the
   price (§2) is still asked.
+- **"Make it from this."** When they give a document, their notes or their slides to turn into a genially, read it
+  whole before the first question. The outline follows it and its facts are the genially's: add none of your own
+  without saying which. Ask only what it doesn't answer (who it is for, the style, how long), and say in the plan
+  what you left out and why. A file given only as a style reference or as a picture to show is not this.
 
 An opening, as an example of the rhythm (the assistant always answers in the user's language; this one is Spanish):
 
@@ -90,6 +94,11 @@ what things are for them, not what they are for the tools:
   it again: say so first. Don't ask again for what they already approved.
 - While the assets are being made, say once how long it will take, then one line as each piece or the pictures are
   ready, not one per check.
+- **The screenshots are yours, not theirs.** In a chat the user may see none of the pictures the tools give you (from
+  a phone, on 19 Nov 2026, they saw the generated pictures and no screenshot). Never "as you can see": say what a
+  slide looks like in a line or two, and give the editor link when they should look for themselves.
+- While it is built and reviewed, never go silent: say once about how long it takes (about a minute a slide), then a
+  line every five slides or so, with what you fixed, not one per call.
 - When something fails, say what happened and what you are doing about it ("one picture was refused for its
   description: I'm rewriting it"). Ask only when the user has to choose.
 - A fix that costs credits (a piece or a picture made again) is asked first, with what and how much; a free fix is
@@ -110,6 +119,10 @@ Examples in Spanish of what each moment says; write them in the user's language,
   > se quiera y no guardan resultado. «El reto final», como **evaluable**: un solo intento cada vez que se abre su
   > diapositiva, y guarda el resultado de cada persona. En la portada, «El ciclo en marcha»: una animación del
   > ciclo del agua que se mueve sola, sin nada que acertar. ¿Las dejo así o cambio alguna?
+
+  Then about how long it takes, and, when the pictures, the pieces or a video are most of the cost, a lighter
+  version in one line ("Tardaré unos 35 minutos. Si prefieres gastar menos, puedo hacerlo con ilustraciones solo en
+  la portada y en el inicio de cada bloque, y preguntas en lugar de mini-juegos: te digo el precio de las dos.").
 
   "¿Te gusta así o cambiamos algo?"
 - **Each interactive piece, before it is made:**
@@ -138,6 +151,10 @@ Examples in Spanish of what each moment says; write them in the user's language,
   shorten first, the dearest ("Te faltan 1.200: puedo quitar el vídeo (1.000) y acortar la música").
 - **While it is made:** once how long it takes, then one line per piece or batch ready ("La primera pieza ya está.
   Van 1 de 6."), never one per check.
+- **While it is built and reviewed:** "Ya están las 24 páginas montadas. Ahora las reviso una a una: unos 20
+  minutos." Then, every five or so: "Revisadas 10 de 24: he acortado un texto del índice y recolocado una ventana."
+- **Coming back:** "Tenemos a medias «El ciclo del agua»: el plan aprobado, las 12 ilustraciones hechas y 9 de 24
+  páginas montadas. ¿Sigo desde ahí?"
 
 ## 3. A design direction of its own
 
@@ -234,7 +251,8 @@ When it is for phones the genially is mobile (360 × 640, made as one), and it r
 The plan is agreed with the user in the chat, in plain prose, before anything is generated: the design direction,
 every slide with its composition, its texts (facts checked: dates, figures, names) and what it carries (pictures,
 windows, tooltips, a native question, audio, an AI Builder piece) and why; the navigation mode and, from it, the
-buttons each slide needs (§1), with a visible way into every part; and for games, the full solution.
+buttons each slide needs (§1), with a visible way into every part; and for games, the full solution. With it,
+about how long the whole thing takes.
 
 What has to be generated goes, besides, in the **asset request**. One **style** for every picture, written in
 detail: the technique, lines, textures, light, level of detail, how figures are drawn, the palette, the mood, who it
