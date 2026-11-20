@@ -204,7 +204,7 @@ can't edit them as what they are. For each need, its piece:
 
 | To… | Use | Not |
 | --- | --- | --- |
-| give a definition, a hint, a detail on hover | `gsTooltip` on the item or on a group (box and text) | a text that is always there |
+| give a definition, a hint, a detail on hover | `gsTooltip` on the item or on a group (box and text), with a `style` that matches the deck | a text that is always there |
 | show more than fits: an explanation, examples, a fact card | a window: `gsButton` with `popup` | a second slide, a long text |
 | show something on a click: a screen, an answer, a hidden step | `gsReveal` (with `gsSound` or `gsEffect` on the same click) | a link to a copy of the slide |
 | ask and answer, a term and its meaning, a fact and its surprise | `gsFlipCards` | two shapes and a reveal that imitate a card |
