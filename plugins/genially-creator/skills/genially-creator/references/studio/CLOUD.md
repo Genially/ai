@@ -16,10 +16,70 @@ way to build.
 
 ## What it can't do yet
 
-- **Add to a genially the user already has.** A build can't be told which of their slides to keep, so this way is
-  only for a genially made for the occasion with `create_genially`. To change an existing one, a browser is needed.
 - **Two geniallys at once.** Each person has one cloud browser: opening a second genially takes it from the first.
 - **Hear anything.** Sound is placed and checked by the review, never heard: say so in the report.
+
+## A build touches only the slides it names
+
+This is the one rule of every build, in a new genially or in one that already exists, whoever made each slide:
+
+- A build draws the slides it runs (the ones whose parts changed, the ones in `only`, or every one with `all`) and
+  nothing else. No other slide is emptied, changed or deleted: the editor itself refuses it while the build runs.
+- **A slide that already exists is drawn again only when the call names it in `redraw`**, with items on it or empty
+  (an empty slide has a background of its own). Drawing a slide again
+  empties it first: whatever is on it now, what the user changed by hand too, is replaced by what the deck draws. So
+  `redraw` is the user's word, not yours: name there only the slides they asked to change.
+- The exception: a slide a build of this same open already drew. While you build a genially for the first time you
+  never need `redraw`.
+- A build that would draw over a slide that `redraw` doesn't name stops with **nothing changed**
+  (`not_run`) and says which slides, with how many items each has. Then either pass `redraw` with the ones the user
+  asked for, or build fewer slides (`only`), or give a new slide another name. Never pass a name there only to get
+  the build through.
+- The answer of a build says what it drew (`drew`), by what changed in the genially, and its review covers those
+  slides and the windows made for them.
+- Changes to the whole genially (how it is navigated, its palette, its name, its size) are left out while it has
+  slides the build doesn't draw (`skipped`): they are applied by a build of every slide.
+- If something the build didn't name still comes out changed, the build fails (`BUILD_TOUCHED_OTHER_SLIDES`), the
+  editor is closed without saving and the genially is as it was last saved. Fix the deck so each slide draws only
+  itself, `open` again and build.
+
+## Changing a genially that already exists
+
+**The user asks for a change** ("change slide 7", "add a quiz at the end"), in this chat or days later.
+
+1. **Find the deck.** `genially_studio_deck` with `get`: the server keeps it a week after its last change. Read the
+   head and the parts of the slides to change (`get` with `part`).
+2. **Open it**: `genially_studio_browser` with `open`. It answers with the `slides` the genially has, each with how
+   many items. Ask the user not to change the genially in their own editor while you work (their save and yours
+   would collide), and `close` when you are done, also when you only looked.
+3. **Change only what was asked.** `patch` the parts of those slides, or `put` a part for a new slide (with
+   `L.slide(name, bg, { after: 'Slide before it' })` so it goes in its place, since a build of some slides adds a
+   new one at the end).
+4. **Build with the slides named**: `only: ['Slide 7']` and `redraw: ['Slide 7']` for a slide that exists; `only:
+   ['New quiz']` alone for a new one. The other slides stay exactly as they are.
+5. **A change of what every slide shares** (the palette, a font, a helper in the head) draws them all again: say so
+   to the user, with what they would lose if they changed anything by hand, and only on their yes build with `all:
+   true` and every slide in `redraw`.
+6. **Look, save, then play.** `shot` the slides you drew and the ones around them, `save`, then `tour` them (the tour
+   plays the saved genially and is refused before a save), and `close`.
+
+**There is no deck for it** (`get` says so: a genially the user made by hand, or one whose deck the server no longer
+has). The deck can only draw a slide from scratch, so:
+
+- **To add slides**: `open` it before writing any deck (it opens with nothing to build), read it with `eval`
+  (`return gsOutline()`, `return gsOutline({ items: true })` for fonts, sizes and colours, `return
+  gsInspect('Name')` for one slide) and a few `shot`s, then `put` a deck with only the new slides, in the genially's
+  own style, with names it doesn't use, and build. `genially_assets_list` gives the assets it already has.
+- **A small change on a slide of theirs** (a text, a colour, an item moved): make it on the slide itself with `eval`
+  and the editor's API, from what `gsInspect` gives. Don't draw the slide again for it.
+- **A slide redone from scratch**: only when that is what they asked for. Tell them it replaces everything on it,
+  write its part with the slide's own name and build with `redraw`.
+- **A way back** before changing anything of theirs: `eval` with `return await gsVersions()` and note the first one
+  (the user can go back to it from the editor's version history). If the list is empty, say so and suggest they
+  duplicate the genially first.
+
+If `open` without a deck answers `NO_DECK`, this connector can't open a genially before its deck yet: say so and
+stop, and never send a deck for a genially you could not read.
 
 ## The deck, in parts
 
@@ -100,6 +160,16 @@ to a file.
 
 Then report to the user as the skill's last step says, with the `editorUrl` the answers give.
 
+## What the user sees
+
+Not your pictures. `shot`, `tour` and `interact` send their pictures to you; in a chat on the web or on a phone the
+user may see none of them (on 19 Nov 2026 they saw the generated pictures and no screenshot). So:
+
+- Say what a slide looks like in a line or two; never "as you can see in the picture".
+- When they should look for themselves (the finished genially), `save` and give the
+  `editorUrl`: the editor shows what was saved.
+- A review of thirty slides is dozens of calls: say once how long it will take, then a line every five slides or so.
+
 ## Answers that are not finished
 
 Every call answers within about 20 seconds, done or not. A build of thirty slides takes under a minute; AI Builder
@@ -121,8 +191,8 @@ before doing the work again.
 `action: 'eval'` runs JavaScript in the editor: the body of an async function, whose `return` comes back (cut at
 20,000 characters). It is for what the deck can't do and the skill does in the browser's console: `gsOutline()` and
 `gsInspect('Name')` to read what was built, `AIB.images(slideId)` for a piece's picture fields, a piece's config, and
-deleting the slides a build lists as `stale` (slides in the genially that the deck no longer builds) once the user
-agrees. A script counts as a change: save after it.
+deleting a slide a build lists in `others` (slides with content that the deck does not build) when it is one a
+slide you renamed or removed left behind, once the user agrees; never a slide of a genially the user already had. A script counts as a change: save after it.
 
 `interact` takes its positions in the pixels of the pictures `tour` and `interact` send (the slide as shown, about
 1024 wide), not in the genially's own size.
@@ -130,8 +200,9 @@ agrees. A script counts as a change: save after it.
 ## When the browser goes
 
 The cloud browser stops by itself after ten minutes without a call. What was not saved is lost; the genially is as
-it was last saved. A call then answers that the genially is no longer open: `open` again and `build`, which draws
-every slide again from the deck on the server (nothing of the deck is lost). The same when a save says someone else
+it was last saved. A call then answers that the genially is no longer open: `open` again and `build`. The slides
+that were saved have content and this open has not drawn them, so the build stops and lists them: while you are
+still making the genially (nobody has changed it by hand), pass them all in `redraw`. Nothing of the deck is lost. The same when a save says someone else
 changed the genially.
 
 So: save after each good build, and don't leave a build unsaved while you wait for the user.
@@ -145,5 +216,9 @@ So: save after each good build, and don't leave a build unsaved while you wait f
 | `SAVE_NOT_CONFIRMED` | The editor didn't confirm the save | `save` again; on a conflict, `open` again |
 | `DECK_CHANGED` | The deck changed before a build reached the browser | `build` again |
 | `STALE_OP`, `REOPENED` | The genially was opened again meanwhile | Call it again: it works on the new open |
+| `BUILD_TOUCHED_OTHER_SLIDES` | A build changed a slide it didn't name, or the genially as a whole | Nothing was saved and the editor was closed. Fix the deck so each slide draws only itself, `open` again and `build` |
+| `BUILD_NOT_VERIFIED` | A build broke or did not end in time, so what it did could not be checked | The editor was closed without saving. `open` again and `build`, fewer slides at a time if it ran out of time |
+| `EDITOR_SAVES_BY_ITSELF` | The editor can't hold a build until it is checked | Nothing to fix from here: tell the user the cloud browser can't build right now, and `close` |
+| `BUILD_NOT_GUARDED` | A build ran without confirming it touched only the slides it names | Nothing of that open can be saved (`save` is refused): `open` again (the genially is as it was last saved), then `build` |
 | `CLOUD_BROWSER_LIMIT` | The person used up their day of the cloud browser | `save`, then `close` (both still work); tell them it can go on tomorrow, or in a browser of their own |
 | `CLOUD_BROWSER_UNAVAILABLE` | There is no cloud browser here | A browser of your own is needed |

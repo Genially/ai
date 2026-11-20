@@ -1,9 +1,9 @@
 ---
 name: genially-creator
-description: Creates a complete, interactive genially (presentation, lesson, escape room, game, dossier…) from a topic and a style reference, with the Genially connector and the Genially editor, in a browser or the cloud. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "con este estilo", "con piezas interactivas", "con sonido", "añade a mi genially…", "cambia este genially").
+description: Creates a complete interactive genially (presentation, lesson, escape room, game, dossier…) from a topic or the user's own document and a style reference, with the Genially connector and editor, in a browser or the cloud. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "añade a mi genially…", "cambia este genially", "convierte este documento en un genially").
 ---
 
-# genially-creator (v0.25)
+# genially-creator (v0.26)
 
 Makes geniallys like a 22-slide history presentation with 5 AI Builder pieces and 8 audio clips, or an 11-slide escape
 room. The reference deck is the `deck.js` in [references/studio/examples/studio_tour/DECK.md](references/studio/examples/studio_tour/DECK.md),
@@ -51,6 +51,12 @@ them has cost runs errors that they explain.
   `ai_credits_get` gives (`studioAssets`: pictures are most of the cost of almost every genially, so never leave them
   out of what you say the plan will cost). Generating something again costs it again: say what and how much before. Don't ask again for what they
   approved.
+- **The user sees what you write, not what you see.** The screenshots the tools give you are for you: in a chat the
+  user may see none of them (on 19 Nov 2026, from a phone, they saw the generated pictures and not one screenshot).
+  Never write "as you can see": say in a line or two what a slide looks like, and give the editor link when they
+  should look for themselves.
+- **Never a long silence.** Before the build and the review, say once about how long they take; then a line every
+  five slides or so, with what you fixed. `GUIDE.md` §2 has the messages.
 - **The MCP keeps the assets; the deck places them.** Pictures, videos, sound effects, music, voiceovers and AI
   Builder pieces go in
   the asset request (`genially_assets_generate`), each with its own id; the user's own pictures and audio files, and
@@ -105,6 +111,9 @@ them has cost runs errors that they explain.
    (an SVG, a diagram drawn with code, free), or a mix. For every file they attach, ask what it is for when it isn't
    clear: a picture to show in the genially, a reference for the style, or a source of information to read (a PDF, a
    photo of notes), which is never shown; an audio, as music, a voiceover or an effect.
+   **When they give a document, their notes or their slides to turn into a genially**, read it whole first: the
+   outline follows it, its facts are the genially's facts (add none of your own without saying which), and you ask
+   only what it doesn't answer (who it is for, the style, how long). In the plan, say what you left out and why.
 2. **Script** (`plan.md` in a working folder outside the plugin), as the guide's "The plan and its resources" says:
    - outline and text of each slide, with checked facts (verify what is claimed: dates, figures);
    - which slides get a window, a tooltip, a video, a sound effect, music or a voiceover, an AI Builder piece, and
@@ -134,7 +143,11 @@ them has cost runs errors that they explain.
      of the pictures.
    Show it in plain prose, with how many AI Builder pieces, videos and voiceovers it has and what they cost by the
    rates above, each piece with what it is, and each one with right and wrong with the mode you propose and what
-   it means, asking whether to leave them so or change any. Say that you will give the exact price before generating, and wait for the user's yes. Nothing is
+   it means, asking whether to leave them so or change any. Say about how long it will take (a few minutes for the pictures, 8-12 more with
+   pieces, then about a minute a slide to build and review: 24 slides with 2 pieces took 36 minutes on 19 Nov
+   2026). When the pictures, the pieces or a video are most of the cost, offer in one line a lighter version next to
+   it: pictures only for the cover and the section openers and the rest drawn by you or from the library, native
+   questions instead of pieces, no video. Say that you will give the exact price before generating, and wait for the user's yes. Nothing is
    spent yet.
 3. **The genially.** `create_genially` (blank: 1200 × 675 by default) and, if the team has a brand kit the user wants,
    `brand_kit_get`. Keep its id and its editor link in the working folder.
@@ -277,6 +290,31 @@ them has cost runs errors that they explain.
     show up in their panel in a few minutes (only if the report said `requested`), and the editor link (the normal one, without `ia-manage`). Don't offer to publish (it isn't supported from here).
     Then `gsState.clear()`: the working values of this genially are no longer needed in the browser.
 
+## Coming back to a genially left halfway
+
+When the conversation was cut, or the user comes back to "the one we were making": don't start again, and don't ask
+again for the plan or the price they approved.
+
+1. **Find what is there.** The genially's id from the conversation or from its link (`…/editor/<id>`). With a working
+   folder: `plan.md`, the asset result and `deck.js`. In the cloud: `genially_studio_deck` with `get` lists the deck's
+   parts on the server. `genially_assets_list` gives every asset the genially already has, ready or still being made:
+   reuse them by their ids, never generate one again.
+2. **Say it in one line and ask**: what is made (the plan, how many pictures, how many slides) and what is left, and
+   whether to go on from there.
+3. **Go on from the first step that is not done.** Open the editor again (step 6, or `open` in the cloud) and build:
+   it draws every slide from the deck. What was built and not saved is drawn again; nothing else is lost. In the
+   cloud the build stops first and lists the slides that already have content: name them in `redraw` only while the
+   genially is still being made and nobody has changed it by hand; otherwise, only the ones the user asked for.
+
+If the deck is gone too (no working folder, and the server no longer has it: it keeps a deck nobody touches for a
+week), the genially is as it was last saved: read it with `gsOutline()` and go on as
+[Changing an existing genially](#changing-an-existing-genially) says.
+
+**When they ask for a change to one already finished** ("cambia la página 7", "añade un quiz al final"), it is the
+same: find the deck, change only the slides it takes, build, review those and save. A slide drawn again is emptied
+first, and a change of what every slide shares (the palette, a font, a helper) draws them all again: what the user
+changed by hand on those slides is lost, so say which slides will be drawn again and ask before.
+
 ## Without a browser: the cloud browser
 
 When you have no browser to drive (a chat on the web or on a phone, a terminal without a browser tool) and the
@@ -295,11 +333,16 @@ from the flow above:
 - **Step 13**: `save`, then `close`, which reports the run. No `genially_creation_manage`, no `gsState`.
 - **Save after every build that came out right**: the cloud browser stops after ten idle minutes, and what was not
   saved is lost.
-- **Only for a new genially.** Changing one the user already has needs a browser of your own: say so.
+- **A build touches only the slides it names**, so a genially that already exists can be changed too, one built
+  here before or one the user made: `CLOUD.md`, "A build touches only the slides it names" and "Changing a genially
+  that already exists". A slide that has content is drawn again only when the user asked for it (`redraw`).
 - Without a working folder, the plan and the asset result stay in the conversation; the deck is always on the
   server, and `get` reads it back.
 
 ## Changing an existing genially
+
+With a browser of your own, as below. In the cloud browser the steps are the same and the tools differ:
+`CLOUD.md`, "Changing a genially that already exists".
 
 When the user wants to add to a genially they already have (new slides, a piece, sound, a quiz) or to redo some of its
 slides, the flow above changes in these steps; the rest is the same.
