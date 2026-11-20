@@ -4,7 +4,7 @@ The deck surface: every function a deck may call, as TypeScript declarations. Th
 the surface version.
 
 ```ts
-// The deck surface, version 4: everything a deck.js may call, for a model writing one and for the checker that
+// The deck surface, version 5: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
 //
@@ -240,8 +240,23 @@ declare function gsCloseButton(itemIds: string | string[], options?: { replace?:
 /**
  * Hover tooltip with a title and a line of text; it adds to the item's click. Colours in hex. titleSize and textSize
  * in px (18 and 15 by default): a tooltip is read, so never under the deck's body size.
+ * With `style` (one of gsTooltipStyles()) it is the editor's custom tooltip: the style sets its shape, type and
+ * colours, and titleSize, textSize and the fonts don't apply; `bg` and `accent` recolour it only when given. `image` (an
+ * id of the asset request) sits beside the text. `event: 'click'` opens it on a click instead of on hover; it shares
+ * that click only with a sound, a reveal or an effect. On an editor without the custom tooltip the same call makes the
+ * plain one, and a click one throws.
  */
-declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; titleSize?: number; textSize?: number; replace?: boolean }): number;
+declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; titleSize?: number; textSize?: number; replace?: boolean; style?: GsTooltipStyle; image?: string; event?: 'hover' | 'click'; layout?: 'row' | 'column'; placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right'; anchor?: 'drift' | 'element' | 'cursor'; width?: number }): number;
+/** The styles of the custom tooltip, as gsTooltip's `style` takes them. */
+declare function gsTooltipStyles(): GsTooltipStyle[];
+/**
+ * normal: plain card. clasico, elegante, cartela: editorial. mano, graffiti, grito, aviso: hand-made and loud.
+ * pizarra, pergamino, postit, cita: classroom, old paper, sticky note, quotation. pegatina, confeti: children.
+ * logro, medalla, oro: rewards. retro90 (title in a window bar), pixel, synth (title over the scene), glitch: games and
+ * retro. neon, aurora, halo, cristal, liquido, gelatina, hadas: light, glass and magic. cota, encuadre, expansion,
+ * mira: no box, a line or a frame pointing at the element (diagrams, maps, parts of a picture).
+ */
+type GsTooltipStyle = 'normal@1' | 'clasico@1' | 'elegante@1' | 'cartela@1' | 'mano@1' | 'graffiti@1' | 'grito@1' | 'aviso@1' | 'pizarra@1' | 'pergamino@1' | 'postit@1' | 'cita@1' | 'pegatina@1' | 'confeti@1' | 'logro@1' | 'medalla@1' | 'oro@1' | 'retro90@1' | 'pixel@1' | 'synth@1' | 'glitch@1' | 'neon@1' | 'aurora@1' | 'halo@1' | 'cristal@1' | 'liquido@1' | 'gelatina@1' | 'hadas@1' | 'cota@1' | 'encuadre@1' | 'expansion@1' | 'mira@1';
 /** Shows, hides or toggles targets when sourceId is clicked (or hovered). An item can't show or hide itself. */
 declare function gsReveal(sourceId: string, targetIds: string | string[], options?: { mode?: 'show' | 'hide' | 'toggle'; event?: 'click' | 'hover'; replace?: boolean }): number;
 /**
