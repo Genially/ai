@@ -4,7 +4,7 @@ The deck surface: every function a deck may call, as TypeScript declarations. Th
 the surface version.
 
 ```ts
-// The deck surface, version 5: everything a deck.js may call, for a model writing one and for the checker that
+// The deck surface, version 6: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
 //
@@ -245,10 +245,24 @@ declare function gsCloseButton(itemIds: string | string[], options?: { replace?:
  * id of the asset request) sits beside the text. `event: 'click'` opens it on a click instead of on hover; it shares
  * that click only with a sound, a reveal or an effect. On an editor without the custom tooltip the same call makes the
  * plain one, and a click one throws.
+ * `border` and `dots` recolour those parts. `appearance` picks the style's own variants (gsTooltipVariants(style) lists
+ * them; any other throws): `dots`, scene pieces on or off, `trace`, `frame`, `unfold`, `quote`, `magic`, and `tip: false`
+ * on a style with a tip. `blocks` adds blocks after the text: HTML texts, `{ image, alt }` (an asset id) and one level
+ * of `{ row: [...] }` / `{ column: [...] }`, e.g. a quote, then its author's photo beside their name; texts and images
+ * count one by one, at most 4 with the title and text. An empty title or text is left out. On an editor that doesn't
+ * take them yet, `appearance` and `dots` are left out and `blocks` throws.
  */
-declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; titleSize?: number; textSize?: number; replace?: boolean; style?: GsTooltipStyle; image?: string; event?: 'hover' | 'click'; layout?: 'row' | 'column'; placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right'; anchor?: 'drift' | 'element' | 'cursor'; width?: number }): number;
+declare function gsTooltip(itemIds: string | string[], title: string, text: string, options?: { bg?: string; ink?: string; accent?: string; titleFont?: string; bodyFont?: string; titleSize?: number; textSize?: number; replace?: boolean; style?: GsTooltipStyle; image?: string; event?: 'hover' | 'click'; layout?: 'row' | 'column'; placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right'; anchor?: 'drift' | 'element' | 'cursor'; width?: number; border?: string; dots?: string; appearance?: GsTooltipAppearance; blocks?: GsTooltipBlock[] }): number;
 /** The styles of the custom tooltip, as gsTooltip's `style` takes them. */
 declare function gsTooltipStyles(): GsTooltipStyle[];
+/** The variants a style has, as gsTooltip's `appearance` takes them: {} for a style without any. */
+declare function gsTooltipVariants(style: GsTooltipStyle): { dots?: true; scene?: string[]; trace?: string[]; frame?: string[]; unfold?: string[]; quote?: string[]; magic?: string[] };
+/**
+ * dots: clasico, mano, grito, cartela. scene: synth (sun, grid), confeti (confetti, shine), postit (pad, tape), oro
+ * (shine), hadas (dust). trace: cota. frame: encuadre. unfold: expansion. quote: cita. magic: hadas.
+ */
+type GsTooltipAppearance = { dots?: boolean; scene?: { sun?: boolean; grid?: boolean; confetti?: boolean; shine?: boolean; pad?: boolean; tape?: boolean; dust?: boolean }; trace?: 'straight' | 'elbow' | 'dimension'; frame?: 'corners' | 'marquee'; unfold?: 'grow' | 'flip'; quote?: 'rule' | 'watermark'; magic?: 'dust' | 'wand' | 'form'; tip?: boolean };
+type GsTooltipBlock = string | { image: string; alt?: string } | { row: GsTooltipBlock[] } | { column: GsTooltipBlock[] };
 /**
  * normal: plain card. clasico, elegante, cartela: editorial. mano, graffiti, grito, aviso: hand-made and loud.
  * pizarra, pergamino, postit, cita: classroom, old paper, sticky note, quotation. pegatina, confeti: children.
