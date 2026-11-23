@@ -212,7 +212,10 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
   reward, `cita` for a quotation or a definition, `neon`, `synth` or `glitch` for technology and games, `elegante` or
   `clasico` for an editorial deck, `cota` or `mira` for the parts of a diagram or a map, `normal` when nothing else
   fits. `image` puts a picture of the asset request beside the text (a character, a specimen). `event: 'click'` is for
-  a deck read by touch; on hover it adds to the element's click as before.
+  a deck read by touch; on hover it adds to the element's click as before. A style's variants
+  (`gsTooltipVariants(style)`) fit it to the deck: `appearance: { dots: false }` on a quiet editorial deck, a scene
+  piece off when it crowds a small element, `trace: 'elbow'` on `cota` round other labels, `quote: 'watermark'` on a
+  short `cita`. For a testimonial, `cita` with the quote as text and `blocks: [{ row: [{ image }, 'Name · Role'] }]`.
 - Window: `gsPopup(ids, fill, { box, frame })` creates a popup from the `blank` template, you fill it in `fill` and it
   keeps the close button in front. The template scales with the canvas and stays centred: a white box of 855 × 499
   at 172,88 on 1200 × 675, about 969 × 565 at 115,100 on 1200 × 765, and 256.5 × 149.7 at 51.75,245.15 on a 360 × 640
