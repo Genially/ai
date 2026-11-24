@@ -1,0 +1,58 @@
+# Publishes genially-creator as a GitHub release every time main changes it: a ZIP of plugins/genially-creator with
+# its files at the root, which is what is uploaded by hand to OpenAI's plugin dashboard. A new version makes the
+# release genially-creator-v<version>; a change that keeps the version replaces that release's ZIP, so a release
+# always holds what main has.
+name: release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/genially-creator/**'
+      - '.github/workflows/release.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Zip the plugin
+        id: package
+        run: |
+          set -euo pipefail
+          plugin=plugins/genially-creator
+          version=$(jq -er '.version' "$plugin/plugin.json")
+          zip="$RUNNER_TEMP/genially-studio-$version-openai.zip"
+          (cd "$plugin" && zip -q -r -X "$zip" . -x '*.DS_Store')
+          unzip -l "$zip"
+          jq -er '.extensions["com.openai"].publication.release_notes' "$plugin/plugin.json" > "$RUNNER_TEMP/notes.md"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "zip=$zip" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.package.outputs.version }}
+          ZIP: ${{ steps.package.outputs.zip }}
+        run: |
+          set -euo pipefail
+          tag="genially-creator-v$VERSION"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            gh release upload "$tag" "$ZIP" --clobber
+            echo "Release $tag was there: its ZIP now holds ${GITHUB_SHA::7}." >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh release create "$tag" "$ZIP" --target "$GITHUB_SHA" --title "genially-creator $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+            echo "Release $tag created from ${GITHUB_SHA::7}." >> "$GITHUB_STEP_SUMMARY"
+          fi
