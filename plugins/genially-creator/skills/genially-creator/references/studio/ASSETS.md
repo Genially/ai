@@ -56,8 +56,8 @@ and the runtime throws on one. A file the user gives as a link is uploaded with 
     style: that is added.
   - `size` (required): `1280x800`, `800x1280` or `1024x1024`. What is asked for, not what comes out (below).
   - `transparent`: no background. Defaults to true for a character or an object, false for the rest.
-  - `consistentWith`: the id of another image whose subject this one repeats (the same character in another pose),
-    so the backend keeps them alike.
+  - `consistentWith`: the id of a finished image of this genially (generated in an earlier request, or uploaded)
+    whose subject this one repeats, the same character in another pose: the image model is shown that picture.
 - **`audios`**, sound effects and voiceovers, each one with (music is never generated: it comes from the
   editor's library with `gsLibrarySound`, or it is a track of the user's, uploaded):
   - `id` (required): made up at random like an image's, `aud_` and 6 to 12 letters or digits. Unique among every
@@ -173,7 +173,11 @@ request where any picture goes over is refused whole with `PROMPT_TOO_LONG`, nam
 makes a better picture, so keep the style tight and spend the room on the scene. The style is added to every picture
 and wins over a look its prompt asks for ("neon night" came out in the genially's soft 3D): don't ask one picture for
 another style.
-`consistentWith` is not honoured by the backend yet: it is checked and kept, and the pictures are generated apart.
+`consistentWith` works in two requests: generate the reference (the character, the object) alone, wait until it is
+ready and look at it, then ask for the pictures that repeat it, each with `consistentWith`. A request that names a
+picture that is not ready, or one it generates itself, is refused whole with `REFERENCE_NOT_READY` and charges nothing.
+A picture drawn after a reference costs the same; if the reference is generated again, the pictures that name it are
+too the next time they are asked for.
 
 The same `id` sent again in another request is the same picture:
 
