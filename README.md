@@ -6,7 +6,7 @@ This repository holds plugins that let AI agents work with Genially. Each plugin
 
 | Plugin | Description |
 | --- | --- |
-| `genially-creator` | Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music. |
+| `genially-creator` | Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and sound effects. |
 
 ## Before you start
 
