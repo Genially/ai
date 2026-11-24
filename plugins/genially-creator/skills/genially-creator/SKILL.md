@@ -1,6 +1,6 @@
 ---
 name: genially-creator
-description: Creates a complete interactive genially (presentation, lesson, escape room, game, dossier…) from a topic or the user's own document and a style reference, with the Genially connector and editor, in a browser or the cloud. Plans it with the user, generates its pictures, videos, sound effects, music and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "añade a mi genially…", "cambia este genially", "convierte este documento en un genially").
+description: Creates a complete interactive genially (presentation, lesson, escape room, game, dossier…) from a topic or the user's own document and a style reference, with the Genially connector and editor, in a browser or the cloud. Plans it with the user, generates its pictures, videos, sound effects and voiceovers through the connector, writes a deck.js that builds the whole genially from them, runs it in the editor, reviews every slide and fixes it until it looks finished; uses the AI Builder only for the interactive pieces, the editor's library for ready-made ones, and windows and tooltips for secondary information. Use it when asked to "make me a genially / a presentation / an escape room about…", "with this style", "with interactive pieces" or "with sound", and to add slides, pieces or sound to a genially the user already has (also: "hazme un genially sobre…", "una presentación sobre…", "un escape room sobre…", "añade a mi genially…", "cambia este genially", "convierte este documento en un genially").
 ---
 
 # genially-creator (v0.26)
@@ -57,7 +57,7 @@ them has cost runs errors that they explain.
   should look for themselves.
 - **Never a long silence.** Before the build and the review, say once about how long they take; then a line every
   five slides or so, with what you fixed. `GUIDE.md` §2 has the messages.
-- **The MCP keeps the assets; the deck places them.** Pictures, videos, sound effects, music, voiceovers and AI
+- **The MCP keeps the assets; the deck places them.** Pictures, videos, sound effects, voiceovers and AI
   Builder pieces go in
   the asset request (`genially_assets_generate`), each with its own id; the user's own pictures and audio files, and
   the ones you make for the genially (an SVG, a PNG drawn with code), are uploaded with `genially_assets_upload`, free,
@@ -153,12 +153,12 @@ them has cost runs errors that they explain.
    `brand_kit_get`. Keep its id and its editor link in the working folder.
 4. **Assets.** First the files that cost nothing: upload the user's pictures and audio files meant for the
    genially, and the ones you made, with `genially_assets_upload` (`references/studio/ASSETS.md`, "The user's own
-   files": from their computer with the `curl` it gives when you have a shell that reaches Genially, from a public
+   files": from their computer with the `curl` written there when you have a shell that reaches Genially, from a public
    link with `from_url`, an attachment in ChatGPT as `file`, and otherwise an upload link the user drops them on),
    each with its id, and keep the answers (real size, length) in the working folder.
    Then what is generated: the asset request (`assets.json` in the working folder, as `references/studio/ASSETS.md`
    says), only for what they don't have: one style for every picture, each picture with its id, each video with its id, what happens in it, its
-   length and aspect ratio (a few minutes, 200 credits a second at 720p), each sound effect or music track with its id,
+   length and aspect ratio (a few minutes, 200 credits a second at 720p), each sound effect with its id,
    prompt and length, each voiceover with its id, its exact text and its voice, and each AI Builder piece with its id,
    its full prompt and the size of its rect (`studioAssets.aiBuilderPiece` credits and 8-12 minutes each). Price it with
    `genially_assets_ai_credits_estimate_get`. Then tell the user what will be made, in their words: each AI Builder
@@ -206,8 +206,9 @@ them has cost runs errors that they explain.
 8. **Videos and audio**, already in the deck: `await gsVideo(sid, VID.river, [x, y, w])` puts a video of the
    request on its slide (one side; the other follows its aspect ratio), from `window.__videos`.
    Music and voiceovers go on a native button in the genially's style that plays and pauses them:
-   `gsButton(sid, rect, '♪  Music', style, { sound: SND.music, loop: true, volume: 25, playMode: 'playPause' })`
-   (background music at about 20-30). `gsSound(ids, SND.door)` plays one on click, by the ids of the request, from
+   `gsButton(sid, rect, '♪  Music', style, { sound: track.url, loop: true, volume: 25, playMode: 'playPause' })`
+   (background music at about 20-30; the track comes from the editor's library, `gsLibrarySound`, or is a file of
+   the user's, uploaded: music is never generated). `gsSound(ids, SND.door)` plays one on click, by the ids of the request, from
    `window.__audios`; a common sound from the library goes by its URL (`gsLibrarySound`). `gsAudio` puts the
    editor's player, a white card nothing restyles: only if the person wants to see the audio's time and scrub it. Details in
    [references/LESSONS.md](references/LESSONS.md#videos).

@@ -347,12 +347,12 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 
 - A deck can't use a local file, nor a picture or an audio linked from another site: every one is an asset of the
   genially, by its id. A file of the user's is uploaded with `genially_assets_upload` (`studio/ASSETS.md`, "The user's
-  own files"), free: from their computer with the `curl` it gives, from a public link with `from_url`, an attachment
+  own files"), free: from their computer with the `curl` written there, from a public link with `from_url`, an attachment
   in ChatGPT as `file`. The old way, base64 copied through the JS calls (`gsPut`, `gsImageFile`), broke files: one
   wrong character in a piece and a 3.6 KB MP3 no longer played. It is gone.
 - **Where the code runs decides how a file goes up** (the WEC Imola programme, Nov 2026, a claude.ai chat with the
   user's Mac linked): its code execution reached only package registries and GitHub, so the presigned POST of
-  `uploadCommand` to S3 was blocked, and so was the Mac's device shell; the pictures were taken out of a PDF in the
+  the upload to S3 was blocked, and so was the Mac's device shell; the pictures were taken out of a PDF in the
   workspace, with no public URL for `from_url`. The way out found then, a `<input type=file>` injected in a Genially tab
   so the user picked the files by hand, worked but can't be asked of anyone. Now: the upload link (`studio/ASSETS.md`,
   way 4), with the pictures handed to the user as one ZIP named by their ids. The same chat's network refused the
@@ -396,12 +396,14 @@ Seen on 2 Nov 2026 (Claude × Genially Studio, local editor and view):
 
 ## Audio
 
-- **The Genially MCP generates it**, in the asset request, with the team's AI credits: sound effects and music, each
+- **The Genially MCP generates it**, in the asset request, with the team's AI credits: sound effects, each
   with its id, prompt and length (2 credits a second), and voiceovers, each with its id, its exact text and one of 12
   voices (any voice speaks the language of its text), charged as text to speech by its characters (5 credits plus
   20 per 100 characters): tell the user its text and the kind of voice before generating it.
   - Describe the sound, not the scene: "single wooden door knock", not "someone arrives". A sound effect is ready
-    when `genially_assets_generate` answers; music takes about a minute.
+    when `genially_assets_generate` answers.
+  - Music is never generated: take a track from the editor's library (`gsLibrarySound`, no credits) or use one of
+    the user's, uploaded with `genially_assets_upload`.
   - A voiceover's text is what is said, word for word, in the genially's language: write it to be heard (short
     sentences, numbers and abbreviations in words). It is ready when `genially_assets_generate` answers.
   - The deck places them by id, from `window.__audios`: on a native button (`gsButton` with `sound`), `gsSound` (on

@@ -75,7 +75,7 @@ what things are for them, not what they are for the tools:
 
 | Not | But |
 | --- | --- |
-| asset, generated resource | picture, video, sound, music, voiceover |
+| asset, generated resource | picture, video, sound, voiceover |
 | AI Builder piece, widget | interactive piece, mini-game, activity |
 | popup, tooltip | window; a label that appears on hover or tap |
 | a rect of 740 × 540 | "it takes almost the whole slide", "the right half" |
@@ -259,8 +259,9 @@ detail: the technique, lines, textures, light, level of detail, how figures are 
 is for, and what no picture may have. Then each picture with an id made up at random (`img_r7c2kq`), its role
 (cover, background, illustration, character or object), what it shows and where it leaves room for a text. The
 style is written once and not repeated in each prompt: that is what makes the pictures look like one set. Videos,
-sound effects, music and voiceovers go in the same request, each with its own id: a video with what happens in it,
-its length and its aspect ratio; a sound effect or a music track with what it sounds like and how long it lasts; a
+sound effects and voiceovers go in the same request, each with its own id: a video with what happens in it,
+its length and its aspect ratio; a sound effect with what it sounds like and how long it lasts (music is not
+generated: it is a track of the editor's library or a file of the user's); a
 voiceover with its exact text in the genially's language and one of the voices. So do the AI Builder pieces, each with its id, the size of the rect it will have and a prompt that carries everything
 (nothing asks back): the mechanic, its texts and items, the solution and scoring, what it does when finished, the
 language and the look. A piece's prompt also asks that it fit exactly in that size and never grow while it is played,

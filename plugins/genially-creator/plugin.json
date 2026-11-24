@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "genially-creator",
-  "version": "0.49.0",
-  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
+  "version": "0.49.1",
+  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and sound effects.",
   "author": {
     "name": "Genially",
     "url": "https://genially.com"
@@ -93,7 +93,7 @@
         }
       },
       "publication": {
-        "release_notes": "Builds complete, interactive geniallys (presentations, lessons, escape rooms, games) in the Genially editor from a topic and a style, with AI pictures, videos, sound effects, music, voiceovers and AI Builder pieces. The user approves the cost in AI credits before anything is generated. New: a chat with no browser builds in Genially's cloud browser."
+        "release_notes": "Builds complete, interactive geniallys (presentations, lessons, escape rooms, games) in the Genially editor from a topic and a style, with AI pictures, videos, sound effects, voiceovers and AI Builder pieces. The user approves the cost in AI credits before anything is generated. New: a chat with no browser builds in Genially's cloud browser."
       }
     }
   }
