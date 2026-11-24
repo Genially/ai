@@ -1,7 +1,7 @@
 {
   "name": "genially-creator",
-  "version": "0.49.0",
-  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and music.",
+  "version": "0.49.1",
+  "description": "Builds complete, interactive geniallys inside the Genially editor from a topic and a style: slides, AI Builder pieces, windows, AI images and videos, voiceovers and sound effects.",
   "author": {
     "name": "Genially",
     "url": "https://genially.com"

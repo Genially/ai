@@ -1,7 +1,7 @@
 # Genially Creator
 
 Genially Creator is a skill that builds complete, interactive geniallys for you. Give it a topic and a style
-reference and it plans the genially with you, generates its pictures, videos, sound effects, music and voiceovers,
+reference and it plans the genially with you, generates its pictures, videos, sound effects and voiceovers,
 then builds every slide in the Genially editor, reviews each one and fixes what looks unfinished. It can also add
 slides, pieces or sound to a genially you already have.
 

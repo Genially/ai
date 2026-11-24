@@ -137,7 +137,7 @@ window.AG = (() => {
     const steps = [
       [IMG.talk, '1 · Talk', 'You say what you need.', 'Your assistant asks the right questions: topic, audience, goal, tone, length and style.'],
       [IMG.plan, '2 · Plan', 'A script you approve.', 'It writes the outline and every text, checks the facts, and decides where pieces and sound go.'],
-      [IMG.make, '3 · Create', 'Pictures, sound, pieces.', 'It makes pictures, video, voice, music, effects and AI Builder pieces, after showing you the price.'],
+      [IMG.make, '3 · Create', 'Pictures, sound, pieces.', 'It makes pictures, video, voice, effects and AI Builder pieces, after showing you the price.'],
       [IMG.build, '4 · Build', 'Built and reviewed.', 'It builds the genially in the editor, plays it in the preview and fixes what looks wrong.'],
     ];
     for (const [k, [img, title, front, back]] of steps.entries()) {
