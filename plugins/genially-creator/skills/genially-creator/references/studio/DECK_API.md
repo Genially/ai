@@ -475,10 +475,11 @@ declare function gsVideo(slideId: string, videoId: string, rect: [x: number, y: 
  * that names a failure, 'fail|wrong'), an audio of the request by its id (an
  * effect, music or a voiceover) or a URL kept in Genially, played when it fires. images: by the path of an image field of the piece
  * ('zones.0.image', 'chestImage'), a picture of the request by its id or a URL kept in Genially, in place of the stock photo the AI
- * Builder put there; a path the piece hasn't got throws with the ones it has, and the piece is removed. Returns the
- * item's id. Throws `no AI Builder piece "<id>"` for one that isn't ready.
+ * Builder put there; a path the piece hasn't got throws with the ones it has, and the piece is removed. label: what a
+ * screen reader calls the piece, which otherwise is "Genially App" for every one: give each its own, with what it is
+ * ("Sort the planets by size"). Returns the item's id. Throws `no AI Builder piece "<id>"` for one that isn't ready.
  */
-declare function gsAIBuilder(slideId: string, pieceId: string, rect: GsRect, options?: { config?: Record<string, unknown>; goTo?: string | 'nextPage' | 'previousPage' | 'firstPage' | 'lastPage' | 'back'; sounds?: Record<string, string | { audio: string; volume?: number }>; images?: Record<string, string> }): Promise<string>;
+declare function gsAIBuilder(slideId: string, pieceId: string, rect: GsRect, options?: { config?: Record<string, unknown>; goTo?: string | 'nextPage' | 'previousPage' | 'firstPage' | 'lastPage' | 'back'; sounds?: Record<string, string | { audio: string; volume?: number }>; images?: Record<string, string>; label?: string }): Promise<string>;
 
 // ---------- The genially ----------
 

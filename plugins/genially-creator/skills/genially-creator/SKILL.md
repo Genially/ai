@@ -214,9 +214,9 @@ them has cost runs errors that they explain.
    [references/LESSONS.md](references/LESSONS.md#videos).
 9. **AI Builder pieces**, already in the deck: each piece is an asset of the request (step 4), generated and
    published by the connector in several minutes; the deck puts it on its slide with
-   `await gsAIBuilder(sid, PIECE.quiz, [x, y, w, h], { goTo: nextSlideId, sounds: { success: SND.win } })`, at the
+   `await gsAIBuilder(sid, PIECE.quiz, [x, y, w, h], { goTo: nextSlideId, sounds: { success: SND.win }, label: 'Sort the planets' })`, at the
    rect the request gave it, and fills its "continue" action and its sounds (an effect, music or a voiceover of the
-   request). A piece that does not end (an animation, a tool) has no "continue": no `goTo` for it. Its stock photos go with `images: { 'path.of.field': IMG.chest }`: the request's pictures in the style
+   request); `label` is what a screen reader calls the piece, in the genially's language. A piece that does not end (an animation, a tool) has no "continue": no `goTo` for it. Its stock photos go with `images: { 'path.of.field': IMG.chest }`: the request's pictures in the style
    (the paths come from `AIB.images(sid)` once the piece is on a slide; put them in the deck so a rebuild keeps them). Its prompt carries everything, since
    nothing asks back: the style of the genially, the exact mechanic, the texts and items, the solution and scoring,
    what it does when finished, the language, and no stock photos, plus the guide's
