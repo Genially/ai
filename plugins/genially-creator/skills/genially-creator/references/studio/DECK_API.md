@@ -212,8 +212,10 @@ interface GsPopupOptions {
  * so place it by its right edge once created (`right - geniallyAPI.getItem(id).size.width`), and line a row up from
  * the right. Height defaults to 60. With `action`, the button gets that one action; if the action can't be set, no
  * button is left and it throws.
- * `label` is what a screen reader says instead of the text. A button whose text is a sign (the round "+" on a
+ * `label` is what a screen reader says for the button. A button whose text is a sign (the round "+" on a
  * picture) says nothing without it: give every one its own, with what it opens ("Nucleus", "Step 2: boiling").
+ * A text with words is still said, in front of the label: don't repeat it there, and don't use `label` to say
+ * something else than the button shows.
  */
 declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style: GsButtonStyle | undefined, action: { popup: GsPopupFill } & GsPopupOptions, options?: { label?: string }): Promise<{ id: string; popupId: string }>;
 declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style?: GsButtonStyle, action?: { goTo: string } | { link: string; newTab?: boolean } | ({ sound: string } & GsSoundOptions) | null, options?: { label?: string }): Promise<string>;
