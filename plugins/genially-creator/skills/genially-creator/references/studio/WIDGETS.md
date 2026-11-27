@@ -1103,17 +1103,13 @@ Its feedback icons are gallery fields a deck can't set.
 
 - questionText: textInput (Question); default "Find the 4 stages of the water cycle."
 - backgroundImageUrl: image (Image)
-- gameMechanic: 'tocar' | 'arrastrar' | 'orden' | 'dibujar' (How to answer); default "tocar"
+- gameMechanic: 'arrastrar' | 'tocar' | 'dibujar' (How to answer); default "arrastrar"
 - interactiveZones: list (Zone); min 1, max 20
 - interactiveZones[].zoneLabel: textInput (Label); default ""
 - interactiveZones[].coordinates: coordinateInput (Position)
 - interactiveZones[].detectionRadius: textInput (Size (px)); default "40", only when $item.coordinates.corners == undefined
 - showZones: switch (Show zones); default true
 - tagsPosition: 'top' | 'bottom' (Label position); default "top"
-- successTitle: textInput (Success title); default "Well done!", up to 60 characters
-- failureTitle: textInput (Failure title); default "Game over!", up to 60 characters
-- successMessage: textInput (Correct answer message); default "You’ve found all the zones."
-- failureMessage: textInput (Incorrect answer message); default "Look closely at the image and try again."
 - onCompletedAction: action (Action on success); optional
 - onFailAction: action (Action on failure); optional
 - titleFont: fontFamily (Title font); default "Unbounded-Bold"

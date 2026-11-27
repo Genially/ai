@@ -92,8 +92,13 @@ them: a button that repeats it is clutter.
   escape room the map had no button to the chest and the player finished without knowing how to go on: every part of
   the journey needs a visible way in, "IR AL COFRE" on the map, and the last station leads to the chest.
 - Go through the whole genially in the preview, without shortcuts, before calling it good.
-- Check every link by code, not by the preview's aria labels (they said "Go to page 1" for a link to page 2): for
-  each slide, `getItemInteractivities` of every item, mapping `target.slideId` back to the slide's name.
+- Check every link by code, not by the preview's aria labels (an older viewer said "Go to page 1" for a link to
+  page 2): for each slide, `getItemInteractivities` of every item, mapping `target.slideId` back to the slide's name.
+- **Keyboard and screen reader**: after the deck, `gsDeck` gives every item of the slides it built, and of their
+  windows, its reading order: by rows from the top and each row from the left, a card with the texts on it. Without
+  it the viewer read the last thing drawn first. After adding or moving items by hand, run `gsReadingOrder()` again.
+  Lay a slide out in the order it should be read (the title above what it titles), and name the buttons that are
+  only a sign (`{ label }`).
 
 ## Native questions
 

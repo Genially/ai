@@ -4,7 +4,7 @@ The deck surface: every function a deck may call, as TypeScript declarations. Th
 the surface version.
 
 ```ts
-// The deck surface, version 6: everything a deck.js may call, for a model writing one and for the checker that
+// The deck surface, version 7: everything a deck.js may call, for a model writing one and for the checker that
 // validates it. The contract around it (shape of a deck, the log, what is forbidden, the rules that make a genially
 // look finished) comes with it.
 //
@@ -212,9 +212,13 @@ interface GsPopupOptions {
  * so place it by its right edge once created (`right - geniallyAPI.getItem(id).size.width`), and line a row up from
  * the right. Height defaults to 60. With `action`, the button gets that one action; if the action can't be set, no
  * button is left and it throws.
+ * `label` is what a screen reader says for the button. A button whose text is a sign (the round "+" on a
+ * picture) says nothing without it: give every one its own, with what it opens ("Nucleus", "Step 2: boiling").
+ * A text with words is still said, in front of the label: don't repeat it there, and don't use `label` to say
+ * something else than the button shows.
  */
-declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style: GsButtonStyle | undefined, action: { popup: GsPopupFill } & GsPopupOptions): Promise<{ id: string; popupId: string }>;
-declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style?: GsButtonStyle, action?: { goTo: string } | { link: string; newTab?: boolean } | ({ sound: string } & GsSoundOptions)): Promise<string>;
+declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style: GsButtonStyle | undefined, action: { popup: GsPopupFill } & GsPopupOptions, options?: { label?: string }): Promise<{ id: string; popupId: string }>;
+declare function gsButton(slideId: string, rect: GsLooseRect, text: string, style?: GsButtonStyle, action?: { goTo: string } | { link: string; newTab?: boolean } | ({ sound: string } & GsSoundOptions) | null, options?: { label?: string }): Promise<string>;
 
 /**
  * Click → slide, by slide id or a relative target. Setting it twice on an item throws: pass { replace: true }.
@@ -473,10 +477,11 @@ declare function gsVideo(slideId: string, videoId: string, rect: [x: number, y: 
  * that names a failure, 'fail|wrong'), an audio of the request by its id (an
  * effect, music or a voiceover) or a URL kept in Genially, played when it fires. images: by the path of an image field of the piece
  * ('zones.0.image', 'chestImage'), a picture of the request by its id or a URL kept in Genially, in place of the stock photo the AI
- * Builder put there; a path the piece hasn't got throws with the ones it has, and the piece is removed. Returns the
- * item's id. Throws `no AI Builder piece "<id>"` for one that isn't ready.
+ * Builder put there; a path the piece hasn't got throws with the ones it has, and the piece is removed. label: what a
+ * screen reader calls the piece, which otherwise is "Genially App" for every one: give each its own, with what it is
+ * ("Sort the planets by size"). Returns the item's id. Throws `no AI Builder piece "<id>"` for one that isn't ready.
  */
-declare function gsAIBuilder(slideId: string, pieceId: string, rect: GsRect, options?: { config?: Record<string, unknown>; goTo?: string | 'nextPage' | 'previousPage' | 'firstPage' | 'lastPage' | 'back'; sounds?: Record<string, string | { audio: string; volume?: number }>; images?: Record<string, string> }): Promise<string>;
+declare function gsAIBuilder(slideId: string, pieceId: string, rect: GsRect, options?: { config?: Record<string, unknown>; goTo?: string | 'nextPage' | 'previousPage' | 'firstPage' | 'lastPage' | 'back'; sounds?: Record<string, string | { audio: string; volume?: number }>; images?: Record<string, string>; label?: string }): Promise<string>;
 
 // ---------- The genially ----------
 

@@ -28,7 +28,9 @@ writing `deck.js`.
   `gsButton` refuses them.
 - **Round "+" buttons**: the native button has no circle shape; a square box with `shape: 'pill'` and a single
   character is a circle. Turn the visited colour off (`showVisitedState: false`) so a clicked point keeps its
-  colour. Good for points on an illustration (the parts of a cell, a map).
+  colour. Good for points on an illustration (the parts of a cell, a map). A "+" says nothing to someone who doesn't
+  see the picture: give each one a name with `gsButton(…, { label: 'Nucleus' })`, which a screen reader says in
+  place of the sign (a text with words is kept, and said in front of the label). `gsReview` notes the ones without it.
 - **A native button widens to fit its text** past the width you gave it: one near the right edge runs off the
   canvas. Place it by its right edge once created (`1160 - getItem(id).size.width`).
 - **A button can't hide itself.** `setShowHideInteractivity` refuses an item among its own targets ("An item cannot
